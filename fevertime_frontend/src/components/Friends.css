@@ -1,0 +1,34 @@
+.title-list{
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    height: 40px;
+    font-size: 20px;
+    align-items: center;
+    text-align: center;
+}
+.item-list{
+    height: 60px;
+    font-size: 20px;
+    align-items: center;
+    text-align: center;
+    border-bottom: 1px solid gray;
+}
+
+.fri-list{
+    border-left: 1px solid black;
+
+    height: 100%;
+}
+.h-100{
+    height: 100%;
+}
+.fri-list-button{
+    border-bottom: 1px solid black;
+    height: 40px;
+    text-align: center;
+
+}
+.fri-list-button >div{
+    padding-top: 10px;
+    border-right: 1px solid black;
+}
