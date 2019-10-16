@@ -32,3 +32,22 @@
     padding-top: 10px;
     border-right: 1px solid black;
 }
+
+.show-my-friend-tab{
+    background-color: darkorange;
+    width: 50%;
+    cursor: pointer;
+
+}
+
+.hide-my-friend-tab{
+    width: 50%;
+    cursor: pointer;
+}
+
+.hide-my-friend-tab:hover{
+    background-color: #ffeeba;
+}
+.hide-my-friend-tab:active{
+    background-color: darkorange;
+}

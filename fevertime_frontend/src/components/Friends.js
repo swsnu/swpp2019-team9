@@ -7,6 +7,7 @@ class Friends extends Component {
         super(props);
         this.state={
             showAddGroupPopup : false,
+            showMyFriend : true,
             friendlist : [
                 {firstword : 'G', name : 'Gildong'},
                 {firstword : 'A', name : 'Andrew'},
@@ -45,6 +46,21 @@ class Friends extends Component {
                 {firstword : 'G', name : 'Gildong'},
                 {firstword : 'A', name : 'Andrew'},
             ],
+            friendinglist : [
+                {firstword : 'A', name : 'Andrew'},
+                {firstword : 'G', name : 'Gildong'},
+                {firstword : 'A', name : 'Andrew'},
+                {firstword : 'G', name : 'Gildong'},
+                {firstword : 'A', name : 'Andrew'},
+                {firstword : 'G', name : 'Gildong'},
+                {firstword : 'A', name : 'Andrew'},
+                {firstword : 'G', name : 'Gildong'},
+            ],
+            groupList : [
+                {firstword : 'A', name : 'GroupA', num: 4, TopFever : 'Youngjae'},
+                {firstword : 'G', name : 'Gildong', num: 2, TopFever : 'Gildong'},
+                {firstword : 'D', name : 'GroupD', num: 4, TopFever : 'Youngjae'},
+            ],
             groupName : '',
 
         }
@@ -71,6 +87,18 @@ class Friends extends Component {
     groupNameChange = (e) => {
         this.setState({
             groupName: e.target.value
+        })
+    }
+    clickMyFriends = () => () => {
+        this.setState({
+            showMyFriend : true,
+
+        })
+    }
+    clickFriendingList = () => () => {
+        this.setState({
+            showMyFriend : false,
+
         })
     }
 
@@ -100,38 +128,52 @@ class Friends extends Component {
                         </div>
                     </div>
                     <div className='pl-5'>
-                        <div className='w-100 d-flex item-list'>
-                            <div className='w-50 d-flex d-ho-center'>
-                                <div className='badge-custom '>A</div>
-                                GroupA
-                                <div className='p-number'>4</div>
-                            </div>
-                            <div className='w-50'>Youngjae</div>
-                        </div>
-                        <div className='w-100 d-flex item-list'>
-                            <div className='w-50 d-flex d-ho-center'>
-                                <div className='badge-custom '>G</div>
-                                Gildong
-                                <div className='p-number'>2</div>
-                            </div>
-                            <div className='w-50'>Gildong</div>
+
+                        <div>
+                            {this.state.groupList.map((value,index) => {
+                                return (
+                                    <div key={index} className='w-100 d-flex item-list'>
+                                        <div className='w-50 d-flex d-ho-center'>
+                                            <div className='badge-custom '>{value.firstword}</div>
+                                            {value.name}
+                                            <div className='p-number'>{value.num}</div>
+                                        </div>
+                                        <div className='w-50'>{value.TopFever}</div>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
                 </div>
                 <div className='w-20 fri-list p-relative'>
                     <div className='d-flex fri-list-button'>
-                        <div className='w-50'>My Friends</div>
-                        <div className='w-50'>Friending list</div>
+                        <div className={(this.state.showMyFriend ? 'show-my-friend-tab' : 'hide-my-friend-tab')} onClick={this.clickMyFriends()}>My Friends</div>
+                        <div className={(!this.state.showMyFriend ? 'show-my-friend-tab' : 'hide-my-friend-tab')} onClick={this.clickFriendingList()}>Friending list</div>
                     </div>
                     <div className='pl-3 friend-scroll'>
-                        {this.state.friendlist.map((value,index) => {
-                            return (
-                                <div className='d-flex mt-2' key={index}>
-                                    <div className='badge-custom t-center'>{value.firstword}</div>
-                                    {value.name}
+                        {this.state.showMyFriend ? (
+                                <div>
+                                    {this.state.friendlist.map((value,index) => {
+                                        return (
+                                            <div className='d-flex mt-2' key={index}>
+                                                <div className='badge-custom t-center'>{value.firstword}</div>
+                                                {value.name}
+                                            </div>
+                                        );
+                                    })}
                                 </div>
-                            );
-                        })}
+                        ):
+                            (<div>
+                                {this.state.friendinglist.map((value,index) => {
+                                    return (
+                                        <div className='d-flex mt-2' key={index}>
+                                            <div className='badge-custom t-center'>{value.firstword}</div>
+                                            {value.name}
+                                        </div>
+                                    );
+                                })}
+                            </div>)}
+
                     </div>
                     <div className='add-friend-button-wrapper'>
                         <button className='mt-3 w-100 button-blue'>Add friend</button>

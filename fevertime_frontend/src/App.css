@@ -263,9 +263,10 @@
   padding: 40px;
 }
 
-/* fevermode 의 camera 표시*/
-.show-camera-button{
-
+/* fevermode 의 실질적인 camera */
+.invisible-fevermode-webcam{
+  position: absolute;
+  left: -2000px;  /* 꼼수로 화면 밖 -2000px 부근으로 보내버림*/
 }
 
 .camera-size{
@@ -279,7 +280,7 @@
 }
 /*camera click button*/
 .camera-size > div > #container-circles{
-  display: none;
+  /*display: none;*/
 }
 
 .icon-size{
