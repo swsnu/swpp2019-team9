@@ -4,6 +4,7 @@ import avatar from '../assets/img/man-avatar.jpg';
 import { Link } from 'react-router-dom';
 import '../App.css'
 import Camera from 'react-html5-camera-photo';
+import AlarmModal from './component/PopUpModal'
 import 'react-html5-camera-photo/build/css/index.css';
 class FeverMode extends Component {
 
@@ -11,6 +12,8 @@ class FeverMode extends Component {
         super(props);
         this.state = {
             showCamera: false,
+            showAlarm: false,
+            showAlarmPopup : false,
             time : 0,
             hour : 0,
             min : 0,
@@ -67,9 +70,37 @@ class FeverMode extends Component {
         return t
 
     }
+    onCheckAlarm = (e) => {
+        this.setState({
+            showAlarmPopup : e.target.checked,
+            showAlarm : e.target.checked
+        })
+    }
+
+    clickClose = () => () => {
+        this.setState({
+            showAlarmPopup : false,
+            showAlarm : false
+        })
+    }
+    clickConfirm = () => () => {
+        console.log('click turn on')
+        this.setState({
+            showAlarmPopup : false,
+            showAlarm : true
+        })
+    }
+
     render() {
         return (
             <div className='p-relative'>
+                <AlarmModal show={this.state.showAlarmPopup}
+                            modalTitle={'Start Alarm mode'}
+                            content={'Do you want to turn on the Alarm?'}
+                            buttonConfirm={'Turn On'}
+                            clickClose={this.clickClose()}
+                            clickConfirm={this.clickConfirm()}
+                />
                 <div className='p-absolute'>
                     <div className='d-flex '>
                         <input type='checkbox' onChange={this.checkBox}/>
@@ -89,7 +120,7 @@ class FeverMode extends Component {
                         <div className='w-30  page-title'>Fever mode</div>
                         <div className='w-30'></div>
                         <div className='w-20 d-flex'>
-                            <input type='checkbox' />
+                            <input type='checkbox' checked={this.state.showAlarm} onChange={this.onCheckAlarm} />
                             <div className='ml-1 show-camera-button'>Alarm On/Off</div>
                         </div>
                         <div className='w-20 t-right f-medium d-flex'>
