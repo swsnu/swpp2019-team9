@@ -16,7 +16,7 @@ class FeverStart extends Component {
                     <input type='radio' className='w-30' title='study'/>
                 </div>
                 <div className='d-flex d-ho-center mt-5'>
-                    <button className='button-orange'><Link to='/fevermode'>Go Fever</Link></button>
+                    <button className='button-orange'><Link to='/feverready'>Go Fever</Link></button>
                 </div>
             </div>
         )

@@ -8,6 +8,7 @@ import Main from './components/Main'
 import './App.css';
 import MyAccount from "./components/MyAccount";
 import FeverStart from "./components/FeverStart";
+import FeverReady from "./components/FeverReady";
 import FeverMode from "./components/FeverMode";
 import FeverEnd from "./components/FeverEnd";
 import MyData from "./components/MyData";
@@ -24,6 +25,7 @@ function App(props) {
                 <Route path="/signup" component={Signup}/>
                 <Route path="/myaccount" component={MyAccount}/>
                 <Route path="/feverstart" component={FeverStart}/>
+                <Route path="/feverready" component={FeverReady}/>
                 <Route path="/fevermode" component={FeverMode}/>
                 <Route path="/feverend" component={FeverEnd}/>
                 <Route path="/mydata" component={MyData}/>
