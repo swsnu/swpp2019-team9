@@ -272,3 +272,18 @@
   width: 150px;
   height: 150px;
 }
+
+/*fever ready camera*/
+.ready-camera-size{
+  display: flex;
+
+}
+
+.ready-camera-size > div > video{
+  width: 200px !important;
+
+}
+/*camera click button*/
+.ready-camera-size > div > #container-circles{
+  display: none;
+}

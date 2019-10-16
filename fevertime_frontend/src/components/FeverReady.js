@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-class FeverEnd extends Component {
+import avatar from '../assets/img/man-avatar.jpg';
+import Camera from "react-html5-camera-photo";
+
+class FeverReady extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -29,7 +31,6 @@ class FeverEnd extends Component {
             time: time + 1}))  // timerHandler will call after setState working is done
     }
     render() {
-
         return (
             <div className='form-container'>
                 <div className='d-flex d-v-center mt-5'>
@@ -37,13 +38,26 @@ class FeverEnd extends Component {
 
                 </div>
                 <div className=' mt-5 d-v-center  fever-form'>
+                    <div className='d-flex mt-5 f-large t-center'>
+                        Please compose the camera as shown below.
+                    </div>
                     <div className='d-flex mt-5'>
-                        <div className='w-20'></div>
-                        <div className='w-40 f-xlarge'>준비중입니다</div>
+                        <div className='w-40 pr-3 t-right'>
+                            <img className='icon-size' alt='' src={avatar}/>
+                        </div>
+                        <div className='w-10 pr-3 t-right'></div>
+                        <div className='w-50 f-large'>
+                            <div className='ready-camera-size'>
+                                <Camera
+                                    onTakePhoto = { (dataUri) => { this.onTakePhoto(dataUri); } }
+                                />
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
         )
     }
 }
-export default FeverEnd;
+export default FeverReady;
