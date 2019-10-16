@@ -20,9 +20,8 @@ class FeverReady extends Component {
         }, 1000);
     }
     timerAction = () => {
-
         const time = this.state.time;
-        if(time === 5){
+        if(time === 10){
             window.location.assign('fevermode')
         }
         // component update
@@ -35,11 +34,16 @@ class FeverReady extends Component {
             <div className='form-container'>
                 <div className='d-flex d-v-center mt-5'>
                     <div className='w-30  page-title'>Fever mode</div>
-
                 </div>
                 <div className=' mt-5 d-v-center  fever-form'>
-                    <div className='d-flex mt-5 f-large t-center'>
+                    <div className=' mt-5 f-large t-center'>
                         Please compose the camera as shown below.
+                    </div>
+                    <div className='mt-3 f-medium t-center'>
+                        After 10 seconds, fevermode starts.
+                    </div>
+                    <div className='mt-3 f-large t-center'>
+                        {this.state.time}
                     </div>
                     <div className='d-flex mt-5'>
                         <div className='w-40 pr-3 t-right'>
