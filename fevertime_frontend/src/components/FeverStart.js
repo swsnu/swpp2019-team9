@@ -1,6 +1,21 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 class FeverStart extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            selectedCategory:'',
+        }
+    }
+
+    changeCategory = () => (e) => {
+        this.setState({
+          selectedCategory: e.target.value
+        })
+    }
+
+
+
     render() {
         return (
             <div>
@@ -13,7 +28,38 @@ class FeverStart extends Component {
                 <div className='d-flex mt-5 d-v-center'>
                     <div className='w-20'></div>
                     <div className='w-20'>Category</div>
-                    <input type='radio' className='w-30' title='study'/>
+                        <div className="w-10">
+                        <label>
+                            Category 1 
+                            <input type="radio" value="category1"
+                                        checked={this.state.selectedCategory === 'category1'} //Category names should be modified
+                                        onChange={this.changeCategory()} />
+                        </label>
+                        </div>
+                        <div className="w-10">
+                        <label>
+                            Category 2 
+                            <input type="radio" value="category2" 
+                                        checked={this.state.selectedCategory === 'category2'} 
+                                        onChange={this.changeCategory()} />
+                        </label>
+                        </div>
+                        <div className="w-10">
+                        <label>
+                            Category 3 
+                            <input type="radio" value="category3" 
+                                        checked={this.state.selectedCategory === 'category3'} 
+                                        onChange={this.changeCategory()} />
+                        </label>
+                        </div>
+                        <div className="w-10">
+                        <label>
+                            Category 4 
+                            <input type="radio" value="category4" 
+                                        checked={this.state.selectedCategory === 'category4'} 
+                                        onChange={this.changeCategory()} />
+                        </label>
+                        </div>
                 </div>
                 <div className='d-flex d-ho-center mt-5'>
                     <button className='button-orange'><Link to='/feverready'>Go Fever</Link></button>
