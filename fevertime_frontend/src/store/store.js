@@ -4,12 +4,13 @@ import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 
 import login from './reducers/login'
-
+import feverStart from './reducers/feverStart'
 
 export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
     login: login,
+    feverStart: feverStart,
     router: connectRouter(history),
 });
 export const middlewares = [thunk, routerMiddleware(history)]

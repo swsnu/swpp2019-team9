@@ -2,6 +2,7 @@ import React, { Component ,createRef } from 'react';
 import smileImg from '../assets/img/smileIcon.png';
 import avatar from '../assets/img/man-avatar.jpg';
 import { Link } from 'react-router-dom';
+import {connect} from 'react-redux'
 import '../App.css'
 import AlarmModal from './component/PopUpModal'
 import 'react-html5-camera-photo/build/css/index.css';
@@ -17,10 +18,10 @@ class FeverMode extends Component {
             showCamera: false,
             showAlarm: false,
             showAlarmPopup : false,
-            time : 0,
-            hour : 0,
-            min : 0,
-            sec : 0,
+            time : parseInt(this.props.goalTime.substring(0,2),10)*3600+parseInt(this.props.goalTime.substring(3,5),10)*60+parseInt(this.props.goalTime.substring(6,8),10),
+            hour : parseInt(this.props.goalTime.substring(0,2),10),
+            min : parseInt(this.props.goalTime.substring(3,5),10),
+            sec : parseInt(this.props.goalTime.substring(6,8),10),
             currentMyImage : avatar,
             videoConstraints : {
                 width: 160,
@@ -68,7 +69,7 @@ class FeverMode extends Component {
         const time = this.state.time;
         // component update
         this.setState(() => ({  // setState is asynchronous
-            time: time + 1,
+            time: time - 1,
         }), () => this.timesSetter());  // timerHandler will call after setState working is done
 
 
@@ -229,4 +230,12 @@ class FeverMode extends Component {
         )
     }
 }
-export default FeverMode;
+
+const mapStateToProps = state =>{
+    return {
+        selectedCategory:state.feverStart.selectedCategory,
+        goalTime:state.feverStart.goalTime,
+        etcCategory:state.feverStart.etcCategory,
+    }
+}
+export default connect(mapStateToProps,null)(FeverMode);
