@@ -18,10 +18,10 @@ class FeverMode extends Component {
             showCamera: false,
             showAlarm: false,
             showAlarmPopup : false,
-            time : parseInt(this.props.goalTime.substring(0,2),10)*3600+parseInt(this.props.goalTime.substring(3,5),10)*60+parseInt(this.props.goalTime.substring(6,8),10),
-            hour : parseInt(this.props.goalTime.substring(0,2),10),
-            min : parseInt(this.props.goalTime.substring(3,5),10),
-            sec : parseInt(this.props.goalTime.substring(6,8),10),
+            time : 0,
+            hour : 0,
+            min : 0,
+            sec : 0,
             currentMyImage : avatar,
             videoConstraints : {
                 width: 160,
@@ -69,7 +69,7 @@ class FeverMode extends Component {
         const time = this.state.time;
         // component update
         this.setState(() => ({  // setState is asynchronous
-            time: time - 1,
+            time: time + 1,
         }), () => this.timesSetter());  // timerHandler will call after setState working is done
 
 

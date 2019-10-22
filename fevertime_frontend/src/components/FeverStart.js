@@ -9,7 +9,7 @@ class FeverStart extends Component {
         super(props);
         this.state = {
             selectedCategory:'',
-            goalTime:'00:00:00',
+            goalTime:'00:00',
             etcCategory:'',
         }
     }
@@ -31,10 +31,23 @@ class FeverStart extends Component {
         })
     }
 
-    goFever = (e) => {
-        this.props.onStoreFeverStart(this.state.selectedCategory, this.state.goalTime, this.state.etcCategory)      
-        this.props.history.push('/feverready')
-
+    startFever = (e) => {
+        if(this.state.goalTime==='00:00') alert('Insert your goalTime!')
+        else if(this.state.selectedCategory==='') alert('Select the category!')
+        else if(this.state.selectedCategory!=='Etc.'){
+                this.props.onStoreFeverStart(this.state.selectedCategory, this.state.goalTime, '')
+                this.props.history.push('/feverready')      
+        }
+        else if(this.state.etcCategory === ''){
+            alert('Insert your Etc. Category!')
+        }
+        else{
+            this.props.onStoreFeverStart(this.state.selectedCategory, this.state.goalTime, this.state.etcCategory)
+            this.props.history.push('/feverready')
+        }
+            
+        
+        
     }
 
 
@@ -45,13 +58,13 @@ class FeverStart extends Component {
                 <div className='t-center mt-5 page-title'>Fever mode</div>
                 <div className='d-flex mt-5 d-v-center'>
                     <div className='w-20'></div>
-                    <div className='w-10'>Goal Time</div>
+                    <div className='w-10'>Goal Time (HH:MM)</div>
                     <TimeField  //https://reactjsexample.com/simple-react-time-input-field/
                         value={this.state.goalTime}                     // {String}   required, format '00:00' or '00:00:00'
                         onChange={this.changeGoalTime}      // {Function} required
-                        input={<input ckassName = 'w-10' />} // {Element}  default: <input type="text" />
+                        input={<input className = 'w-10' />} // {Element}  default: <input type="text" />
                         colon=":"                        // {String}   default: ":"
-                        showSeconds                      // {Boolean}  default: false
+                                              // {Boolean}  default: false
                     />
 
                 </div>
@@ -97,7 +110,7 @@ class FeverStart extends Component {
 
                 </div>
                 <div className='d-flex d-ho-center mt-5'>
-                    <button className='button-orange' onClick = {this.goFever}>Go Fever</button>
+                    <button className='button-orange' onClick = {this.startFever}>Go Fever</button>
                 </div>
             </div>
         )
