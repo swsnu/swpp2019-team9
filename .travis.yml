@@ -10,13 +10,13 @@ matrix:
     script:                                       # Script to test your build
     - ./node_modules/.bin/eslint src
     - yarn test --coverage --watchAll=false
- - language: python
+  - language: python
    python: 
-   - '3.6'
-   before_install:
-   - cd fevertime_backend
-   install:
-   - pip install pylint
-   script:
-   - pylint **/*.py
+    - '3.6'
+    before_install:
+    - cd fevertime_backend
+    install:
+    - pip install pylint
+    script:
+    - pylint **/*.py
 # ...
