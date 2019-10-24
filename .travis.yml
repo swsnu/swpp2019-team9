@@ -4,7 +4,7 @@ matrix:
     node_js:
     - '10'                                        # node_js version
     before_install:                               # Script to run before install
-    - cd fevertime_frontend
+    - cd ./fevertime_frontend
     install:                                      # Script to install required packages
     - yarn install
     script:                                       # Script to test your build
@@ -14,7 +14,7 @@ matrix:
    python: 
     - '3.6'
     before_install:
-    - cd fevertime_backend
+    - cd ./fevertime_backend
     install:
     - pip install pylint
     script:
