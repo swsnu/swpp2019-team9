@@ -6,6 +6,10 @@ import {Provider} from 'react-redux'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as serviceWorker from './serviceWorker';
 import store, { history } from './store/store';
+import axios from 'axios'
+
+axios.defaults.xsrfCookieName = "csrftoken"; //get 빼고 delete 등 db 수정하는 것들 막음
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 
 ReactDOM.render(
     <Provider store={store} >

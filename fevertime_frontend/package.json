@@ -52,5 +52,9 @@
       "!src/index.js",
       "!src/serviceWorker.js"
     ]
+  },
+  "devDependencies": {
+    "eslint": "^6.5.1",
+    "eslint-plugin-react": "^7.16.0"
   }
 }
