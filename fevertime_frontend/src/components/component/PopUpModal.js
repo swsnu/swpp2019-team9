@@ -9,11 +9,6 @@ class PopUpModal extends Component {
 
         }
     }
-    handleClose = () => () => {
-        this.setState({
-            show : false
-        })
-    }
 
     render() {
         return (
@@ -23,10 +18,10 @@ class PopUpModal extends Component {
                 </Modal.Header>
                 <Modal.Body>{this.props.content}</Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={this.props.clickClose}>
+                    <Button variant="secondary" onClick={this.props.clickClose} id='pop-modal-click-close'>
                         {this.props.buttonClose}
                     </Button>
-                    <Button variant="primary" onClick={this.props.clickConfirm}>
+                    <Button variant="primary" onClick={this.props.clickConfirm} id='pop-modal-click-confirm'>
                         {this.props.buttonConfirm}
                     </Button>
                 </Modal.Footer>

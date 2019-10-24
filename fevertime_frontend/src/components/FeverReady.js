@@ -39,7 +39,7 @@ class FeverReady extends Component {
     }
     render() {
         return (
-            <div className='form-container'>
+            <div className='form-container FeverReady'>
                 <div className='d-flex d-v-center mt-5'>
                     <div className='w-30  page-title'>Fever mode</div>
                 </div>

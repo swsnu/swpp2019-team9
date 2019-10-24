@@ -7,7 +7,7 @@ import {Carousel} from 'react-bootstrap'
 class Main extends Component {
     render() {
         return (
-            <div className='f-xlarge t-center'>
+            <div className='f-xlarge t-center Main'>
                 <div className='d-flex'>
                     <div className='w-20'></div>
                     <div className='w-60'>

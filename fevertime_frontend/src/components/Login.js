@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 class Login extends Component {
     render() {
         return (
-            <div className='form-container'>
+            <div className='form-container Login'>
                 <div className='t-center mt-5 page-title'>Login</div>
                 <div className='d-flex mt-5 d-v-center'>
                     <div className='w-20'></div>

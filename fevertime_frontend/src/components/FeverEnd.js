@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 class FeverEnd extends Component {
     render() {
         return (
-            <div className='form-container'>
+            <div className='form-container FeverEnd'>
                 <div className='d-flex d-v-center mt-5'>
                     <div className='w-30  page-title'>Fever mode</div>
 

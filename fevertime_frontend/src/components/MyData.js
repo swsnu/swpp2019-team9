@@ -3,7 +3,7 @@ import StackedColumnChart from "./Chart/StackedColumnChart";
 class MyData extends Component {
     render() {
         return (
-            <div className='form-container'>
+            <div className='form-container MyData'>
                 <div className='w-30  page-title mt-5'>My Data</div>
                 <div className='d-flex mt-5 w-100 button-data'>
                     <div className='w-33'>Daily</div>

@@ -9,8 +9,8 @@ const initialState = {
 const login =  (state = initialState, action) => {
 
     switch(action.type) {
-        case types.LOGIN:
-            return {...state,login:true};
+        // case types.LOGIN:
+        //     return {...state,login:true};
 
         default:
             break;

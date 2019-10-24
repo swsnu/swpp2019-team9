@@ -1,0 +1,29 @@
+import React from 'react';
+import { shallow, mount } from 'enzyme';
+import { Provider } from 'react-redux';
+import MyData from '../MyData';
+import { getMockStore } from '../../test-utils/mocks';
+import StackedColumnChart from "../Chart/StackedColumnChart";
+import { history } from '../../store/store';
+import {ConnectedRouter} from "connected-react-router";
+
+const mockStore = getMockStore({login : false});
+
+describe('MyData', () => {
+    let mydata;
+    beforeEach(() => {
+        mydata = (
+            <Provider store={mockStore}>
+                <ConnectedRouter history={history}>
+                    <MyData/>
+                </ConnectedRouter>
+            </Provider>
+        );
+    })
+    it('should render', () => {
+        const component = shallow(mydata);
+        // expect(component.find('.MyData').length).toBe(1);
+    });
+
+
+});

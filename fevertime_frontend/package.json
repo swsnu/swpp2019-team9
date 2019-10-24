@@ -50,7 +50,9 @@
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
       "!src/index.js",
-      "!src/serviceWorker.js"
+      "!src/serviceWorker.js",
+      "!src/assets/canvasjs.min.js",
+      "!src/assets/canvasjs.react.js"
     ]
   },
   "devDependencies": {

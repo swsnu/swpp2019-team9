@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 class MyAccount extends Component {
     render() {
         return (
-            <div className='form-container'>
+            <div className='form-container MyAccount'>
                 <div className='t-center mt-5 page-title'>My Account</div>
                 <div className='d-flex mt-5 d-v-center'>
                     <div className='w-20'></div>

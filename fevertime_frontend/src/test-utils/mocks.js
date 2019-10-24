@@ -6,7 +6,7 @@ import { createBrowserHistory } from 'history';
 import { history, middlewares } from '../store/store';
 import * as actionTypes from '../store/actions/actionTypes';
 
-const getMockTodoReducer = jest.fn(
+const getMockReducer = jest.fn(
     initialState => (state = initialState, action) => {
         switch (action.type) {
             default:
@@ -17,9 +17,9 @@ const getMockTodoReducer = jest.fn(
 );
 
 export const getMockStore = (initialState) => {
-    const mockTodoReducer = getMockTodoReducer(initialState);
+    const mockReducer = getMockReducer(initialState);
     const rootReducer = combineReducers({
-        article: mockTodoReducer,
+        feverStart: mockReducer,
         router: connectRouter(history),
     });
     const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

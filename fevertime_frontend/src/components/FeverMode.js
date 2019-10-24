@@ -111,7 +111,6 @@ class FeverMode extends Component {
             selectedGoodWordsMan : this.state.goodwords[randInt].man
         })
 
-
     }
 
     checkBox = (e) => {
@@ -149,17 +148,18 @@ class FeverMode extends Component {
 
     render() {
         return (
-            <div className='p-relative'>
+            <div className='p-relative' id='FeverMode'>
                 <AlarmModal show={this.state.showAlarmPopup}
                             modalTitle={'Start Alarm mode'}
                             content={'Do you want to turn on the Alarm?'}
                             buttonConfirm={'Turn On'}
                             clickClose={this.clickClose()}
                             clickConfirm={this.clickConfirm()}
+
                 />
                 <div className='p-absolute'>
                     <div className='d-flex '>
-                        <input type='checkbox' onChange={this.checkBox}/>
+                        <input id='fevermode-show-camera-checkbox' type='checkbox' onChange={this.checkBox}/>
                         <div className='ml-1 show-camera-button'>Show Camera</div>
                     </div>
                     <div>
@@ -196,7 +196,7 @@ class FeverMode extends Component {
                         <div className='w-30  page-title'>Fever mode</div>
                         <div className='w-30'></div>
                         <div className='w-20 d-flex'>
-                            <input type='checkbox' checked={this.state.showAlarm} onChange={this.onCheckAlarm} />
+                            <input type='checkbox' id='fevermode-alarm-checkbox' checked={this.state.showAlarm} onChange={this.onCheckAlarm} />
                             <div className='ml-1 show-camera-button'>Alarm On/Off</div>
                         </div>
                         <div className='w-20 t-right f-medium d-flex'>
