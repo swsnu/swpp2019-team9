@@ -72,12 +72,18 @@ class Signup extends Component {
         this.setState({WrongInput : LocalWrongInput})
 
         if(!wrong){
-            axios.post('/api/signup/', {
+            let result = axios.post('/api/signup/', {
                                         ID : this.state.ID,
                                         Nickname : this.state.Nickname,
                                         Password : this.state.Password,})
-            .then(res => {})
-            this.props.history.push('/')
+            .then(res => {return res})
+            .catch(err => {return err.response})
+            if(result.status === 201){
+                this.props.history.push('/')
+            }
+            else{
+                window.alert("Please submit again")
+            }
         }
     }
 
