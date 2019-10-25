@@ -13,10 +13,11 @@ matrix:
   - language: python
    python: 
     - '3.6'
-    before_install:
-    - cd ./fevertime_backend
+
     install:
-    - pip install pylint
+    - pip install pylint coverage
     script:
-    - pylint **/*.py
+    - coverage run --source='.' ./fevertime_backend/manage.py test
+    - coverage report --fail-under=70
+#    - pylint **/*.py
 # ...
