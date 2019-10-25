@@ -1,10 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 # Create your models here.
 
 class Fever_history(models.Model):
     user = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='fever_history_user'
     )
@@ -27,7 +27,7 @@ class Fever_progress(models.Model):
         related_name='hid'
     )
     user = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='fever_progress_user'
     )
