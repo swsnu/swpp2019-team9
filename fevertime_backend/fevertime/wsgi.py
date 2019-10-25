@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fevertime_backend.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fevertime.settings')
 
 application = get_wsgi_application()
