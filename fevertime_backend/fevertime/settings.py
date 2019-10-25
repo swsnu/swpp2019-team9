@@ -30,7 +30,11 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+AUTH_USER_MODEL = 'user.User'
+
 INSTALLED_APPS = [
+    'user.apps.UserConfig',
+    'fever.apps.FeverConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,7 +53,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'fevertime_backend.urls'
+ROOT_URLCONF = 'fevertime.urls'
 
 TEMPLATES = [
     {
@@ -67,7 +71,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'fevertime_backend.wsgi.application'
+WSGI_APPLICATION = 'fevertime.wsgi.application'
 
 
 # Database
