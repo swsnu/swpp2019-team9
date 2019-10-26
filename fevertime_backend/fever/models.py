@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.db import models
 from django.conf import settings
 # Create your models here.
@@ -8,12 +10,15 @@ class Fever_history(models.Model):
         on_delete=models.CASCADE,
         related_name='fever_history_user'
     )
+    category = models.CharField(max_length=45)
+
     start_time = models.DateTimeField(auto_now_add=True)
     end_time = models.DateTimeField(auto_now=True)
-    category = models.CharField(max_length=45)
-    total_time = models.DateField()
-    fever_time = models.DateField()
-    fever_rate = models.DateField()
+
+    total_time = models.DurationField(default=timedelta())
+    fever_time = models.DurationField(default=timedelta())
+
+    fever_rate = models.FloatField(default=0)
     fever_count = models.IntegerField(default=0)
     click_end = models.CharField(max_length=1, default='N')
 
