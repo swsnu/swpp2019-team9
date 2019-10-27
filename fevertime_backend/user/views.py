@@ -40,3 +40,18 @@ def signin(request):
             return HttpResponse(status=401)
     else: 
         return HttpResponseNotAllowed(['POST'])     #405
+
+def user(request):
+    if request.method == 'GET':
+        if not request.user.is_authenticated:
+            return HttpResponse(status=401)
+        res_dict={'id':request.user.id, 'username':request.user.username, 'nickname':request.user.nickname}
+        return JsonResponse(res_dict,status=200)
+    elif request.method =='PUT':
+        return HttpResponse()
+        #edit userinfo
+    elif request.method =='DELETE':
+        return HttpResponse()
+        #delete user
+    else:
+        return HttpResponseNotAllowed(['GET,PUT,DELETE'])     #405

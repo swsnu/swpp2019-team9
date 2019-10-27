@@ -6,6 +6,8 @@ import { getMockStore } from '../../test-utils/mocks';
 
 import { history } from '../../store/store';
 import {ConnectedRouter} from "connected-react-router";
+import {Switch,Route} from "react-router-dom"
+import * as loginAction from '../../store/actions/login';
 
 const mockStore = getMockStore({login : false});
 
@@ -24,15 +26,34 @@ describe('Login', () => {
         login = (
             <Provider store={mockStore}>
                 <ConnectedRouter history={history}>
-                    <Login/>
+                    <Switch>
+                    <Route path='/' exact component={Login} />
+                    </Switch>
                 </ConnectedRouter>
             </Provider>
         );
+        loginAction.loginUser =jest.fn(()=>{return dispatch=>{}});
     })
     it('should render', () => {
         const component = mount(login);
         expect(component.find('.Login').length).toBe(1);
     });
+    it('should click login',()=>{
+        const id = 'testid'
+        const password='testpw';
+        const component = mount(login)
+        const wrapper = component.find("#id-input")
+        wrapper.simulate('change', {target:{value:id}});
+        const wrapper2 = component.find("#pw-input")
+        wrapper2.simulate('change', {target:{value:password}});
+        const wrapper3 = component.find("#login-button").at(0);
+        const newLoginInstance = component.find(Login.WrappedComponent).instance();
+        expect(newLoginInstance.state.username).toEqual(id)
+        expect(newLoginInstance.state.password).toEqual(password)
+        wrapper3.simulate('click');
+        expect(loginAction.loginUser).toHaveBeenCalledTimes(1);
+    })
+    
 
 
 });
