@@ -1,3 +1,5 @@
+import {loginUser} from "./login"
+
 export {
-    onLogin
-} from './login';
+    loginUser,
+}

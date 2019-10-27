@@ -9,6 +9,15 @@ import {ConnectedRouter} from "connected-react-router";
 
 const mockStore = getMockStore({login : false});
 
+jest.mock('react-router-dom', () => {
+    const original = jest.requireActual("react-router-dom")
+    return {
+        ...original,
+        Link: jest.fn(()=>{
+            return(<div id="spyLink"/>)})
+        }
+});
+
 describe('Login', () => {
     let login;
     beforeEach(() => {

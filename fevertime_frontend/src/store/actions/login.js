@@ -3,23 +3,23 @@ import { push } from 'connected-react-router';
 import axios from 'axios'
 import { history } from '../store';
 
-// export const onLogin_ = () => {
-//     return { type: actionTypes.LOGIN, login: true };
-// };
-//
-// export const onLogin = () => {
-//     return dispatch => {
-//         return axios.put('/api/user/1',
-//             {id : 1,
-//                 email : 'swpp@snu.ac.kr',
-//                 password : 'iluvswpp',
-//                 name : "Software Lover",
-//                 logged_in : true,
-//             })
-//             .then(res => {
-//                 dispatch(onLogin_());
-//                 dispatch(push('/fevertime'));
-//             })
-//
-//     };
-// };
+export const loginUser_ = (user) => {
+    return { 
+        type: actionTypes.LOGIN, 
+        uid: user.id,
+        username: user.username,
+        nickname: user.nickname,
+    };
+};
+export const loginUser = (user) => {
+    return dispatch => {
+        return axios.post('/api/user/signin/',user)
+            .then(res => {
+                dispatch(loginUser_(res.data));
+                dispatch(push('/fevertime'));
+            })
+            .catch(error=>{
+                console.log(error)//have to define
+            })
+    };
+};
