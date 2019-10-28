@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
+import * as actionCreators from "../store/actions/index";
+import {connect} from 'react-redux'
 
 class MyAccount extends Component {
+    componentDidMount(){
+        this.props.onGetUserInfo()
+    }
     render() {
         return (
             <div className='form-container MyAccount'>
@@ -36,4 +40,16 @@ class MyAccount extends Component {
         )
     }
 }
-export default MyAccount;
+
+const mapStateToProps = state =>{
+    return{
+        storedMyAccout:state.user,
+    };
+};
+const mapDispatchToProps = dispatch =>{
+    return{
+        onGetUserInfo:() =>
+            dispatch(actionCreators.getUserInfo()),
+    };
+};
+export default connect(mapStateToProps,mapDispatchToProps)(MyAccount);

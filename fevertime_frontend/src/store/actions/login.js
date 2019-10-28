@@ -23,3 +23,23 @@ export const loginUser = (user) => {
             })
     };
 };
+
+export const getUserInfo_ = (user) => {
+    return { 
+        type: actionTypes.LOGIN, 
+        uid: user.id,
+        username: user.username,
+        nickname: user.nickname,
+    };
+};
+export const getUserInfo = (user) => {
+    return dispatch => {
+        return axios.post('/api/user/',user)
+            .then(res => {
+                dispatch(getUserInfo_(res.data));
+            })
+            .catch(error=>{
+                console.log(error)//have to define
+            })
+    };
+};

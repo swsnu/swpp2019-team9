@@ -40,6 +40,16 @@ def signin(request):
             return HttpResponse(status=401)
     else: 
         return HttpResponseNotAllowed(['POST'])     #405
+        
+def signout(request):
+    if request.method =='GET':
+        if request.user.is_authenticated:
+            logout(request)
+            return HttpResponse(status=204)
+        else:            
+            return HttpResponse(status=401)
+    else: 
+        return HttpResponseNotAllowed(['GET'])      #405
 
 def user(request):
     if request.method == 'GET':
@@ -48,8 +58,22 @@ def user(request):
         res_dict={'id':request.user.id, 'username':request.user.username, 'nickname':request.user.nickname}
         return JsonResponse(res_dict,status=200)
     elif request.method =='PUT':
-        return HttpResponse()
-        #edit userinfo
+        if not request.user.is_authenticated:
+            return HttpResponse(status=401)
+        try:
+            body=request.body.decode()
+            user_nickname=json.loads(body)['nickname']
+            user_password=json.loads(body)['password']
+        except (KeyError, JSONDecodeError):
+            return HttpResponseBadRequest()        #400
+        request.user.set_password(user_password)
+        request.user.nickname=user_nickname
+        response_dict={
+            'id': request.user.id,
+            'username': request.user.username,
+            'nickname': request.user.nickname,
+        }
+        return JsonResponse(response_dict, status=200)
     elif request.method =='DELETE':
         return HttpResponse()
         #delete user
