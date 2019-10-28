@@ -8,21 +8,32 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 # Create your views here.
 
-def signup(request):    #copy&paste HW3
+def signup(request, input_ID=""):    
     if request.method == 'POST':
         try:
             req_data = json.loads(request.body.decode())
-            username = req_data['username']
-            password = req_data['password']
-            nickname = req_data['nickname']
-        except(KeyError, JSONDecodeError):
-            return HttpResponseBadRequest()         #400
-        User.objects.create_user(username=username, password=password, nickname= nickname)
-        return HttpResponse(status=201)
-    else:
-        return HttpResponseNotAllowed(['POST'])     #405
+            username = input_ID
+            nickname = req_data['Nickname']
+            password = req_data['Password']
 
-@csrf_exempt
+            if(len(nickname)>64):
+                return HttpResponseBadRequest() 
+
+        except (KeyError, json.JSONDecodeError) as e:
+            return HttpResponseBadRequest()    
+        User.objects.create_user(username = username, password = password,nickname=nickname)
+
+        return HttpResponse(status=201)
+
+    elif request.method == 'GET':
+        if(User.objects.filter(username=input_ID).count()==0):
+            return HttpResponse(True, status=200)
+        else:
+            return HttpResponse(False, status=200)
+        
+    else:
+        HttpResponseNotAllowed(['GET','POST'])
+
 def signin(request):
     if request.method =='POST':
         try:

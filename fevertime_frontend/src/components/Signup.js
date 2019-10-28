@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from "axios";
-
 import PopUpModal from "./component/PopUpModal"
 /* 
-    need /api/signup/ 
+    need /api/user/signup/ID
         get(ID)=> boolean :  check if ID is okay to use
         post(ID, Nickname, Password) : make new user
 */
+
 class Signup extends Component {
     state = {
         ID : "",
@@ -19,29 +19,60 @@ class Signup extends Component {
         WrongInput : ["","","","","",""],
     }
 
+    getCookie = (name)=> {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    
+
+
     clickSignUp = () =>{
-        let LocalWrongInput = ["","","","","",""]
-        let wrong = false
-        let result
         if(this.state.ID !== ""){
-            result=axios.get('/api/signup/', this.state.ID)
-                    .then(res => {return res})
-                    .catch(error => {return error.response})
+            
+                return axios.get('api/user/signup/'+ this.state.ID+"/",)
+                            .then(res => {
+                                console.log(res)
+                                this.checkInput(res)})
+                            .catch(error => {this.checkInput(error.response)})
+            
+        }
+        else{
+            this.setState({WrongInput :this.state.WrongInput.splice(0,1, "Empty ID")})
+            this.checkInput(null)
+        }
+
+    }
+
+    checkInput = (result) =>{
+        let LocalWrongInput = ["","","","","",""]
+        let wrong = false;
+
+        if(result !== null){
             if(result.status === 200){
-                if(!result.data){
-                    LocalWrongInput.splice(0,1, "ID Exist")
+                if(result.data=== "False"){
+                    this.setState({WrongInput :this.state.WrongInput.splice(0,1, "ID Exist")})
                     wrong = true
                 }
             }
             else{
-                LocalWrongInput.splice(0,1, "Server Not responding")
+                this.setState({WrongInput :this.state.WrongInput.splice(0,1, "Server Not responding")})
                 wrong = true
-            }           
-
+            }
         }
         else{
-            LocalWrongInput.splice(0,1, "Empty ID")
-            wrong = true
+            wrong = true;
+            LocalWrongInput[0] = this.state.WrongInput[0]
         }
 
         if(this.state.Nickname === ""){
@@ -70,20 +101,26 @@ class Signup extends Component {
         }
 
         this.setState({WrongInput : LocalWrongInput})
-
         if(!wrong){
-            let result = axios.post('/api/signup/', {
-                                        ID : this.state.ID,
-                                        Nickname : this.state.Nickname,
-                                        Password : this.state.Password,})
-            .then(res => {return res})
-            .catch(err => {return err.response})
-            if(result.status === 201){
-                this.props.history.push('/')
-            }
-            else{
-                window.alert("Please submit again")
-            }
+            return axios.post('api/user/signup/'+this.state.ID+"/", {
+                                ID : this.state.ID,
+                                Nickname : this.state.Nickname,
+                                Password : this.state.Password,},
+                                )
+                        .then(res => {this.afterPostHandler(res)})
+                        .catch(error => {
+                            console.log(error.response)
+                            this.afterPostHandler(error.response)})
+            
+        }
+    }
+
+    afterPostHandler = (result) => {
+        if(result.status === 201){
+            this.props.history.push('/login')
+        }
+        else{
+            window.alert("Please submit again Error : "+result.status)
         }
     }
 
