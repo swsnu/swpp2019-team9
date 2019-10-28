@@ -4,3 +4,7 @@ export {
     loginUser,
     getUserInfo,
 }
+
+export {
+    postFeverHistory
+} from './fever';

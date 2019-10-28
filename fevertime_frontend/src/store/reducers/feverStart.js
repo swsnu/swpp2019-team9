@@ -5,6 +5,7 @@ const initialState = {
     selectedCategory:'',
     goalTime:0,
     etcCategory:'',
+    hid : 0
 };
 
 const feverStart =  (state = initialState, action) => {
@@ -14,6 +15,10 @@ const feverStart =  (state = initialState, action) => {
                 selectedCategory:action.selectedCategory,
                 goalTime:action.goalTime,
                 etcCategory:action.etcCategory,
+            };
+        case types.FEVER_HISTORY_POST:
+            return {...state,
+                hid:action.hid
             };
 
         default:

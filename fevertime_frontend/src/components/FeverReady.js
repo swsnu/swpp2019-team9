@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import avatar from '../assets/img/man-avatar.jpg';
 import Camera from "react-html5-camera-photo";
 import {Link} from "react-router-dom";
+import axios from "axios"
+import {connect} from 'react-redux'
+import * as actionCreators from '../store/actions/index';
+import { withRouter } from 'react-router';
 
 class FeverReady extends Component {
 
@@ -32,10 +36,12 @@ class FeverReady extends Component {
         this.setState(() => ({  // setState is asynchronous
             time: time + 1}))  // timerHandler will call after setState working is done
         if(time === 10){
-            this.props.history.push('/fevermode');
+            this.props.postFeverHistory(this.props.selectedCategory, this.props.etcCategory);
         }
+    }
 
-
+    clickSkip = () => () => {
+        this.props.postFeverHistory(this.props.selectedCategory, this.props.etcCategory);
     }
     render() {
         return (
@@ -69,10 +75,22 @@ class FeverReady extends Component {
                     </div>
                 </div>
                 <div className='d-flex d-ho-center mt-5'>
-                    <button className='button-orange-s'><Link to='/fevermode'>Skip</Link></button>
+                    <button className='button-orange-s' onClick={this.clickSkip()}>Skip</button>
                 </div>
             </div>
         )
     }
 }
-export default FeverReady;
+const mapStateToProps = state => {
+    return {
+        selectedCategory:state.feverStart.selectedCategory,
+        etcCategory:state.feverStart.etcCategory,
+    };
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        postFeverHistory: (cat, etcCat) =>
+            dispatch(actionCreators.postFeverHistory(cat, etcCat))
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(FeverReady));

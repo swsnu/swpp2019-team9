@@ -145,7 +145,10 @@ class FeverMode extends Component {
         })
     }
 
-
+    clickEnd = () => () => {
+        this.props.history.push('/feverend');
+        // this.props.postFeverHistory(this.props.category, this.props.etcCategory);
+    }
     render() {
         return (
             <div className='p-relative' id='FeverMode'>
@@ -222,7 +225,7 @@ class FeverMode extends Component {
                         </div>
                     </div>
                     <div className='d-flex d-ho-center'>
-                        <button className='button-orange-s mt-5'><Link to='feverend'>End Fever</Link></button>
+                        <button onClick={this.clickEnd()} className='button-orange-s mt-5'>End Fever</button>
                     </div>
 
                 </div>

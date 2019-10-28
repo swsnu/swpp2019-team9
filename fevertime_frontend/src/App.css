@@ -218,12 +218,10 @@
   border-radius: 100px;
   background-color: coral;
   border: 0.5px solid black;
-}
-.button-orange-s > a{
   font-size: 30px;
   color : white;
 }
-.button-orange-s > a:hover{
+.button-orange-s:hover{
   color: lavender;
 }
 
