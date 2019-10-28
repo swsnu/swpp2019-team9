@@ -12,7 +12,7 @@ const stubInitialState = {
     goalTime: "00:10:00",
     etcCategory: '',
 };
-const mockStore = getMockStore({stubInitialState});
+const mockStore = getMockStore({},{stubInitialState});
 
 describe('FeverMode', () => {
     let feverMode;

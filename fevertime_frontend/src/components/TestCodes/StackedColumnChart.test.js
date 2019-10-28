@@ -7,7 +7,7 @@ import { getMockStore } from '../../test-utils/mocks';
 import { history } from '../../store/store';
 import {ConnectedRouter} from "connected-react-router";
 
-const mockStore = getMockStore({login : false});
+const mockStore = getMockStore({},{});
 
 describe('FeverEnd', () => {
 

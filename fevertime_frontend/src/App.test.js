@@ -6,7 +6,7 @@ import App from './App';
 import { getMockStore } from './test-utils/mocks';
 import {Link} from "react-router-dom";
 import { history } from './store/store';
-const mockStore = getMockStore({ login: false});
+const mockStore = getMockStore({},{});
 
 
 

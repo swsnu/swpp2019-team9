@@ -7,7 +7,7 @@ import StackedColumnChart from "../Chart/StackedColumnChart";
 import { history } from '../../store/store';
 import {ConnectedRouter} from "connected-react-router";
 
-const mockStore = getMockStore({login : false});
+const mockStore = getMockStore({},{});
 
 describe('MyData', () => {
     let mydata;

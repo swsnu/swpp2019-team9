@@ -9,7 +9,7 @@ import {ConnectedRouter} from "connected-react-router";
 import {Switch,Route} from "react-router-dom"
 import * as loginAction from '../../store/actions/login';
 
-const mockStore = getMockStore({login : false});
+const mockStore = getMockStore({},{});
 
 jest.mock('react-router-dom', () => {
     const original = jest.requireActual("react-router-dom")

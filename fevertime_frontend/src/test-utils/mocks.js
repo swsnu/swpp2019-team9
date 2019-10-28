@@ -16,10 +16,12 @@ const getMockReducer = jest.fn(
     }
 );
 
-export const getMockStore = (initialState) => {
-    const mockReducer = getMockReducer(initialState);
+export const getMockStore = (loginState,feverState) => {
+    const loginReducer = getMockReducer(loginState);
+    const feverReducer = getMockReducer(feverState);
     const rootReducer = combineReducers({
-        feverStart: mockReducer,
+        login: loginReducer,
+        feverStart: feverReducer,
         router: connectRouter(history),
     });
     const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

@@ -8,7 +8,7 @@ import { history } from '../../store/store';
 import {ConnectedRouter} from "connected-react-router";
 import * as loginAction from '../../store/actions/login';
 
-const mockStore = getMockStore({login : false});
+const mockStore = getMockStore({},{});
 
 describe('MyAccount', () => {
     let myaccount;

@@ -8,7 +8,7 @@ import { history } from '../../store/store';
 import {ConnectedRouter} from "connected-react-router";
 import axios from "axios"
 
-const mockStore = getMockStore({login : false});
+const mockStore = getMockStore({},{});
 
 axios.post = jest.fn(url => {
     return new Promise((resolve, reject) => {
