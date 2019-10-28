@@ -24,9 +24,27 @@ export const loginUser = (user) => {
     };
 };
 
+export const logoutUser_ = (user) => {
+    return { 
+        type: actionTypes.LOGOUT,
+    };
+};
+export const logoutUser = () => {
+    return dispatch => {
+        return axios.get('/api/user/signout/')
+            .then(res => {
+                dispatch(logoutUser_());
+                dispatch(push('/'));
+            })
+            .catch(error=>{
+                console.log(error)//have to define
+            })
+    };
+};
+
 export const getUserInfo_ = (user) => {
     return { 
-        type: actionTypes.LOGIN, 
+        type: actionTypes.GET_USER_INFO, 
         uid: user.id,
         username: user.username,
         nickname: user.nickname,
@@ -34,12 +52,12 @@ export const getUserInfo_ = (user) => {
 };
 export const getUserInfo = (user) => {
     return dispatch => {
-        return axios.post('/api/user/',user)
+        return axios.get('/api/user/',user)
             .then(res => {
-                dispatch(getUserInfo_(res.data));
-            })
-            .catch(error=>{
-                console.log(error)//have to define
+                if(res.status===200)
+                    dispatch(getUserInfo_(res.data));
+                else if(res.status===204)
+                    dispatch(getUserInfo_({id:null,username:null,nickname:null}))
             })
     };
 };

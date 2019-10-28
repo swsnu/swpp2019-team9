@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from "axios";
 import PopUpModal from "./component/PopUpModal"
 /* 
-    need /api/user/signup/ID
-        get(ID)=> boolean :  check if ID is okay to use
+    need /api/user/signup/
         post(ID, Nickname, Password) : make new user
 */
 
@@ -56,7 +55,7 @@ class Signup extends Component {
         this.setState({WrongInput : LocalWrongInput})
 
         if(!wrong){
-            return axios.post('api/user/signup/', {
+            return axios.post('/api/user/signup/', {
                                 username : this.state.ID,
                                 nickname : this.state.Nickname,
                                 password : this.state.Password,},

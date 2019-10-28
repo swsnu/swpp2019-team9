@@ -4,8 +4,10 @@ import * as actionCreators from "../store/actions/index";
 import {connect} from 'react-redux'
 
 class MyAccount extends Component {
-    componentDidMount(){
-        this.props.onGetUserInfo()
+    state={
+        nickname: this.props.storedMyAccount.nickname,
+        password: "",
+        password_confirm: "",
     }
     render() {
         return (
@@ -14,12 +16,12 @@ class MyAccount extends Component {
                 <div className='d-flex mt-5 d-v-center'>
                     <div className='w-20'></div>
                     <div className='w-20'>ID</div>
-                    <input className='w-30 input-1'/>
+                    <input className='w-30 input-1' defaultValue={this.props.storedMyAccount.username} disabled/>
                 </div>
                 <div className='d-flex mt-3 d-v-center'>
                     <div className='w-20'></div>
                     <div className='w-20'>Nickname</div>
-                    <input className='w-30 input-1'/>
+                    <input className='w-30 input-1' defaultValue={this.props.storedMyAccount.nickname}/>
                 </div>
                 <div className='d-flex mt-3 d-v-center'>
                     <div className='w-20'></div>
@@ -43,13 +45,11 @@ class MyAccount extends Component {
 
 const mapStateToProps = state =>{
     return{
-        storedMyAccount:state.user,
+        storedMyAccount:state.login,
     };
 };
 const mapDispatchToProps = dispatch =>{
     return{
-        onGetUserInfo:() =>
-            dispatch(actionCreators.getUserInfo()),
     };
 };
 export default connect(mapStateToProps,mapDispatchToProps)(MyAccount);

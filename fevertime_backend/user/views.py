@@ -60,7 +60,7 @@ def signout(request):
 def user(request):
     if request.method == 'GET':
         if not request.user.is_authenticated:
-            return HttpResponse(status=401)
+            return HttpResponse(status=204)
         res_dict={'id':request.user.id, 'username':request.user.username, 'nickname':request.user.nickname}
         return JsonResponse(res_dict,status=200)
     elif request.method =='PUT':

@@ -12,6 +12,12 @@ const login =  (state = initialState, action) => {
     switch(action.type) {
         case types.LOGIN:
             return {...state, uid:action.uid, username:action.username, nickname: action.nickname};
+        
+        case types.GET_USER_INFO:
+            return {...state, uid:action.uid, username:action.username, nickname: action.nickname};
+        
+        case types.LOGOUT:
+            return {...state, uid:null,username:null,nickname:null}
         default:
             break;
     }

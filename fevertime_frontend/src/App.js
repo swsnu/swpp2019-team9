@@ -13,26 +13,37 @@ import FeverMode from "./components/FeverMode";
 import FeverEnd from "./components/FeverEnd";
 import MyData from "./components/MyData";
 import Friends from "./components/Friends";
+import {connect} from 'react-redux'
+import * as actionCreators from "./store/actions/index";
 
-
-function App(props) {
-    return (
-        <div className="App">
-            <ConnectedRouter history={props.history}>
-                <Header></Header>
-                <Route exact path="/" component={Main}/>
-                <Route path="/login" component={Login}/>
-                <Route path="/signup" component={Signup}/>
-                <Route path="/myaccount" component={MyAccount}/>
-                <Route path="/feverstart" component={FeverStart}/>
-                <Route path="/feverready" component={FeverReady}/>
-                <Route path="/fevermode" component={FeverMode}/>
-                <Route path="/feverend" component={FeverEnd}/>
-                <Route path="/mydata" component={MyData}/>
-                <Route path="/friends" component={Friends}/>
-            </ConnectedRouter>
-        </div>
-    );
+class App extends React.Component{
+    componentDidMount(){
+        this.props.onGetUser()
+    }
+    render(){
+        return (
+            <div className="App">
+                <ConnectedRouter history={this.props.history}>
+                    <Header></Header>
+                    <Route exact path="/" component={Main}/>
+                    <Route path="/login" component={Login}/>
+                    <Route path="/signup" component={Signup}/>
+                    <Route path="/myaccount" component={MyAccount}/>
+                    <Route path="/feverstart" component={FeverStart}/>
+                    <Route path="/feverready" component={FeverReady}/>
+                    <Route path="/fevermode" component={FeverMode}/>
+                    <Route path="/feverend" component={FeverEnd}/>
+                    <Route path="/mydata" component={MyData}/>
+                    <Route path="/friends" component={Friends}/>
+                </ConnectedRouter>
+            </div>
+        );
+    }
 }
-
-export default App;
+const mapDispatchToProps = dispatch => {
+    return {
+        onGetUser: ()=>
+            dispatch(actionCreators.getUserInfo()),
+    }
+}
+export default connect(null,mapDispatchToProps)(App);
