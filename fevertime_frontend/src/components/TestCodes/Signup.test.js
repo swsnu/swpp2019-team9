@@ -10,10 +10,10 @@ import axios from "axios"
 
 const mockStore = getMockStore({login : false});
 
-axios.get = jest.fn(url => {
+axios.post = jest.fn(url => {
     return new Promise((resolve, reject) => {
       const result = {
-        status: 200,
+        status: 201,
         data: stubCMs
       };
       resolve(result);
@@ -42,138 +42,43 @@ describe('Signup', () => {
         expect(component.find('.Signup').length).toBe(1);
     });
 
-    it("should take check Valid ID inputs", (done) => {
-        axios.get = jest.fn(url => {
-            return new Promise((resolve, reject) => {
-              const result = {
-                status: 200,
-                data: true
-              };
-              resolve(result);
-            })})
-                
+    it("should take check Valid inputs", (done) => { 
         const component = mount(signup);
         const ID_input = component.find('#ID_input');
+        const pw_input = component.find('#Password_input')
+        const nickname_input = component.find('#Nickname_input')
+        const pwc_input = component.find('#Password_Confirm_input')
         ID_input.simulate('change', { target: { value: ID } });
+        pw_input.simulate('change', { target: { value: Password } });
+        nickname_input.simulate('change', { target: { value: Nickname } });
+        pwc_input.simulate('change', { target: { value: Password_C } });
+        component.find('#Term_Use_button').simulate('change');
+        component.find('#Term_Personal_button').simulate('change');
+
         component.find("#Signup_button").simulate("click");
         const newSignup = component.find(Signup).instance();
-        expect(newSignup.state.WrongInput[0]).toEqual("");
-        expect(axios.get).toHaveBeenCalledTimes(1);
+        expect(newSignup.state.WrongInput).toEqual(["","","","","",""]);
+        expect(axios.post).toHaveBeenCalledTimes(1);
         done();
     }); 
     
-    it("should take check Invalid ID inputs", (done) => {
-        axios.get = jest.fn(url => {
-            return new Promise((resolve, reject) => {
-              const result = {
-                status: 200,
-                data: false
-              };
-              resolve(result);
-            })})
-                
+    it("should take check Invalid inputs", (done) => {      
         const component = mount(signup);
         const ID_input = component.find('#ID_input');
-        ID_input.simulate('change', { target: { value: ID } });
+        const pw_input = component.find('#Password_input')
+        const nickname_input = component.find('#Nickname_input')
+        const pwc_input = component.find('#Password_Confirm_input')
+        ID_input.simulate('change', { target: { value: "" } });
+        pw_input.simulate('change', { target: { value: "" } });
+        nickname_input.simulate('change', { target: { value: "" } });
+        pwc_input.simulate('change', { target: { value: Password_C } });
+
         component.find("#Signup_button").simulate("click");
         const newSignup = component.find(Signup).instance();
-        expect(newSignup.state.WrongInput[0]).toEqual("ID Exist");
-        expect(axios.get).toHaveBeenCalledTimes(1);
+        expect(newSignup.state.WrongInput).toEqual(["Empty ID","Empty Nickname","Empty Password","Wrong Password Confirm","Please Check","Please Check"]);
+        expect(axios.post).toHaveBeenCalledTimes(0);
         done();
     });    
-
-    it("should take check ID Deadserver", (done) => {
-        axios.get = jest.fn(url => {
-            return new Promise((resolve, reject) => {
-              const result = {
-                status: 404,
-                data: false
-              };
-              resolve(result);
-            })})
-                
-        const component = mount(signup);
-        const ID_input = component.find('#ID_input');
-        ID_input.simulate('change', { target: { value: ID } });
-        component.find("#Signup_button").simulate("click");
-        const newSignup = component.find(Signup).instance();
-        expect(newSignup.state.WrongInput[0]).toEqual("Server Not responding");
-        expect(axios.get).toHaveBeenCalledTimes(1);
-        done();
-    });
-
-    it("should take check null Nickname", () => {
-        const component = mount(signup);
-        component.find("#Signup_button").simulate("click");
-        const newSignup = component.find(Signup).instance();
-        expect(newSignup.state.WrongInput[1]).toEqual("Empty Nickname");
-    }); 
-
-    it("should take check null password", () => {
-        const component = mount(signup);
-        component.find("#Signup_button").simulate("click");
-        const newSignup = component.find(Signup).instance();
-        expect(newSignup.state.WrongInput[2]).toEqual("Empty Password");
-    });
-
-    it("should take check non-matching password", () => {
-        const component = mount(signup);
-        const PW_input = component.find('#Password_input');
-        PW_input.simulate('change', { target: { value: Password } });
-
-        const PWC_input = component.find('#Password_Confirm_input');
-        PWC_input.simulate('change', { target: { value: "123" } });
-
-        component.find("#Signup_button").simulate("click");
-        const newSignup = component.find(Signup).instance();
-        expect(newSignup.state.WrongInput[3]).toEqual("Wrong Password Confirm");
-    });
-
-    it("should take term of uses", () => {
-        const component = mount(signup);
-        component.find("#Signup_button").simulate("click");
-        const newSignup = component.find(Signup).instance();
-        expect(newSignup.state.WrongInput[4]).toEqual("Please Check");
-        expect(newSignup.state.WrongInput[5]).toEqual("Please Check");
-    });
-
-    it("should post if correct", (done) => {
-        const component = mount(signup);
-        axios.get = jest.fn(url => {
-            return new Promise((resolve, reject) => {
-              const result = {
-                status: 200,
-                data: true
-              };
-              resolve(result);
-            })})
-
-        axios.post = jest.fn((url, dd) => {
-            return new Promise((resolve, reject) => {
-                const result = {
-                status: 200,
-                data: true
-                };
-                resolve(result);
-            })})
-
-        let spyhistoryPush = jest.spyOn(history, 'push')
-        .mockImplementation(() => { return path => {}; })
-                
-        const ID_input = component.find('#ID_input');
-        ID_input.simulate('change', { target: { value: ID } });
-        component.find('#Nickname_input').simulate('change', { target: { value: Nickname } });
-        component.find('#Password_input').simulate('change', { target: { value: Nickname } });
-        component.find('#Password_Confirm_input').simulate('change', { target: { value: Nickname } });
-        component.find('#Term_Use_button').simulate('change', { target: { value: Nickname } });
-        component.find('#Term_Personal_button').simulate('change', { target: { value: Nickname } });
-
-        component.find("#Signup_button").simulate("click");        
-        expect(axios.get).toHaveBeenCalledTimes(1);
-        expect(axios.post).toHaveBeenCalledTimes(1);
-        expect(spyhistoryPush).toHaveBeenCalledTimes(1);
-        done();
-    });
 
 
 });

@@ -69,15 +69,6 @@ class Signup extends Component {
         }
     }
 
-    afterPostHandler = (result) => {
-        if(result.status === 201){
-            this.props.history.push('/login')
-        }
-        else{
-            window.alert("Please submit again Error : "+result.status)
-        }
-    }
-
     render() {
         return (
             <div className='form-container Signup'>
