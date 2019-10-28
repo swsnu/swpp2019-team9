@@ -16,7 +16,7 @@ export const loginUser = (user) => {
         return axios.post('/api/user/signin/',user)
             .then(res => {
                 dispatch(loginUser_(res.data));
-                dispatch(push('/fevertime'));
+                dispatch(push('/fevermode'));
             })
             .catch(error=>{
                 console.log(error)//have to define

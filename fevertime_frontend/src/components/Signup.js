@@ -19,60 +19,13 @@ class Signup extends Component {
         WrongInput : ["","","","","",""],
     }
 
-    getCookie = (name)=> {
-        var cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = cookies[i].trim();
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-    
-
-
-    clickSignUp = () =>{
-        if(this.state.ID !== ""){
-            
-                return axios.get('api/user/signup/'+ this.state.ID+"/",)
-                            .then(res => {
-                                console.log(res)
-                                this.checkInput(res)})
-                            .catch(error => {this.checkInput(error.response)})
-            
-        }
-        else{
-            this.setState({WrongInput :this.state.WrongInput.splice(0,1, "Empty ID")})
-            this.checkInput(null)
-        }
-
-    }
-
-    checkInput = (result) =>{
+    clickSignUp= () => {
         let LocalWrongInput = ["","","","","",""]
         let wrong = false;
 
-        if(result !== null){
-            if(result.status === 200){
-                if(result.data=== "False"){
-                    this.setState({WrongInput :this.state.WrongInput.splice(0,1, "ID Exist")})
-                    wrong = true
-                }
-            }
-            else{
-                this.setState({WrongInput :this.state.WrongInput.splice(0,1, "Server Not responding")})
-                wrong = true
-            }
-        }
-        else{
-            wrong = true;
-            LocalWrongInput[0] = this.state.WrongInput[0]
+        if(this.state.ID ===""){
+            LocalWrongInput.splice(0,1, "Empty ID")
+            wrong = true
         }
 
         if(this.state.Nickname === ""){
@@ -101,16 +54,17 @@ class Signup extends Component {
         }
 
         this.setState({WrongInput : LocalWrongInput})
+
         if(!wrong){
-            return axios.post('api/user/signup/'+this.state.ID+"/", {
-                                ID : this.state.ID,
-                                Nickname : this.state.Nickname,
-                                Password : this.state.Password,},
+            return axios.post('api/user/signup/', {
+                                username : this.state.ID,
+                                nickname : this.state.Nickname,
+                                password : this.state.Password,},
                                 )
-                        .then(res => {this.afterPostHandler(res)})
+                        .then(res => {this.props.history.push('/login')})
                         .catch(error => {
-                            console.log(error.response)
-                            this.afterPostHandler(error.response)})
+                            LocalWrongInput[0]="ID exists"
+                            this.setState({WrongInput : LocalWrongInput})})
             
         }
     }
