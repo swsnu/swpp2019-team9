@@ -43,7 +43,7 @@ class MyAccount extends Component {
 
 const mapStateToProps = state =>{
     return{
-        storedMyAccout:state.user,
+        storedMyAccount:state.user,
     };
 };
 const mapDispatchToProps = dispatch =>{

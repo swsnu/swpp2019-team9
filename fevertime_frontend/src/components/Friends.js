@@ -105,7 +105,7 @@ class Friends extends Component {
 
     render() {
         return (
-            <div className='d-flex h-100'>
+            <div className='d-flex h-100 Friends'>
                 <AddGroupPopup show={this.state.showAddGroupPopup}
                             modalTitle={'Add Group'}
                             content={'Group name'}

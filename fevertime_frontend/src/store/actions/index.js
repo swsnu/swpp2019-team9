@@ -1,5 +1,6 @@
-import {loginUser} from "./login"
+import {loginUser,getUserInfo} from "./login"
 
 export {
     loginUser,
+    getUserInfo,
 }

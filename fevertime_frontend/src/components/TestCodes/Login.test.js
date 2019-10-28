@@ -53,7 +53,4 @@ describe('Login', () => {
         wrapper3.simulate('click');
         expect(loginAction.loginUser).toHaveBeenCalledTimes(1);
     })
-    
-
-
 });

@@ -1,31 +1,27 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { Provider } from 'react-redux';
-import MyAccount from '../MyAccount';
+import Friends from '../Friends';
 import { getMockStore } from '../../test-utils/mocks';
 
 import { history } from '../../store/store';
 import {ConnectedRouter} from "connected-react-router";
-import * as loginAction from '../../store/actions/login';
 
 const mockStore = getMockStore({login : false});
 
-describe('MyAccount', () => {
-    let myaccount;
+describe('Friends', () => {
+    let friends;
     beforeEach(() => {
-        myaccount = (
+        friends = (
             <Provider store={mockStore}>
                 <ConnectedRouter history={history}>
-                    <MyAccount/>
+                    <Friends/>
                 </ConnectedRouter>
             </Provider>
         );
-        loginAction.getUserInfo =jest.fn(()=>{return dispatch=>{}});
     })
     it('should render', () => {
-        const component = mount(myaccount);
-        expect(component.find('.MyAccount').length).toBe(1);
+        const component = mount(friends);
+        expect(component.find('.Friends').length).toBe(1);
     });
-
-
 });
