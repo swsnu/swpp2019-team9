@@ -20,4 +20,4 @@ matrix:
     - coverage run --source='.' ./fevertime_backend/manage.py test
     - coverage report --fail-under=70
 #    - pylint **/*.py
-# ...
+
