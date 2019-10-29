@@ -7,5 +7,6 @@ export {
 }
 
 export {
-    postFeverHistory
+    postFeverHistory,
+    putFeverHistory
 } from './fever';

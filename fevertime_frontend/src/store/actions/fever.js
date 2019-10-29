@@ -24,3 +24,28 @@ export const postFeverHistory = (category, etcCategory) => {
             })
     };
 };
+
+export const putFeverHistory_ = (data) => {
+    return {
+        type: actionTypes.FEVER_HISTORY_PUT,
+        hid: data.id,
+        total_time: data.total_time,
+        fever_time: data.fever_time,
+        fever_rate: data.fever_rate,
+    };
+};
+
+export const putFeverHistory = (hid) => {
+    return dispatch => {
+        return axios.put('/api/fever_history/',{
+            id : hid
+        })
+            .then(res => {
+                dispatch(putFeverHistory_(res.data));
+                dispatch(push('/feverend'));
+            })
+            .catch(error=>{
+                console.log(error)//have to define
+            })
+    };
+};
