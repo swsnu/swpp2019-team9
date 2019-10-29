@@ -1,24 +1,26 @@
-matrix:
-  include:
-  - language: node_js # Your language e.g. node_js, python
-    node_js:
-    - '10'                                        # node_js version
-    before_install:                               # Script to run before install
-    - cd fevertime_frontend
-    install:                                      # Script to install required packages
-    - yarn install
-    script:                                       # Script to test your build
-    - ./node_modules/.bin/eslint src
-    - yarn test --coverage --watchAll=false
-# - language: python
-#  python: 
-#   - '3.6'
-#   before_install:
-#   - cd fevertime_backend
-#   install:
-#   - pip install pylint coverage
-#   script:
-#   - coverage run --source='.' manage.py test
-#   - coverage report --fail-under=70
-#    - pylint **/*.py
-
+--- 
+matrix: 
+  include: 
+    - 
+      before_install: 
+        - "cd fevertime_frontend"
+      install: 
+        - "yarn install"
+      language: node_js
+      node_js: 
+        - "10"
+      script: 
+        - "./node_modules/.bin/eslint src"
+        - "yarn test --coverage --watchAll=false"
+    - 
+      before_install: 
+        - "cd fevertime_backend"
+      install: 
+        - "pip install pylint coverage django"
+      language: python
+      python: 
+        - "3.6"
+      script: 
+        - "coverage run --source='.' manage.py test"
+        - "coverage report --fail-under=70"
+        - "pylint **/*.py"
