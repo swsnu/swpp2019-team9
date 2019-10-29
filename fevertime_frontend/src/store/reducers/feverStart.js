@@ -5,7 +5,10 @@ const initialState = {
     selectedCategory:'',
     goalTime:0,
     etcCategory:'',
-    hid : 0
+    hid : 0,
+    total_time : '',
+    fever_time : '',
+    fever_rate : 0
 };
 
 const feverStart =  (state = initialState, action) => {
@@ -19,6 +22,13 @@ const feverStart =  (state = initialState, action) => {
         case types.FEVER_HISTORY_POST:
             return {...state,
                 hid:action.hid
+            };
+        case types.FEVER_HISTORY_PUT:
+            return {...state,
+                hid:action.hid,
+                total_time:action.total_time,
+                fever_time:action.fever_time,
+                fever_rate:action.fever_rate,
             };
 
         default:

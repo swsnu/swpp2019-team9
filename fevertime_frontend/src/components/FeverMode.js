@@ -1,12 +1,13 @@
 import React, { Component ,createRef } from 'react';
 import smileImg from '../assets/img/smileIcon.png';
 import avatar from '../assets/img/man-avatar.jpg';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import {connect} from 'react-redux'
 import '../App.css'
 import AlarmModal from './component/PopUpModal'
 import 'react-html5-camera-photo/build/css/index.css';
 import Webcam from "react-webcam";
+import * as actionCreators from "../store/actions";
 
 
 
@@ -146,8 +147,7 @@ class FeverMode extends Component {
     }
 
     clickEnd = () => () => {
-        this.props.history.push('/feverend');
-        // this.props.postFeverHistory(this.props.category, this.props.etcCategory);
+        this.props.putFeverHistory(this.props.hid);
     }
     render() {
         return (
@@ -208,6 +208,12 @@ class FeverMode extends Component {
                             <div>{this.transTime(this.state.sec)}</div>
                         </div>
                     </div>
+                    <div className='d-flex'>
+                        <div className='w-70'></div>
+                        <div className='w-20 color-gray t-right'>
+                            Goal Time : &nbsp; {this.props.goalTime}
+                        </div>
+                    </div>
                     <div className=' mt-5 d-v-center  fever-form'>
                         <div className='t-center w-100 f-large'>
                             {this.state.selectedGoodWords}<br/>
@@ -239,6 +245,13 @@ const mapStateToProps = state =>{
         selectedCategory:state.feverStart.selectedCategory,
         goalTime:state.feverStart.goalTime,
         etcCategory:state.feverStart.etcCategory,
+        hid : state.feverStart.hid
     }
 }
-export default connect(mapStateToProps,null)(FeverMode);
+const mapDispatchToProps = dispatch => {
+    return {
+        putFeverHistory: (hid) =>
+            dispatch(actionCreators.putFeverHistory(hid))
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(FeverMode));

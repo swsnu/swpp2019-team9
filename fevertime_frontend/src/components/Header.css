@@ -29,3 +29,18 @@
 .header-right > div >a{
     color : black !important;
 }
+.header-right-child{
+    display: flex;
+}
+.header-right-child > div{
+    margin-right : 30px;
+
+}
+.header-right-child > div:hover{
+    cursor: pointer;
+}
+
+.header-right-child > div >a{
+    color : black !important;
+}
+
