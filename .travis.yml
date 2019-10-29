@@ -15,6 +15,7 @@ matrix:
   - language: python
    python: 
     - '3.6'
+
     before_install:                               # Script to run before install
       - cd fevertime_backend
     install:
