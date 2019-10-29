@@ -54,7 +54,7 @@ class FeverStart extends Component {
 
     render() {
         return (
-            <div>
+            <div className='FeverStart'>
                 <div className='t-center mt-5 page-title'>Fever mode</div>
                 <div className='d-flex mt-5 d-v-center'>
                     <div className='w-20'></div>
@@ -76,7 +76,8 @@ class FeverStart extends Component {
                             Study 
                             <input type="radio" value="Study"
                                         checked={this.state.selectedCategory === 'Study'}
-                                        onChange={this.changeCategory} />
+                                        onChange={this.changeCategory} 
+                                        id ='study-radio'/>
                         </label>
                         </div>
                         <div className="w-10">
@@ -84,7 +85,8 @@ class FeverStart extends Component {
                             Work
                             <input type="radio" value="Work" 
                                         checked={this.state.selectedCategory === 'Work'} 
-                                        onChange={this.changeCategory} />
+                                        onChange={this.changeCategory} 
+                                        id ='work-radio'/>
                         </label>
                         </div>
                         <div className="w-10">
@@ -92,7 +94,8 @@ class FeverStart extends Component {
                             Reading
                             <input type="radio" value="Reading" 
                                         checked={this.state.selectedCategory === 'Reading'} 
-                                        onChange={this.changeCategory} />
+                                        onChange={this.changeCategory} 
+                                        id ='read-radio'/>
                         </label>
                         </div>
                         <div className="w-10">
@@ -100,17 +103,18 @@ class FeverStart extends Component {
                             Etc.
                             <input type="radio" value="Etc." 
                                         checked={this.state.selectedCategory === 'Etc.'} 
-                                        onChange={this.changeCategory} />
+                                        onChange={this.changeCategory} 
+                                        id ='etc-radio'/>
                         </label>
                         </div>
                         <div className = "w-30">
                         {(this.state.selectedCategory === 'Etc.')?(
-                            <input className='w-30 input-1'onChange = {this.changeEtcCategory}/>
+                            <input className='w-30 input-1'onChange = {this.changeEtcCategory} id ='etc-text'/>
                         ):('')}</div>
 
                 </div>
                 <div className='d-flex d-ho-center mt-5'>
-                    <button className='button-orange' onClick = {this.startFever}>Go Fever</button>
+                    <button className='button-orange' onClick = {this.startFever} id ='start-button'>Go Fever</button>
                 </div>
             </div>
         )

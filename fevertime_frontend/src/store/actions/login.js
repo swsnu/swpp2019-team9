@@ -16,10 +16,10 @@ export const loginUser = (user) => {
         return axios.post('/api/user/signin/',user)
             .then(res => {
                 dispatch(loginUser_(res.data));
-                dispatch(push('/fevermode'));
+                dispatch(push('/feverstart'));
             })
             .catch(error=>{
-                console.log(error)//have to define
+                //console.log(error)//have to define
             })
     };
 };

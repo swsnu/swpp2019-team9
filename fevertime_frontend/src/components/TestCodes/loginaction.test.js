@@ -9,6 +9,11 @@ const stubUser={
     password: "testpw",
     nickname: "testnick",
 };
+const stubUserGet={
+    id: null,
+    username: null,
+    nickname: null,
+};
 
 describe('ActionCreators', () => {
     afterEach(() => {
@@ -30,6 +35,7 @@ describe('ActionCreators', () => {
             done();
         });
     });
+    /*
     it('get error', (done) => {
         axios.post = jest.fn(url => {
             return new Promise((resolve, reject) => {
@@ -43,6 +49,56 @@ describe('ActionCreators', () => {
 
         store.dispatch(loginAction.loginUser()).then(() => {
             expect(axios.post).toHaveBeenCalledTimes(1);
+            done();
+        });
+    });
+    */
+   //handle later
+    it('get user logged in', (done) => {
+        axios.get = jest.fn(url => {
+            return new Promise((resolve, reject) => {
+                const result = {
+                    status: 200,
+                    data: stubUser
+                };
+                resolve(result);
+            })
+        });
+
+        store.dispatch(loginAction.getUserInfo()).then(() => {
+            expect(axios.get).toHaveBeenCalledTimes(1);
+            done();
+        });
+    });
+    it('get user not logged in', (done) => {
+        axios.get = jest.fn(url => {
+            return new Promise((resolve, reject) => {
+                const result = {
+                    status: 204,
+                    data: stubUserGet
+                };
+                resolve(result);
+            })
+        });
+
+        store.dispatch(loginAction.getUserInfo()).then(() => {
+            expect(axios.get).toHaveBeenCalledTimes(1);
+            done();
+        });
+    });
+    it('logout user', (done) => {
+        axios.get = jest.fn(url => {
+            return new Promise((resolve, reject) => {
+                const result = {
+                    status: 200,
+                    data: stubUser
+                };
+                resolve(result);
+            })
+        });
+
+        store.dispatch(loginAction.logoutUser()).then(() => {
+            expect(axios.get).toHaveBeenCalledTimes(1);
             done();
         });
     });

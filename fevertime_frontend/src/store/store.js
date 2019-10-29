@@ -13,6 +13,7 @@ const rootReducer = combineReducers({
     feverStart: feverStart,
     router: connectRouter(history),
 });
+/*
 const logger = store => {
     return next => {
     return action => {
@@ -22,8 +23,10 @@ const logger = store => {
     return result;
     }
 }};//for debugging...
+*/
 
-export const middlewares = [thunk,logger, routerMiddleware(history)]
+//export const middlewares = [thunk,logger, routerMiddleware(history)]
+export const middlewares = [thunk, routerMiddleware(history)]
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer,
