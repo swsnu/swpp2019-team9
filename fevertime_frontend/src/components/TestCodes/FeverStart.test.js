@@ -53,6 +53,7 @@ describe('FeverStart', () => {
         expect(FeverStartInstance.state.goalTime).toEqual(goal)
         //component.find("#start-button").simulate('click')
         //expect(history.push).toHaveBeenCalledTimes(1)
+        //how to mock history.push??
     })
     it('should give alert',()=>{
         const goal='01:10';
@@ -60,8 +61,10 @@ describe('FeverStart', () => {
         const component = mount(feverStart)
         const button4 = component.find("#etc-radio").simulate('change')
         const FeverStartInstance = component.find(FeverStart.WrappedComponent).instance();
+        FeverStartInstance.setState({goalTime:goal})
         component.find("#start-button").simulate('click')
         expect(global.alert).toHaveBeenCalledTimes(1)
     })
+    
 
 });

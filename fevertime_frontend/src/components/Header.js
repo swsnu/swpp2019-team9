@@ -15,7 +15,7 @@ class Header extends Component {
     let signup=null;
     if(this.props.storedMyAccount.uid!==null &&this.props.storedMyAccount.username!==null && this.props.storedMyAccount.nickname!==null){
         myAccount =<div><Link to='/myaccount'>My Account</Link></div>
-        logout = <button onClick={this.clickLogout}>Logout</button> //need to change how this look TT
+        logout = <button onClick={this.clickLogout} id='logout-button'>Logout</button> //need to change how this look TT
     }
     else{
         login=<div><Link to='/login'>Login</Link></div>
@@ -23,7 +23,7 @@ class Header extends Component {
     }
 
         return (
-            <div className='header-container'>
+            <div className='header-container Header'>
                 <div className='logo'><Link className='c-orange' to='/'>Fever Time</Link></div>
                 <div className='d-flex header-right'>
                     <div><Link to='/feverstart'>Go Fever</Link></div>
