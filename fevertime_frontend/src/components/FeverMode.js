@@ -66,7 +66,7 @@ class FeverMode extends Component {
             this.timerAction();
         }, 1000);
     }
-    timerAction = () => {
+    timerAction(){
         const time = this.state.time;
         // component update
         this.setState(() => ({  // setState is asynchronous
@@ -76,7 +76,7 @@ class FeverMode extends Component {
 
 
     }
-    timesSetter = () => {
+    timesSetter(){
         const {time } = this.state;
 
         this.setState(() => ({
@@ -102,7 +102,7 @@ class FeverMode extends Component {
     //         currentMyImage : this.webcamRef.current.getScreenshot(),
     //     })
     // }
-    capture = () => {
+    capture(){
         let min = 0;
         let max = 15;
         let randInt = min+ parseInt(Math.random() *(max-min));
@@ -231,7 +231,7 @@ class FeverMode extends Component {
                         </div>
                     </div>
                     <div className='d-flex d-ho-center'>
-                        <button onClick={this.clickEnd()} className='button-orange-s mt-5'>End Fever</button>
+                        <button id='fever-mode-click-end' onClick={this.clickEnd()} className='button-orange-s mt-5'>End Fever</button>
                     </div>
 
                 </div>

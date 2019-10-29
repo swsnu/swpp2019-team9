@@ -30,7 +30,7 @@ class FeverReady extends Component {
             this.timerAction();
         }, 1000);
     }
-    timerAction = () => {
+    timerAction(){
         const time = this.state.time;
         // component update
         this.setState(() => ({  // setState is asynchronous
@@ -75,7 +75,7 @@ class FeverReady extends Component {
                     </div>
                 </div>
                 <div className='d-flex d-ho-center mt-5'>
-                    <button className='button-orange-s' onClick={this.clickSkip()}>Skip</button>
+                    <button id='fever-ready-click-skip' className='button-orange-s' onClick={this.clickSkip()}>Skip</button>
                 </div>
             </div>
         )
