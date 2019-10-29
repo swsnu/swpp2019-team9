@@ -16,7 +16,7 @@ matrix:
       before_install: 
         - "cd fevertime_backend"
       install: 
-        - "pip install pylint coverage django corsheaders"
+        - "pip install pylint coverage django django-cors-headers"
       language: python
       python: 
         - "3.6"
