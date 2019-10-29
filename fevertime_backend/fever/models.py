@@ -11,6 +11,7 @@ class Fever_history(models.Model):
         related_name='fever_history_user'
     )
     category = models.CharField(max_length=45)
+    etcCategory = models.CharField(max_length=45, blank=True, default=None)
 
     start_time = models.DateTimeField(auto_now_add=True)
     end_time = models.DateTimeField(auto_now=True)
