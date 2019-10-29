@@ -7,7 +7,9 @@ matrix:
     - cd fevertime_frontend
     install:                                      # Script to install required packages
     - yarn install
+    - npm install eslint --save-dev
     script:                                       # Script to test your build
+    - ./node_modules/.bin/eslint --init
     - ./node_modules/.bin/eslint src
     - yarn test --coverage --watchAll=false
   - language: python
