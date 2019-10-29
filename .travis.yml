@@ -21,4 +21,4 @@ matrix:
     - coverage run --source='.' manage.py test
     - coverage report --fail-under=70
 #    - pylint **/*.py
-# ...
+
