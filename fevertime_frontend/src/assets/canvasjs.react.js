@@ -19,7 +19,7 @@ class CanvasJSChart extends React.Component {
 		if(this.props.onRef)
 			this.props.onRef(this.chart);
 	}	
-    shouldComponentUpdate(nextProps, nextState){
+    shouldComponentUpdate(nextProps){ //shouldComponentUpdate(nextProps, nextState){ erased nextstate for eslint
 		//Check if Chart-options has changed and determine if component has to be updated
         return !(nextProps.options === this.options);
     }

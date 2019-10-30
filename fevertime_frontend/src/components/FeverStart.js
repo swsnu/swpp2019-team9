@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import {connect} from 'react-redux'
 import * as Types from '../store/actions/actionTypes'
 import TimeField from 'react-simple-timefield';
@@ -31,7 +30,7 @@ class FeverStart extends Component {
         })
     }
 
-    startFever = (e) => {
+    startFever = () => {
         if(this.state.goalTime==='00:00') alert('Insert your goalTime!')
         else if(this.state.selectedCategory==='') alert('Select the category!')
         else if(this.state.selectedCategory!=='Etc.'){

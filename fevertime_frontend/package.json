@@ -55,16 +55,17 @@
       "!src/assets/canvasjs.min.js",
       "!src/assets/canvasjs.react.js"
     ],
-    "coverageThreshold" : {
-      "global" : {
-        "branch" : 70,
-        "functions" : 70,
-        "lines" : 70,
-        "statements" : 70
+    "coverageThreshold": {
+      "global": {
+        "branch": 70,
+        "functions": 70,
+        "lines": 70,
+        "statements": 70
       }
     }
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.3",
     "eslint": "^6.5.1",
     "eslint-plugin-react": "^7.16.0"
   }

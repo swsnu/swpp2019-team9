@@ -94,6 +94,7 @@ describe('FeverMode', () => {
         const wrapper = component.find('#fever-mode-click-end');
         wrapper.simulate('click');
         expect(spyputFeverHistory).toBeCalledTimes(1);
+
     });
 
 

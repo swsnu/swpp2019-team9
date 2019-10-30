@@ -7,8 +7,11 @@ module.exports = {
     "extends": ["eslint:recommended", 'plugin:react/recommended'],
     "globals": {
         "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
+        "SharedArrayBuffer": "readonly",
+        "process": true,
+        "global": true
     },
+    "parser": "babel-eslint",
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
