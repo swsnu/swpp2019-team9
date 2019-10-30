@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import avatar from '../assets/img/man-avatar.jpg';
 import Camera from "react-html5-camera-photo";
-import {Link} from "react-router-dom";
-import axios from "axios"
+
 import {connect} from 'react-redux'
 import * as actionCreators from '../store/actions/index';
 import { withRouter } from 'react-router';
