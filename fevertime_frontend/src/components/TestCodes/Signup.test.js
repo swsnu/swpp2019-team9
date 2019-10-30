@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import Signup from '../Signup';
 import { getMockStore } from '../../test-utils/mocks';
@@ -10,11 +10,11 @@ import axios from "axios"
 
 const mockStore = getMockStore({},{});
 
-axios.post = jest.fn(url => {
-    return new Promise((resolve, reject) => {
+axios.post = jest.fn(() => {
+    return new Promise((resolve,) => {
       const result = {
         status: 201,
-        data: stubCMs
+        data: {}
       };
       resolve(result);
     })})

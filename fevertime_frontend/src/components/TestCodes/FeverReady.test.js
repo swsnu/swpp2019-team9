@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import * as FeverReady from '../FeverReady';
 import { getMockStore } from '../../test-utils/mocks';
@@ -32,7 +32,7 @@ describe('FeverReady', () => {
     })
     it('should render', () => {
         const spypostFeverHistory = jest.spyOn(actionCreator, 'postFeverHistory')
-            .mockImplementation((cat,etcCat) => { return dispatch => {}; });
+            .mockImplementation(() => { return () => {}; });
         jest.useFakeTimers();
         const originalError = console.error;
         const error = jest.fn()
@@ -57,7 +57,7 @@ describe('FeverReady', () => {
 
     it(`should call 'putFeverHistory'`, () => {
         const spypostFeverHistory = jest.spyOn(actionCreator, 'postFeverHistory')
-            .mockImplementation(hid => { return dispatch => {}; });
+            .mockImplementation(() => { return () => {}; });
         const component = mount(feverReady);
         const wrapper = component.find('#fever-ready-click-skip');
         wrapper.simulate('click');

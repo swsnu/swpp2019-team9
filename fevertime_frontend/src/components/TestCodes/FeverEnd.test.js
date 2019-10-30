@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import FeverEnd from '../FeverEnd';
 import { getMockStore } from '../../test-utils/mocks';

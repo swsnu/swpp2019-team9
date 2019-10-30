@@ -1,13 +1,8 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
-import { Provider } from 'react-redux';
+import { shallow } from 'enzyme';
 import StackedColumnChart from '../Chart/StackedColumnChart';
-import { getMockStore } from '../../test-utils/mocks';
 
-import { history } from '../../store/store';
-import {ConnectedRouter} from "connected-react-router";
-
-const mockStore = getMockStore({},{});
+//const mockStore = getMockStore({},{});
 
 describe('FeverEnd', () => {
 

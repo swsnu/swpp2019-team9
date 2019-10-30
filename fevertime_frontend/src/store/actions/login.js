@@ -1,7 +1,6 @@
 import * as actionTypes from './actionTypes';
 import { push } from 'connected-react-router';
 import axios from 'axios'
-import { history } from '../store';
 
 export const loginUser_ = (user) => {
     return { 
@@ -18,13 +17,13 @@ export const loginUser = (user) => {
                 dispatch(loginUser_(res.data));
                 dispatch(push('/feverstart'));
             })
-            .catch(error=>{
+            .catch(()=>{
                 //console.log(error)//have to define
             })
     };
 };
 
-export const logoutUser_ = (user) => {
+export const logoutUser_ = () => {
     return { 
         type: actionTypes.LOGOUT,
     };
@@ -32,7 +31,7 @@ export const logoutUser_ = (user) => {
 export const logoutUser = () => {
     return dispatch => {
         return axios.get('/api/user/signout/')
-            .then(res => {
+            .then(() => {
                 dispatch(logoutUser_());
                 dispatch(push('/'));
             })

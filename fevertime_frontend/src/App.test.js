@@ -1,10 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import App from './App';
 import { getMockStore } from './test-utils/mocks';
-import {Link} from "react-router-dom";
 import { history } from './store/store';
 const mockStore = getMockStore({},{});
 

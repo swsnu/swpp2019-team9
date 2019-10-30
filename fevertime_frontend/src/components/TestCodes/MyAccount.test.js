@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import MyAccount from '../MyAccount';
 import { getMockStore } from '../../test-utils/mocks';
@@ -20,7 +20,7 @@ describe('MyAccount', () => {
                 </ConnectedRouter>
             </Provider>
         );
-        loginAction.getUserInfo =jest.fn(()=>{return dispatch=>{}});
+        loginAction.getUserInfo =jest.fn(()=>{return ()=>{}});
     })
     it('should render', () => {
         const component = mount(myaccount);

@@ -1,13 +1,11 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import FeverStart from '../FeverStart';
 import { getMockStore } from '../../test-utils/mocks';
 
 import { history } from '../../store/store';
 import {ConnectedRouter} from "connected-react-router";
-import TimeField from 'react-simple-timefield';
-import * as feverAction from '../../store/actions/fever';
 
 
 
@@ -42,10 +40,10 @@ describe('FeverStart', () => {
         const goal='01:10';
         const selectedETC = 'testetc'
         const component = mount(feverStart)
-        const button = component.find("#study-radio").simulate('change')
-        const button2 = component.find("#work-radio").simulate('change')
-        const button3 = component.find("#read-radio").simulate('change')
-        const button4 = component.find("#etc-radio").simulate('change')
+        component.find("#study-radio").simulate('change')
+        component.find("#work-radio").simulate('change')
+        component.find("#read-radio").simulate('change')
+        component.find("#etc-radio").simulate('change')
         component.find("#etc-text").simulate('change',{target:{value:selectedETC}})
         const FeverStartInstance = component.find(FeverStart.WrappedComponent).instance();
         expect(FeverStartInstance.state.goalTime).not.toEqual(goal)
@@ -57,9 +55,8 @@ describe('FeverStart', () => {
     })
     it('should give alert',()=>{
         const goal='01:10';
-        const selectedETC = 'testetc'
         const component = mount(feverStart)
-        const button4 = component.find("#etc-radio").simulate('change')
+        component.find("#etc-radio").simulate('change')
         const FeverStartInstance = component.find(FeverStart.WrappedComponent).instance();
         FeverStartInstance.setState({goalTime:goal})
         component.find("#start-button").simulate('click')

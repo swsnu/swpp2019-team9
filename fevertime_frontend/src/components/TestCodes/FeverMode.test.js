@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import * as FeverMode from '../FeverMode';
 import { getMockStore } from '../../test-utils/mocks';
@@ -90,7 +89,7 @@ describe('FeverMode', () => {
 
     it(`should call 'putFeverHistory'`, () => {
         const spyputFeverHistory = jest.spyOn(actionCreator, 'putFeverHistory')
-            .mockImplementation(hid => { return dispatch => {}; });
+            .mockImplementation(() => { return () => {}; });
         const component = mount(feverMode);
         const wrapper = component.find('#fever-mode-click-end');
         wrapper.simulate('click');

@@ -1,12 +1,11 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import Friends from '../Friends';
 import { getMockStore } from '../../test-utils/mocks';
 
 import { history } from '../../store/store';
 import {ConnectedRouter} from "connected-react-router";
-import PopUpFilled from '../component/PopupFilled'
 
 const mockStore = getMockStore({},{});
 jest.mock('../component/PopupFilled', () => {

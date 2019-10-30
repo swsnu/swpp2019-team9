@@ -20,8 +20,8 @@ describe('ActionCreators', () => {
         jest.clearAllMocks();
     })
     it('login user', (done) => {
-        axios.post = jest.fn(url => {
-            return new Promise((resolve, reject) => {
+        axios.post = jest.fn(() => {
+            return new Promise((resolve) => {
                 const result = {
                     status: 200,
                     data: stubUser
@@ -55,8 +55,8 @@ describe('ActionCreators', () => {
     */
    //handle later
     it('get user logged in', (done) => {
-        axios.get = jest.fn(url => {
-            return new Promise((resolve, reject) => {
+        axios.get = jest.fn(() => {
+            return new Promise((resolve) => {
                 const result = {
                     status: 200,
                     data: stubUser
@@ -71,8 +71,8 @@ describe('ActionCreators', () => {
         });
     });
     it('get user not logged in', (done) => {
-        axios.get = jest.fn(url => {
-            return new Promise((resolve, reject) => {
+        axios.get = jest.fn(() => {
+            return new Promise((resolve) => {
                 const result = {
                     status: 204,
                     data: stubUserGet
@@ -87,8 +87,8 @@ describe('ActionCreators', () => {
         });
     });
     it('logout user', (done) => {
-        axios.get = jest.fn(url => {
-            return new Promise((resolve, reject) => {
+        axios.get = jest.fn(() => {
+            return new Promise((resolve) => {
                 const result = {
                     status: 200,
                     data: stubUser

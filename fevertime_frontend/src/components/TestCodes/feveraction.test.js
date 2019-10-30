@@ -6,20 +6,14 @@ import store from '../../store/store';
 const stubhistory={
     id: 1,
 };
-const stubPuthistory={
-    id: 1,
-    total_time: 1,
-    fever_time: 1,
-    fever_rate: 1,
-};
 
 describe('ActionCreators', () => {
     afterEach(() => {
         jest.clearAllMocks();
     })
     it('make new history', (done) => {
-        axios.post = jest.fn(url => {
-            return new Promise((resolve, reject) => {
+        axios.post = jest.fn(() => {
+            return new Promise((resolve) => {
                 const result = {
                     status: 200,
                     data: stubhistory
@@ -36,8 +30,8 @@ describe('ActionCreators', () => {
 
     it('close history', (done) => {
         console.log = jest.fn();
-        axios.put = jest.fn(url => {
-            return new Promise((resolve, reject) => {
+        axios.put = jest.fn(() => {
+            return new Promise((resolve) => {
                 const result = {
                     status: 200,
                     data: stubhistory
