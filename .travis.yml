@@ -22,9 +22,7 @@ matrix:
         - "3.6"
       script:
         - "ls"
-        - "python manage.py makemigrations"
-        - "python manage.py makemigrations user"
-        - "python manage.py migrate user"
+        - "python manage.py makemigrations user fever admin auth contenttypes sessions   "
         - "python manage.py migrate"
         - "coverage run --source='.' manage.py test"
         - "coverage report --fail-under=70"
