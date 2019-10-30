@@ -22,6 +22,7 @@ matrix:
         - "3.6"
       script:
         - "python manage.py makemigrations"
+        - "ls"
         - "python manage.py migrate --run-syncdb"
         - "coverage run --source='.' manage.py test"
         - "coverage report --fail-under=70"
