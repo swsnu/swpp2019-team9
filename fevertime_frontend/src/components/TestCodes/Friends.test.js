@@ -9,7 +9,7 @@ import {ConnectedRouter} from "connected-react-router";
 import PopUpFilled from '../component/PopupFilled'
 
 const mockStore = getMockStore({},{});
-jest.mock('../component/PopUpFilled', () => {
+jest.mock('../component/PopupFilled', () => {
     return jest.fn(props => {
       return (
         <div className="spyAddGroupPopup">
