@@ -21,7 +21,8 @@ matrix:
       python: 
         - "3.6"
       script:
-        - "python manage.py migrate"
+        - "python manage.py makemigrations"
+        - "python manage.py migrate --run-syncdb"
         - "coverage run --source='.' manage.py test"
         - "coverage report --fail-under=70"
         - "pylint **/*.py"
