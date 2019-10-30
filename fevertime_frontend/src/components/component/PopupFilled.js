@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Modal, Button} from 'react-bootstrap'
+import PropTypes from 'prop-types';
 class PopupFilled extends Component {
     constructor(props){
         super(props);
@@ -44,4 +45,14 @@ PopupFilled.defaultProps = {
     buttonClose: 'cancel',
     buttonConfirm: 'Confirm'
 };
+PopupFilled.propTypes={
+    show:PropTypes.bool,
+    modalTitle:PropTypes.string,
+    content:PropTypes.string,
+    clickClose:PropTypes.func,
+    buttonClose:PropTypes.func,
+    clickConfirm:PropTypes.func,
+    buttonConfirm:PropTypes.func,
+    changeContent:PropTypes.func
+}
 export default PopupFilled;

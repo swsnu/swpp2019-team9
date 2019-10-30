@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import {connect} from 'react-redux'
+import PropTypes from 'prop-types';
 
 class MyAccount extends Component {
     state={
@@ -40,6 +41,9 @@ class MyAccount extends Component {
             </div>
         )
     }
+}
+MyAccount.propTypes={
+    storedMyAccount:PropTypes.object
 }
 
 const mapStateToProps = state =>{

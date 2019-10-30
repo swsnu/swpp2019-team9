@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from "axios";
+import PropTypes from 'prop-types';
 /* 
     need /api/user/signup/
         post(ID, Nickname, Password) : make new user
@@ -141,5 +142,8 @@ class Signup extends Component {
             </div>
         )
     }
+}
+Signup.propTypes={
+    history: PropTypes.object
 }
 export default Signup;

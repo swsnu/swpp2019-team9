@@ -5,7 +5,7 @@ import Camera from "react-html5-camera-photo";
 import {connect} from 'react-redux'
 import * as actionCreators from '../store/actions/index';
 import { withRouter } from 'react-router';
-
+import PropTypes from 'prop-types'
 class FeverReady extends Component {
 
     constructor(props){
@@ -79,6 +79,11 @@ class FeverReady extends Component {
             </div>
         )
     }
+}
+FeverReady.propTypes={
+    selectedCategory:PropTypes.object,
+    etcCategory:PropTypes.object,
+    postFeverHistory:PropTypes.func
 }
 const mapStateToProps = state => {
     return {

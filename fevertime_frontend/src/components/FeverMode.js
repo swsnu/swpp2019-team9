@@ -8,7 +8,7 @@ import AlarmModal from './component/PopUpModal'
 import 'react-html5-camera-photo/build/css/index.css';
 import Webcam from "react-webcam";
 import * as actionCreators from "../store/actions";
-
+import PropTypes from 'prop-types';
 
 
 class FeverMode extends Component {
@@ -238,6 +238,13 @@ class FeverMode extends Component {
             </div>
         )
     }
+}
+FeverMode.propTypes={
+    selectedCategory:PropTypes.object,
+    etcCategory:PropTypes.object,
+    hid:PropTypes.number,
+    goalTime:PropTypes.number,
+    putFeverHistory:PropTypes.func
 }
 
 const mapStateToProps = state =>{

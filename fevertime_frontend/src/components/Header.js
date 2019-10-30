@@ -4,6 +4,7 @@ import '../App.css'
 import { Link } from 'react-router-dom';
 import {connect} from 'react-redux';
 import * as actionCreators from "../store/actions/index";
+import PropTypes from 'prop-types';
 class Header extends Component {
     constructor(props){
         super(props);
@@ -42,6 +43,10 @@ class Header extends Component {
             </div>
         )
     }
+}
+Header.propTypes={
+    storedMyAccount:PropTypes.object,
+    onLogoutUser:PropTypes.func
 }
 const mapStateToProps = state =>{
     return{

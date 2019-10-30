@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 var React = require('react');
 var CanvasJS = require('./canvasjs.min');
 CanvasJS = CanvasJS.Chart ? CanvasJS : window.CanvasJS;
@@ -44,5 +45,11 @@ var CanvasJSReact = {
     CanvasJSChart: CanvasJSChart,
     CanvasJS: CanvasJS
 };
+
+CanvasJSChart.propTypes={
+    options:PropTypes.object,
+    containerProps:PropTypes.object,
+    onRef:PropTypes.func
+}
 
 export default CanvasJSReact;
