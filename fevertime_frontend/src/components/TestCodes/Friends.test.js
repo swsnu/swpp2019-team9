@@ -13,9 +13,9 @@ jest.mock('../component/PopupFilled', () => {
     return jest.fn(props => {
       return (
         <div className="spyAddGroupPopup">
-            <button id="spyConfirm" onClick={this.props.clickConfirm}/>
-            <button id="spyClose" onClick={this.props.clickClose}/>
-            <input id='spyContent' onChange={this.props.changeContent}/>
+            <button id="spyConfirm" onClick={props.clickConfirm}/>
+            <button id="spyClose" onClick={props.clickClose}/>
+            <input id='spyContent' onChange={props.changeContent}/>
         </div>
         );
     });
