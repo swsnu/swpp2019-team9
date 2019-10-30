@@ -9,8 +9,8 @@ class Main extends Component {
         return (
             <div className='f-xlarge t-center Main'>
                 <div className='d-flex'>
-                    <div className='w-20'></div>
-                    <div className='w-60'>
+                    <div className='w-30'></div>
+                    <div className='w-40'>
                         <Carousel>
                             <Carousel.Item>
                                 <img

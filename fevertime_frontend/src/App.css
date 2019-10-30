@@ -115,6 +115,7 @@
   position: absolute;
 }
 
+
 /* Width */
 .w-10{
   width: 10%;
@@ -304,4 +305,9 @@
 /*camera click button*/
 .ready-camera-size > div > #container-circles{
   display: none;
+}
+
+.etc-radio{
+  margin-top: 5px;
+  margin-right: 20px;
 }
