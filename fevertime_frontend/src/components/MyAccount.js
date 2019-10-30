@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import * as actionCreators from "../store/actions/index";
 import {connect} from 'react-redux'
 
 class MyAccount extends Component {
@@ -48,7 +47,7 @@ const mapStateToProps = state =>{
         storedMyAccount:state.login,
     };
 };
-const mapDispatchToProps = dispatch =>{
+const mapDispatchToProps = () =>{
     return{
     };
 };

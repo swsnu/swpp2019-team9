@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import axios from "axios";
-import PopUpModal from "./component/PopUpModal"
 /* 
     need /api/user/signup/
         post(ID, Nickname, Password) : make new user
@@ -60,8 +58,8 @@ class Signup extends Component {
                                 nickname : this.state.Nickname,
                                 password : this.state.Password,},
                                 )
-                        .then(res => {this.props.history.push('/login')})
-                        .catch(error => {
+                        .then(() => {this.props.history.push('/login')})
+                        .catch(() => {
                             LocalWrongInput[0]="ID exists"
                             this.setState({WrongInput : LocalWrongInput})})
             
@@ -116,8 +114,8 @@ class Signup extends Component {
                     <div className='w-20'></div>
                     <input className='checkbox' type='checkbox'
                             id="Term_Use_button"
-                            onChange={(event => this.setState({
-                                Term_of_Use: !this.state.Term_of_Use}))}
+                            onChange={() => this.setState({
+                                Term_of_Use: !this.state.Term_of_Use})}
                     />
                     <div className='ml-1'>Terms of Use</div>
                     {this.state.WrongInput[4]}
@@ -126,7 +124,7 @@ class Signup extends Component {
                     <div className='w-20'></div>
                     <input className='checkbox' type='checkbox'
                             id="Term_Personal_button"
-                            onChange={(event => this.setState({
+                            onChange={(() => this.setState({
                                 Term_of_Personal_info: !this.state.Term_of_Personal_info}))}
                     />
                     <div className='ml-1'>Collect and use of personal information</div>

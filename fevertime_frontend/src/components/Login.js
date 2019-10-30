@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect,Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import * as actionCreators from "../store/actions/index";
 import {connect} from 'react-redux'
 
