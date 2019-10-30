@@ -6,9 +6,9 @@ import { getMockStore } from '../../test-utils/mocks';
 
 import { history } from '../../store/store';
 import {ConnectedRouter} from "connected-react-router";
+import PopUpFilled from '../component/PopupFilled'
 
 const mockStore = getMockStore({},{});
-
 jest.mock('../component/PopUpFilled', () => {
     return jest.fn(props => {
       return (
@@ -20,7 +20,6 @@ jest.mock('../component/PopUpFilled', () => {
         );
     });
 });
-
 describe('Friends', () => {
     let friends;
     beforeEach(() => {
