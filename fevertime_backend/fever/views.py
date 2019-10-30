@@ -22,6 +22,7 @@ def fever_history(request):
         category = req_data['category']
         etcCategory = req_data['etcCategory']
 
+
         # user = request.user
         newfever = Fever_history(category=category, user=request.user, etcCategory=etcCategory)
         newfever.save()
@@ -71,7 +72,7 @@ def fever_history(request):
     else:
         return HttpResponse(status=405)
 
-@csrf_exempt
+# @csrf_exempt
 def fever_progress(request):
     if request.method == 'POST':
         req_data = json.loads(request.body.decode())
@@ -96,12 +97,22 @@ def fever_progress(request):
 
         #######################
         return HttpResponse(status=200)
+    elif request.method == 'GET':
+        #10 분에 한번씩 fever rate 가져오기
+        return HttpResponse(status=200)
     else:
         return HttpResponse(status=405)
 
-@csrf_exempt
+# @csrf_exempt
 def fever_exception(request):
     if request.method == 'GET':
+        req_data = json.loads(request.body.decode())
+        hid = req_data['id']
+        fever = Fever_history.objects.filter(id=hid)
+        try:
+            fever = fever[0]
+        except IndexError:
+            return HttpResponse(status=404)
         return HttpResponse(status=200)
     else:
         return HttpResponse(status=405)
