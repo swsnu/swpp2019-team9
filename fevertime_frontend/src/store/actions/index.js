@@ -1,9 +1,10 @@
-import {loginUser,getUserInfo,logoutUser} from "./login"
+import {loginUser,getUserInfo,logoutUser,ChangeMyAccount} from "./login"
 
 export {
     loginUser,
     getUserInfo,
     logoutUser,
+    ChangeMyAccount,
 }
 
 export {

@@ -20,9 +20,8 @@ def signup(request):
             return HttpResponseBadRequest()
         if User.objects.filter(username=username).exists():
             return HttpResponse(status=401)
-        User.objects.create_user(username = username, password = password, nickname=nickname)
+        User.objects.create_user(username=username, password=password, nickname=nickname)
         return HttpResponse(status=201)
-
     else:
         return HttpResponseNotAllowed(['POST'])
 
@@ -73,8 +72,10 @@ def user(request):
             user_password=json.loads(body)['password']
         except (KeyError, JSONDecodeError):
             return HttpResponseBadRequest()        #400
+        #Changing_User = User.objects.get(id=request.user.id)
         request.user.set_password(user_password)
         request.user.nickname=user_nickname
+        request.user.save()
         response_dict={
             'id': request.user.id,
             'username': request.user.username,
