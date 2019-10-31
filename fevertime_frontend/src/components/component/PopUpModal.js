@@ -42,9 +42,9 @@ PopUpModal.propTypes={
     clickClose:PropTypes.func,
     modalTitle:PropTypes.string,
     content:PropTypes.string,
-    buttonClose:PropTypes.func,
+    buttonClose:PropTypes.string,
     clickConfirm:PropTypes.func,
-    buttonConfirm:PropTypes.func
+    buttonConfirm:PropTypes.string
 }
 
 export default PopUpModal;

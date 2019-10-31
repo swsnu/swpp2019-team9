@@ -1,14 +1,11 @@
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest,JsonResponse
-from .models import User
 import json
 from json import JSONDecodeError
-from .models import User
+from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest,JsonResponse
 from django.contrib.auth import authenticate, login, logout
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
+from .models import User
 # Create your views here.
 
-def signup(request):    
+def signup(request):   
     if request.method == 'POST':
         try:
             req_data = json.loads(request.body.decode())
@@ -17,10 +14,10 @@ def signup(request):
             password = req_data['password']
 
 #            if(len(nickname)>64):
-#                return HttpResponseBadRequest() 
+#                return HttpResponseBadRequest()
 #           lets check this in frontend
-        except (KeyError, json.JSONDecodeError) as e:
-            return HttpResponseBadRequest()    
+        except (KeyError, json.JSONDecodeError):
+            return HttpResponseBadRequest()
         if User.objects.filter(username=username).exists():
             return HttpResponse(status=401)
         User.objects.create_user(username = username, password = password, nickname=nickname)
@@ -37,10 +34,12 @@ def signin(request):
             password = json.loads(body)['password']
         except(KeyError, JSONDecodeError):
             return HttpResponseBadRequest()         #400
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
+        signin_user = authenticate(request, username=username, password=password)
+        if signin_user is not None:
             login(request,user)
-            res_dict={'id':user.id, 'username':user.username, 'nickname':user.nickname}
+            res_dict={'id':signin_user.id, 
+                      'username':signin_user.username,
+                      'nickname':signin_user.nickname}
             return JsonResponse(res_dict,status=200)
         else:
             return HttpResponse(status=401)
@@ -61,7 +60,9 @@ def user(request):
     if request.method == 'GET':
         if not request.user.is_authenticated:
             return HttpResponse(status=204)
-        res_dict={'id':request.user.id, 'username':request.user.username, 'nickname':request.user.nickname}
+        res_dict={'id':request.user.id, 
+                  'username':request.user.username,
+                  'nickname':request.user.nickname}
         return JsonResponse(res_dict,status=200)
     elif request.method =='PUT':
         if not request.user.is_authenticated:
@@ -84,4 +85,4 @@ def user(request):
         return HttpResponse()
         #delete user
     else:
-        return HttpResponseNotAllowed(['GET,PUT,DELETE'])     #405
+        return HttpResponseNotAllowed(['GET','PUT','DELETE'])     #405
