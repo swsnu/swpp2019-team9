@@ -277,6 +277,10 @@
   display: flex;
 
 }
+.camera-size >video{
+  width: 160px !important;
+  height: 160px !important;
+}
 
 .camera-size > div > video{
   width: 160px !important;

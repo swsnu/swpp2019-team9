@@ -97,7 +97,7 @@ class FeverMode extends Component {
                 this.setState((prevState) => ({
                     sec: time - (prevState.hour * 3600) - (prevState.min * 60),  // prevState means just changed valud. Without this, sec will be -1
                 }),()=>{
-                    if(time % 60 === 59){
+                    if(time % 20 === 5){
                         this.capture();
                     }
                 });
@@ -182,10 +182,10 @@ class FeverMode extends Component {
                             <div className='camera-size'>
                                 <Webcam
                                     audio={false}
-                                    height={160}
+                                    height={700}
                                     ref={this.webcamRef}
                                     screenshotFormat="image/jpeg"
-                                    width={160}
+                                    width={700}
                                     videoConstraints={this.state.videoConstraints}
                                     mirrored ={true}
                                 />
@@ -195,10 +195,10 @@ class FeverMode extends Component {
                             <Webcam
                                     className='invisible-fevermode-webcam'
                                 audio={false}
-                                height={160}
+                                height={700}
                                 ref={this.webcamRef}
                                 screenshotFormat="image/jpeg"
-                                width={160}
+                                width={700}
                                 videoConstraints={this.state.videoConstraints}
                                 mirrored ={true}
                         />)}
