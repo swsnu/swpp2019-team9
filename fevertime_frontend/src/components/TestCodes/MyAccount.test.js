@@ -34,7 +34,7 @@ describe('MyAccount', () => {
         loginAction.ChangeMyAccount = jest.fn(()=>{return ()=>{}});
         window.alert = jest.fn(()=>{return ()=>{}});
         spyhistoryPush = jest.spyOn(history, 'push')
-        .mockImplementation(() => { return path => {}; });
+        .mockImplementation(() => { return () => {}; });
 
     })
     

@@ -86,7 +86,9 @@ class MyAccount extends Component {
     }
 }
 MyAccount.propTypes={
-    storedMyAccount:PropTypes.object
+    storedMyAccount:PropTypes.object,
+    changeMyAccount:PropTypes.func,
+    histroy:PropTypes.object,
 }
 
 const mapStateToProps = state =>{

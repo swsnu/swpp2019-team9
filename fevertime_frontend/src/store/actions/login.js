@@ -26,7 +26,7 @@ export const loginUser = (user) => {
 export const ChangeMyAccount = (pkt) => {
     return dispatch => {
         return axios.put('/api/user/',pkt)
-            .then(res => {
+            .then(() => {
                 dispatch({type:actionTypes.LOGOUT});
             })
             .catch(()=>{
