@@ -9,7 +9,7 @@ class UserTestCase(TestCase):
         self.preclient = Client()
         self.preclient.post('/api/user/signup/', json.dumps(
             {'username': 'SY', "nickname":"SYLEE",'password': 'Lee'}),
-                    content_type='application/json')
+                            content_type='application/json')
 
     def tearDown(self):
         pass
