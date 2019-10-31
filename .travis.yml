@@ -9,9 +9,16 @@ matrix:
       language: node_js
       node_js: 
         - "10"
+      dist: trusty
+      addons:
+        sonarcloud:
+          organization: "swsnu"
+          token:
+            secure: "YahofWlucG9xFl/LZsXiU0MUWyhS9l0oh/TSDJcoykiN1cE9nl2wNPLIAzwvjmQiyIfG5GHIKHKthgXhz33Xs8enZ5kfx60U6NlkLwLd5XX+Yxqr7ml+SDk8i1dl91UbXLSvLoISCOaBK214IXFzQxdXB7/mrN3vTB5gSrLlzQcGmHGi+rwc+QWr8sHcj2Y/VdDFgtj5eHf74gbA3ZWkpAERRjGzE1+w87fiHQZRle+jTMYANmlYo3K3oyFma/IoK84SnnXG/aEmqMx9IMneZPDKHhltd+QuEYeB6l8SALgEt/qBDN7vGYyfgNxsbOuYF3SyQFHFPOHopsoV9VAPQvs6d+4g97gDOspYVZ4wgpTo9Gp127k+nodawtWHvAqiayrOexvVAI3ngItnKtqbYiyZco+WD4iLujfOsILR0JXMsLEpokd9VItPUhgWwzwk6PuMqnMObdzwt6/V/7dbjhiGsEgaP7W20LMoZwOl0Zq75PqNAZQZU0kgXc+GIOI2gh4ERGqbHhvJASM65x90YtJIPcuvl24CyyR4BcHgGY33Rs8AjfTU/CZshHUHLkuwrjsc1krVJEuBZaB6UENU1ua/HIWYeRgmAIp16MGyXNe682KLuAKTGBFie0PadflaAxGaex9/ye0KQ6NkRGRHsEL1h/8QK+/xfQlegjHt8AY="
       script: 
         - "./node_modules/.bin/eslint src"
         - "yarn test --coverage --watchAll=false"
+        - "sonar-scanner"
     - 
       before_install: 
         - "cd fevertime_backend"
@@ -27,3 +34,4 @@ matrix:
         - "coverage run --source='.' manage.py test"
         - "coverage report --fail-under=70"
         - "pylint **/*.py"
+

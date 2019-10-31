@@ -10,6 +10,7 @@ import Webcam from "react-webcam";
 import Camera from "react-html5-camera-photo";
 import * as actionCreators from "../store/actions";
 import qs from'query-string'
+import PropTypes from 'prop-types';
 
 
 
@@ -242,6 +243,13 @@ class FeverMode extends Component {
             </div>
         )
     }
+}
+FeverMode.propTypes={
+    selectedCategory:PropTypes.object,
+    etcCategory:PropTypes.object,
+    hid:PropTypes.number,
+    goalTime:PropTypes.number,
+    putFeverHistory:PropTypes.func
 }
 
 const mapStateToProps = state =>{

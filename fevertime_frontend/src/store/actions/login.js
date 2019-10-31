@@ -23,6 +23,18 @@ export const loginUser = (user) => {
     };
 };
 
+export const ChangeMyAccount = (pkt) => {
+    return dispatch => {
+        return axios.put('/api/user/',pkt)
+            .then(() => {
+                dispatch({type:actionTypes.LOGOUT});
+            })
+            .catch(()=>{
+                //console.log(error)//have to define
+            })
+    };
+};
+
 export const logoutUser_ = () => {
     return { 
         type: actionTypes.LOGOUT,

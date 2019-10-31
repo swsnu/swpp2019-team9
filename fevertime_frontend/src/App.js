@@ -15,7 +15,8 @@ import MyData from "./components/MyData";
 import Friends from "./components/Friends";
 import {connect} from 'react-redux'
 import * as actionCreators from "./store/actions/index";
-
+import PropTypes from 'prop-types'
+import Group from "./components/Group";
 class App extends React.Component{
     componentDidMount(){
         this.props.onGetUser()
@@ -35,10 +36,15 @@ class App extends React.Component{
                     <Route path="/feverend" component={FeverEnd}/>
                     <Route path="/mydata" component={MyData}/>
                     <Route path="/friends" component={Friends}/>
+                    <Route path="/group" component={Group}/>
                 </ConnectedRouter>
             </div>
         );
     }
+}
+App.propTypes={
+    history:PropTypes.object,
+    onGetUser:PropTypes.func
 }
 const mapDispatchToProps = dispatch => {
     return {

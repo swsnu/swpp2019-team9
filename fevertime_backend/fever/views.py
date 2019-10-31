@@ -1,17 +1,11 @@
-import urllib
-
-from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
-from django.conf import settings
-from django.contrib.auth import get_user_model
-from django.contrib.auth import authenticate, login, logout
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
-from .models import Fever_history, Fever_progress
 import json
-import datetime
-from pytz import timezone, utc
+from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
+
 import requests
 import base64
+
+from .models import Fever_history, Fever_progress
 
 
 
@@ -159,8 +153,6 @@ def fever_progress(request):
         except Exception as e:
             print(e)
             return HttpResponse(status=400)
-
-        #######################
 
     elif request.method == 'GET':
         #10 분에 한번씩 fever rate 가져오기
