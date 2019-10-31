@@ -36,7 +36,7 @@ def signin(request):
             return HttpResponseBadRequest()         #400
         signin_user = authenticate(request, username=username, password=password)
         if signin_user is not None:
-            login(request,user)
+            login(request,signin_user)
             res_dict={'id':signin_user.id, 
                       'username':signin_user.username,
                       'nickname':signin_user.nickname}
