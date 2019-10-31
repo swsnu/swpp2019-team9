@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Friends.css'
 import AddGroupPopup from "./component/PopupFilled";
 import FriendsBar from '../components/component/FriendsBar'
+import PropTypes from 'prop-types';
 class Friends extends Component {
     constructor (props)
     {
@@ -104,5 +105,8 @@ class Friends extends Component {
             </div>
         )
     }
+}
+Friends.propTypes={
+    history:PropTypes.object,
 }
 export default Friends;
