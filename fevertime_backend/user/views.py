@@ -24,7 +24,7 @@ def signup(request):
         return HttpResponse(status=201)
 
     else:
-        HttpResponseNotAllowed(['POST'])
+        return HttpResponseNotAllowed(['POST'])
 
 def signin(request):
     if request.method =='POST':
