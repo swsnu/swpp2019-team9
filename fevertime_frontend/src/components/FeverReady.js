@@ -65,9 +65,7 @@ class FeverReady extends Component {
                         <div className='w-10 pr-3 t-right'></div>
                         <div className='w-50 f-large'>
                             <div className='ready-camera-size'>
-                                <Camera
-                                    onTakePhoto = { (dataUri) => { this.onTakePhoto(dataUri); } }
-                                />
+                                <Camera/>
                             </div>
                         </div>
 
