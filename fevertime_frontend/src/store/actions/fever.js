@@ -32,7 +32,7 @@ export const putFeverHistory_ = (data) => {
         hid: data.id,
         total_time: data.total_time,
         fever_time: data.fever_time,
-        fever_rate: data.fever_rate,
+        fever_rate: Math.ceil(data.fever_rate*100),
     };
 };
 
@@ -58,7 +58,7 @@ export const postFeverProgress = (hid, image) => {
             image : image
         })
             .then(res => {
-                console.log(res)
+                console.log(res.data)
             })
             .catch(error=>{
                 console.log(error)//have to define

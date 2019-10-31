@@ -275,20 +275,19 @@
 
 .camera-size{
   display: flex;
+  width:100px;
 
-}
-.camera-size >video{
-  width: 160px !important;
-  height: 160px !important;
 }
 
 .camera-size > div > video{
-  width: 160px !important;
-  height: 160px !important;
+  width: 150px !important;
+  height: 150px !important;
+  object-fit: cover;
+
 }
 /*camera click button*/
 .camera-size > div > #container-circles{
-  /*display: none;*/
+  display: none;
 }
 
 .icon-size{
@@ -314,4 +313,8 @@
 .etc-radio{
   margin-top: 5px;
   margin-right: 20px;
+}
+
+.good-word-box{
+  height: 200px;
 }

@@ -7,6 +7,7 @@ import '../App.css'
 import AlarmModal from './component/PopUpModal'
 import 'react-html5-camera-photo/build/css/index.css';
 import Webcam from "react-webcam";
+import Camera from "react-html5-camera-photo";
 import * as actionCreators from "../store/actions";
 import qs from'query-string'
 
@@ -27,8 +28,8 @@ class FeverMode extends Component {
             sec : 0,
             currentMyImage : avatar,
             videoConstraints : {
-                width: 160,
-                height: 160,
+                width: 700,
+                height: 700,
                 facingMode: "user"
             },
             selectedGoodWords : "Don’t be afraid your life will end be afraid. That it will never begin",
@@ -97,7 +98,7 @@ class FeverMode extends Component {
                 this.setState((prevState) => ({
                     sec: time - (prevState.hour * 3600) - (prevState.min * 60),  // prevState means just changed valud. Without this, sec will be -1
                 }),()=>{
-                    if(time % 20 === 5){
+                    if(time % 10 === 5){
                         this.capture();
                     }
                 });
@@ -120,7 +121,7 @@ class FeverMode extends Component {
             selectedGoodWords : this.state.goodwords[randInt].word,
             selectedGoodWordsMan : this.state.goodwords[randInt].man
         })
-        this.props.postFeverProgress(this.props.hid, this.webcamRef.current.getScreenshot());
+        this.props.postFeverProgress(this.state.hid, this.webcamRef.current.getScreenshot());
 
     }
 
@@ -157,7 +158,7 @@ class FeverMode extends Component {
     }
 
     clickEnd = () => () => {
-        this.props.putFeverHistory(this.props.hid);
+        this.props.putFeverHistory(this.state.hid);
     }
     render() {
         return (
@@ -178,30 +179,23 @@ class FeverMode extends Component {
                     <div>
 
                         { this.state.showCamera ?(
-                            //show camera 시 켜진 실제 카메라 모듈
-                            <div className='camera-size'>
-                                <Webcam
-                                    audio={false}
-                                    height={700}
-                                    ref={this.webcamRef}
-                                    screenshotFormat="image/jpeg"
-                                    width={700}
-                                    videoConstraints={this.state.videoConstraints}
-                                    mirrored ={true}
-                                />
-                                {/*<button onClick={this.capture()}>capture</button>*/}
-                            </div>) : (
-                            //show camera 안했을시 존재하는 화면밖의 가상의 카메라 모듈
-                            <Webcam
-                                    className='invisible-fevermode-webcam'
-                                audio={false}
-                                height={700}
-                                ref={this.webcamRef}
-                                screenshotFormat="image/jpeg"
-                                width={700}
-                                videoConstraints={this.state.videoConstraints}
-                                mirrored ={true}
-                        />)}
+                            //show camera 시 켜진 거울용 카메라 모듈
+                            <div className='w-50 f-large d-flex d-v-center'>
+                                <div className='camera-size'>
+                                    <Camera/>
+                                    {/*<button onClick={this.capture()}>capture</button>*/}
+                                </div>
+                            </div>) : ('')}
+                        <Webcam
+                            className='invisible-fevermode-webcam'
+                            audio={false}
+                            height={700}
+                            mirrored={true}
+                            ref={this.webcamRef}
+                            screenshotFormat="image/jpeg"
+                            width={700}
+                            videoConstraints={this.state.videoConstraints}
+                        />
                     </div>
                 </div>
                 <div className='form-container'>
@@ -225,7 +219,7 @@ class FeverMode extends Component {
                         </div>
                     </div>
                     <div className=' mt-5 d-v-center  fever-form'>
-                        <div className='t-center w-100 f-large'>
+                        <div className='t-center w-100 f-large good-word-box'>
                             {this.state.selectedGoodWords}<br/>
                             - {this.state.selectedGoodWordsMan} -
 
