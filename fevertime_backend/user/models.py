@@ -5,3 +5,4 @@ class User(AbstractUser):
     nickname= models.CharField(max_length=64)
     ToU = models.BooleanField(default=True)
     PI = models.BooleanField(default=True)
+    

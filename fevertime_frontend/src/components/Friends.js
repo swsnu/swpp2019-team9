@@ -1,66 +1,17 @@
 import React, { Component } from 'react';
 import './Friends.css'
 import AddGroupPopup from "./component/PopupFilled";
+import FriendsBar from '../components/component/FriendsBar'
 class Friends extends Component {
     constructor (props)
     {
         super(props);
         this.state={
             showAddGroupPopup : false,
-            showMyFriend : true,
-            friendlist : [
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},{firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},{firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},{firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},{firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'A', name : 'Andrew'},{firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},{firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},{firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},{firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-            ],
-            friendinglist : [
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-            ],
             groupList : [
-                {firstword : 'A', name : 'GroupA', num: 4, TopFever : 'Youngjae'},
-                {firstword : 'G', name : 'Gildong', num: 2, TopFever : 'Gildong'},
-                {firstword : 'D', name : 'GroupD', num: 4, TopFever : 'Youngjae'},
+                {id: 1,firstword : 'A', name : 'GroupA', num: 4, TopFever : 'Youngjae'},
+                {id: 2, firstword : 'G', name : 'Gildong', num: 2, TopFever : 'Gildong'},
+                {id: 3, firstword : 'D', name : 'GroupD', num: 4, TopFever : 'Youngjae'},
             ],
             groupName : '',
 
@@ -102,6 +53,9 @@ class Friends extends Component {
 
         })
     }
+    goGroup = (id) => () => {
+        this.props.history.push('/group/'+id)
+    }
 
     render() {
         return (
@@ -133,7 +87,7 @@ class Friends extends Component {
                         <div>
                             {this.state.groupList.map((value,index) => {
                                 return (
-                                    <div key={index} className='w-100 d-flex item-list'>
+                                    <div key={index} onClick={this.goGroup(value.id)} className='w-100 d-flex friend-item-list'>
                                         <div className='w-50 d-flex d-ho-center'>
                                             <div className='badge-custom '>{value.firstword}</div>
                                             {value.name}
@@ -146,42 +100,7 @@ class Friends extends Component {
                         </div>
                     </div>
                 </div>
-                <div className='w-20 fri-list p-relative'>
-                    <div className='d-flex fri-list-button'>
-                        <div className={(this.state.showMyFriend ? 'show-my-friend-tab' : 'hide-my-friend-tab')} onClick={this.clickMyFriends()}>My Friends</div>
-                        <div className={(!this.state.showMyFriend ? 'show-my-friend-tab' : 'hide-my-friend-tab')} onClick={this.clickFriendingList()}>Friending list</div>
-                    </div>
-                    <div className='pl-3 friend-scroll'>
-                        {this.state.showMyFriend ? (
-                                <div>
-                                    {this.state.friendlist.map((value,index) => {
-                                        return (
-                                            <div className='d-flex mt-2' key={index}>
-                                                <div className='badge-custom t-center'>{value.firstword}</div>
-                                                {value.name}
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                        ):
-                            (<div>
-                                {this.state.friendinglist.map((value,index) => {
-                                    return (
-                                        <div className='d-flex mt-2' key={index}>
-                                            <div className='badge-custom t-center'>{value.firstword}</div>
-                                            {value.name}
-                                        </div>
-                                    );
-                                })}
-                            </div>)}
-
-                    </div>
-                    <div className='add-friend-button-wrapper'>
-                        <button className='mt-3 w-100 button-blue'>Add friend</button>
-                    </div>
-                </div>
-
-
+                <FriendsBar />
             </div>
         )
     }

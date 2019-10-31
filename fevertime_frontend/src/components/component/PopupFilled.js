@@ -50,9 +50,9 @@ PopupFilled.propTypes={
     modalTitle:PropTypes.string,
     content:PropTypes.string,
     clickClose:PropTypes.func,
-    buttonClose:PropTypes.func,
+    buttonClose:PropTypes.string,
     clickConfirm:PropTypes.func,
-    buttonConfirm:PropTypes.func,
+    buttonConfirm:PropTypes.string,
     changeContent:PropTypes.func
 }
 export default PopupFilled;
