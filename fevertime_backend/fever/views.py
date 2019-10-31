@@ -48,7 +48,10 @@ def fever_history(request):
         for prog in fever_prog_list:
             if prog.fever_yn == 'Y':
                 fever_cnt +=1
-        fever.fever_rate = fever_cnt / len(fever_prog_list)
+        if len(fever_prog_list) == 0:
+            fever.fever_rate = 0
+        else:
+            fever.fever_rate = fever_cnt / len(fever_prog_list)
         fever.fever_count = fever_cnt
         # 모든 fever_progress 찾아서 time 계산 로직 추가
         fever.click_end = 'Y'
@@ -168,13 +171,14 @@ def fever_progress(request):
 # @csrf_exempt
 def fever_exception(request):
     if request.method == 'GET':
-        req_data = json.loads(request.body.decode())
-        hid = req_data['id']
-        fever = Fever_history.objects.filter(id=hid)
-        try:
-            fever = fever[0]
-        except IndexError:
-            return HttpResponse(status=404)
-        return HttpResponse(status=200)
+        fevers = Fever_history.objects.filter(user=request.user)
+        if len(fevers) == 0:
+            return HttpResponse(status=200)
+        else:
+            id_list = []
+            for fever in fevers:
+                if fever.click_end == 'N':
+                    id_list.append(fever.id)
+            return JsonResponse({'id_list': id_list}, status=201)
     else:
         return HttpResponse(status=405)
