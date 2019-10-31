@@ -7,7 +7,7 @@ import json
 # Create your tests here.
 class FeverTestCase(TestCase):
     def setUp(self):
-        user1 = User.objects.create(username="youngjae", password="youngjae", nickname="youngjae")
+        user1 = User.objects.create_user(username="youngjae", password="youngjae", nickname="youngjae")
 
 
     def test_fever_history(self):
@@ -21,16 +21,16 @@ class FeverTestCase(TestCase):
                                 content_type='application/json')
         self.assertEqual(response.status_code, 405)
 
-        # # POST #200 테스트
-        # response = client.post('/api/fever_history/', json.dumps({'category': 'Study','etcCategory': ''}),
-        #                        content_type='application/json')
-        # self.assertEqual(response.status_code, 201)
-        #
-        #
-        # # PUT 200 테스트
-        # response = client.put('/api/fever_history/', json.dumps({'id': '1'}),
-        #                       content_type='application/json')
-        # self.assertEqual(response.status_code, 200)
+        # POST #200 테스트
+        response = client.post('/api/fever_history/', json.dumps({'category': 'Study','etcCategory': ''}),
+                               content_type='application/json')
+        self.assertEqual(response.status_code, 201)
+
+
+        # PUT 200 테스트
+        response = client.put('/api/fever_history/', json.dumps({'id': '1'}),
+                              content_type='application/json')
+        self.assertEqual(response.status_code, 200)
 
     def test_fever_progress(self):
         client = Client(enforce_csrf_checks=False)
