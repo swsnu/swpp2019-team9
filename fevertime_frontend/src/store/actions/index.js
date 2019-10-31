@@ -8,5 +8,6 @@ export {
 
 export {
     postFeverHistory,
-    putFeverHistory
+    putFeverHistory,
+    postFeverProgress
 } from './fever';

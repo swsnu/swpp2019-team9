@@ -8,6 +8,7 @@ import AlarmModal from './component/PopUpModal'
 import 'react-html5-camera-photo/build/css/index.css';
 import Webcam from "react-webcam";
 import * as actionCreators from "../store/actions";
+import qs from'query-string'
 
 
 
@@ -16,6 +17,7 @@ class FeverMode extends Component {
     constructor(props){
         super(props);
         this.state = {
+            hid:0,
             showCamera: false,
             showAlarm: false,
             showAlarmPopup : false,
@@ -54,6 +56,13 @@ class FeverMode extends Component {
     }
     webcamRef = createRef();
     componentDidMount() {
+
+        const query = qs.parse(this.props.location.search);
+        this.setState({
+            hid : query.id,
+            goalTime : query.goalTime
+
+        });
         //timer 참고 https://medium.com/wasd/react%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%B4-%ED%83%80%EC%9D%B4%EB%A8%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-9fc164416586
         this.timerStart();
 
@@ -111,6 +120,7 @@ class FeverMode extends Component {
             selectedGoodWords : this.state.goodwords[randInt].word,
             selectedGoodWordsMan : this.state.goodwords[randInt].man
         })
+        this.props.postFeverProgress(this.props.hid, this.webcamRef.current.getScreenshot());
 
     }
 
@@ -211,7 +221,7 @@ class FeverMode extends Component {
                     <div className='d-flex'>
                         <div className='w-70'></div>
                         <div className='w-20 color-gray t-right'>
-                            Goal Time : &nbsp; {this.props.goalTime}
+                            Goal Time : &nbsp; {this.state.goalTime}
                         </div>
                     </div>
                     <div className=' mt-5 d-v-center  fever-form'>
@@ -251,7 +261,9 @@ const mapStateToProps = state =>{
 const mapDispatchToProps = dispatch => {
     return {
         putFeverHistory: (hid) =>
-            dispatch(actionCreators.putFeverHistory(hid))
+            dispatch(actionCreators.putFeverHistory(hid)),
+        postFeverProgress: (hid, image) =>
+            dispatch(actionCreators.postFeverProgress(hid, image))
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(withRouter(FeverMode));
