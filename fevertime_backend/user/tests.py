@@ -1,14 +1,15 @@
-from django.test import TestCase,Client
 import json
+from django.test import TestCase,Client
+
 # Create your tests here.
 class UserTestCase(TestCase):
     preclient = None
 
     def setUp(self):
         self.preclient = Client()
-        response = self.preclient.post('/api/user/signup/', json.dumps(
-                                {'username': 'SY', "nickname":"SYLEE",'password': 'Lee'}),
-                               content_type='application/json')
+        self.preclient.post('/api/user/signup/', json.dumps(
+            {'username': 'SY', "nickname":"SYLEE",'password': 'Lee'}),
+                    content_type='application/json')
 
     def tearDown(self):
         pass
@@ -117,4 +118,3 @@ class UserTestCase(TestCase):
         }),content_type="application/json")
         self.assertEqual(response.status_code, 405)
         #def test_user_delete(self):
-
