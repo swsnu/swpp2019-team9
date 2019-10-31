@@ -1,14 +1,44 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types';
-
+import * as actionCreators from "../store/actions/index"
 class MyAccount extends Component {
     state={
         nickname: this.props.storedMyAccount.nickname,
         password: "",
         password_confirm: "",
+        WrongInput : ["","",""],
     }
+    clickConfirmChange = () =>{
+        let LocalWrongInput = ["","",""]
+        let wrong = false;
+        if(this.state.nickname === ""){
+            LocalWrongInput.splice(0,1, "Empty Nickname")
+            wrong = true
+        }
+
+        if(this.state.password === ""){
+            LocalWrongInput.splice(1,1,"Empty Password")
+            wrong = true
+        }
+
+        if(this.state.password !== this.state.password_confirm){
+            LocalWrongInput.splice(2,1,"Wrong Password Confirm")
+            wrong = true
+        }
+        this.setState({WrongInput : LocalWrongInput})
+
+        if(!wrong){
+            this.props.changeMyAccount({
+                nickname : this.state.nickname,
+                password : this.state.password,})
+            this.props.history.push('/')
+            window.alert("Please Signin Again")
+            
+        }
+    }
+
     render() {
         return (
             <div className='form-container MyAccount'>
@@ -21,21 +51,34 @@ class MyAccount extends Component {
                 <div className='d-flex mt-3 d-v-center'>
                     <div className='w-20'></div>
                     <div className='w-20'>Nickname</div>
-                    <input className='w-30 input-1' defaultValue={this.props.storedMyAccount.nickname}/>
+                    <input className='w-30 input-1' id="nickname_input" defaultValue={this.props.storedMyAccount.nickname}
+                    onChange={(event => this.setState({nickname: event.target.value}))}
+                    />
+                    {this.state.WrongInput[0]}
                 </div>
                 <div className='d-flex mt-3 d-v-center'>
                     <div className='w-20'></div>
                     <div className='w-20'>Password</div>
-                    <input className='w-30 input-1' type="password"/>
+                    <input className='w-30 input-1' id="password_input" type="password"
+                    onChange={(event => this.setState({
+                        password: event.target.value}))}
+                    />
+                    {this.state.WrongInput[1]}
                 </div>
                 <div className='d-flex mt-3 d-v-center'>
                     <div className='w-20'></div>
                     <div className='w-20'>Password Confirm</div>
-                    <input className='w-30 input-1' type="password"/>
+                    <input className='w-30 input-1' id="password_confirm_input"type="password"
+                    onChange={(event => this.setState({
+                        password_confirm: event.target.value}))}
+                    />
+                    {this.state.WrongInput[2]}
                 </div>
                 <div className='t-center mt-5 d-flex'>
                     <div className='w-30'></div>
-                    <button className='w-40 button-blue'><Link to='/'>Confirm Change</Link></button>
+                    <button className='w-40 button-blue' id="confirm_button"
+                    onClick = {()=>this.clickConfirmChange()}
+                    >Confirm Change</button>
                     <div className='w-30'></div>
                 </div>
             </div>
@@ -43,7 +86,9 @@ class MyAccount extends Component {
     }
 }
 MyAccount.propTypes={
-    storedMyAccount:PropTypes.object
+    storedMyAccount:PropTypes.object,
+    changeMyAccount:PropTypes.func,
+    histroy:PropTypes.object,
 }
 
 const mapStateToProps = state =>{
@@ -51,8 +96,9 @@ const mapStateToProps = state =>{
         storedMyAccount:state.login,
     };
 };
-const mapDispatchToProps = () =>{
+const mapDispatchToProps = dispatch =>{
     return{
+        changeMyAccount : (pkt) => dispatch(actionCreators.ChangeMyAccount(pkt)),
     };
 };
-export default connect(mapStateToProps,mapDispatchToProps)(MyAccount);
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(MyAccount));
