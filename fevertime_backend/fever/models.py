@@ -37,3 +37,10 @@ class Fever_progress(models.Model):
         on_delete=models.CASCADE,
         related_name='fever_progress_user'
     )
+    facex = models.FloatField(default=0)
+    facey = models.FloatField(default=0)
+    facew = models.FloatField(default=0)
+    faceh = models.FloatField(default=0)
+    pitch = models.FloatField(default=0)
+    yaw = models.FloatField(default=0)
+    roll = models.FloatField(default=0)
