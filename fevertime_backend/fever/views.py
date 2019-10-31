@@ -1,15 +1,8 @@
 import urllib
-
-from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
-from django.conf import settings
-from django.contrib.auth import get_user_model
-from django.contrib.auth import authenticate, login, logout
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
-from .models import Fever_history, Fever_progress
 import json
-import datetime
-from pytz import timezone, utc
+from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
+from .models import Fever_history
 
 
 
@@ -91,9 +84,9 @@ def fever_progress(request):
         if response.getcode() == 200:
             image_response = response.read().decode('utf-8')
             image_response = json.loads(image_response)
-            context = {
-                'result': image_response
-            }
+            #context = {
+            #    'result': image_response
+            #}
 
         #######################
         return HttpResponse(status=200)
