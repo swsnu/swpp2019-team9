@@ -28,7 +28,6 @@ export const ChangeMyAccount = (pkt) => {
         return axios.put('/api/user/',pkt)
             .then(res => {
                 dispatch({type:actionTypes.LOGOUT});
-                dispatch(push('/'));
             })
             .catch(()=>{
                 //console.log(error)//have to define

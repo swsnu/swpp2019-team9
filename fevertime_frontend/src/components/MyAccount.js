@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types';
-import axios from "axios";
 import * as actionCreators from "../store/actions/index"
 class MyAccount extends Component {
     state={
@@ -34,7 +33,9 @@ class MyAccount extends Component {
             this.props.changeMyAccount({
                 nickname : this.state.nickname,
                 password : this.state.password,})
-            return
+            this.props.history.push('/')
+            window.alert("Please Signin Again")
+            
         }
     }
 
@@ -50,7 +51,7 @@ class MyAccount extends Component {
                 <div className='d-flex mt-3 d-v-center'>
                     <div className='w-20'></div>
                     <div className='w-20'>Nickname</div>
-                    <input className='w-30 input-1' defaultValue={this.props.storedMyAccount.nickname}
+                    <input className='w-30 input-1' id="nickname_input" defaultValue={this.props.storedMyAccount.nickname}
                     onChange={(event => this.setState({nickname: event.target.value}))}
                     />
                     {this.state.WrongInput[0]}
@@ -58,7 +59,7 @@ class MyAccount extends Component {
                 <div className='d-flex mt-3 d-v-center'>
                     <div className='w-20'></div>
                     <div className='w-20'>Password</div>
-                    <input className='w-30 input-1' type="password"
+                    <input className='w-30 input-1' id="password_input" type="password"
                     onChange={(event => this.setState({
                         password: event.target.value}))}
                     />
@@ -67,7 +68,7 @@ class MyAccount extends Component {
                 <div className='d-flex mt-3 d-v-center'>
                     <div className='w-20'></div>
                     <div className='w-20'>Password Confirm</div>
-                    <input className='w-30 input-1' type="password"
+                    <input className='w-30 input-1' id="password_confirm_input"type="password"
                     onChange={(event => this.setState({
                         password_confirm: event.target.value}))}
                     />
@@ -75,7 +76,7 @@ class MyAccount extends Component {
                 </div>
                 <div className='t-center mt-5 d-flex'>
                     <div className='w-30'></div>
-                    <button className='w-40 button-blue'
+                    <button className='w-40 button-blue' id="confirm_button"
                     onClick = {()=>this.clickConfirmChange()}
                     >Confirm Change</button>
                     <div className='w-30'></div>
@@ -98,4 +99,4 @@ const mapDispatchToProps = dispatch =>{
         changeMyAccount : (pkt) => dispatch(actionCreators.ChangeMyAccount(pkt)),
     };
 };
-export default connect(mapStateToProps,mapDispatchToProps)(MyAccount);
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(MyAccount));
