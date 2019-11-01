@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import * as actionCreators from "../store/actions/index";
 import {connect} from 'react-redux'
+import PropTypes from 'prop-types';
 
 class Login extends Component {
     state={
@@ -32,12 +33,15 @@ class Login extends Component {
                 </div>
                 <div className='d-flex mt-5'>
                     <div className='w-30'></div>
-                    <div className='w-20'>Don't have ID yet?</div>
+                    <div className='w-20'>Have no ID?</div>
                     <button className='w-20 button-white' id='signup-button'><Link className='color-black' to='signup'>Signup</Link></button>
                 </div>
             </div>
         )
     }
+}
+Login.propTypes={
+    onLoginUser:PropTypes.func
 }
 const mapDispatchToProps = dispatch => {
     return {

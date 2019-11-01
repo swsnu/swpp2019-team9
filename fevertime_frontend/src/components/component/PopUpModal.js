@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Modal, Button} from 'react-bootstrap'
+import PropTypes from 'prop-types';
 class PopUpModal extends Component {
     constructor(props){
         super(props);
@@ -36,4 +37,14 @@ PopUpModal.defaultProps = {
     buttonClose: 'close',
     buttonConfirm: 'Confirm'
 };
+PopUpModal.propTypes={
+    show:PropTypes.bool,
+    clickClose:PropTypes.func,
+    modalTitle:PropTypes.string,
+    content:PropTypes.string,
+    buttonClose:PropTypes.string,
+    clickConfirm:PropTypes.func,
+    buttonConfirm:PropTypes.string
+}
+
 export default PopUpModal;

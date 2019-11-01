@@ -6,12 +6,47 @@
     align-items: center;
     text-align: center;
 }
-.item-list{
+.comments-list{
+    border-top: 1px solid black;
+}
+.group-item-list{
     height: 60px;
     font-size: 20px;
     align-items: center;
     text-align: center;
     border-bottom: 1px solid gray;
+}
+.group-item-list:hover{
+    cursor: pointer;
+    background-color: #ffeeba;
+}
+.friend-item-list{
+    height: 60px;
+    font-size: 20px;
+    align-items: center;
+    text-align: center;
+    border-bottom: 1px solid gray;
+}
+.friend-item-list:hover{
+    cursor: pointer;
+    background-color: #ffeeba;
+}
+.group-comment-my{
+    height: 60px;
+    font-size: 20px;
+    align-items: center;
+    text-align: center;
+    margin-top: 80px;
+    border-top: 1px solid #ccd0d5;
+
+}
+.group-comment-input{
+    background-color: #f2f3f5;
+    border:1px solid #ccd0d5;
+    border-radius: 20px;
+}
+.comments-background{
+    background-color: #f2f3f6;
 }
 
 .fri-list{

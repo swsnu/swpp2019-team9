@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import * as Types from '../store/actions/actionTypes'
 import TimeField from 'react-simple-timefield';
+import PropTypes from 'prop-types';
 
 class FeverStart extends Component {
     constructor(props) {
@@ -118,6 +119,10 @@ class FeverStart extends Component {
             </div>
         )
     }
+}
+FeverStart.propTypes={
+    history:PropTypes.object,
+    onStoreFeverStart:PropTypes.func
 }
 
 const mapDispatchToProps = dispatch => {
