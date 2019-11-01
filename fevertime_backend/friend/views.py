@@ -35,11 +35,14 @@ def friend_request(request):
 def request_specific(request,to_nickname):
     if request.method =='DELETE':
         try:
-            to_user=User.objects.get(nickname=to_nickname)
+            from_user=User.objects.get(nickname=to_nickname)
         except User.DoesNotExist:
             return HttpResponseNotFound()       #404
-        from_user=request.user
-        delete_request=Friend_request.objects.filter(to_user=to_user).get(from_user=from_user)
+        to_user=request.user
+        try:
+            delete_request=Friend_request.objects.filter(to_user=to_user).get(from_user=from_user)
+        except Friend_request.DoesNotExist:
+            return HttpResponseNotFound()       #404
         delete_request.delete()
         return HttpResponse(status=200)
 
@@ -83,20 +86,22 @@ def friend_real(request):
     else: 
         return HttpResponseNotAllowed(['GET','POST'])       #405
 
-"""
-def real_specific(request,to_nickname)
+
+def real_specific(request,nickname):
     if request.method =='DELETE':
-        if not request.user.is_authenticated:
-            return HttpResponse(status=401)
         try:
-            article = Article.objects.get(id=article_id)
-        except Article.DoesNotExist:
+            user1=User.objects.get(nickname=nickname)
+        except User.DoesNotExist:
             return HttpResponseNotFound()       #404
-        if request.user.id != article.author_id:
-            return HttpResponseForbidden()      #403
-        article.delete()
+        user2=request.user
+        try:
+            delete_real1 = Friend_real.objects.filter(friend1=user1).get(friend2=user2)
+            delete_real2 = Friend_real.objects.filter(friend1=user2).get(friend2=user1)
+            delete_real1.delete()
+            delete_real2.delete()
+        except Friend_real.DoesNotExist:
+            pass      #404
         return HttpResponse(status=200)       
 
     else: 
-        return HttpResponseNotAllowed(['GET','POST','DELETE'])       #405
-"""
+        return HttpResponseNotAllowed(['DELETE'])       #405

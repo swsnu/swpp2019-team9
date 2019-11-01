@@ -16,6 +16,9 @@ class FriendsBar extends Component {
         }
     }
     componentDidMount(){
+        this.onGetFriendList()
+    }
+    onGetFriendList=()=>{
         axios.get('/api/friend/request/')
             .then(res=>{
                 this.setState({friendinglist: res.data.map((value)=>{
@@ -44,15 +47,11 @@ class FriendsBar extends Component {
     }
     clickAcceptRequest = (name)=>{
         axios.post('/api/friend/real/', {'nickname': name})
-            .then(this.setState(this.state))
-            .catch(//anything?
-                )
+        this.onGetFriendList()
     }
     clickDeclineRequest = (name)=>{
         axios.delete('/api/friend/request/'+name+'/')
-            .then(this.setState(this.state))
-            .catch(//anything??
-                )
+        this.onGetFriendList()
     }
     clickAddFriend = () =>{
         this.setState({showAddFriendPopup:true})
@@ -83,6 +82,10 @@ class FriendsBar extends Component {
                     )
         }
     }
+    clickDeleteReal= (name)=>{
+        axios.delete('/api/friend/real/'+name+'/')
+        this.onGetFriendList()
+    }
     render() {
         return (
             <div className='w-20 fri-list p-relative'>
@@ -106,7 +109,7 @@ class FriendsBar extends Component {
                                         <div className='d-flex mt-2' key={index}>
                                             <div className='badge-custom t-center'>{value.firstword}</div>
                                             {value.name}
-                                            <button onClick={()=>this.clickAcceptRequest(value.name)}>Delete</button>
+                                            <button onClick={()=>this.clickDeleteReal(value.name)}>Delete</button>
                                         </div>
                                     );
                                 })}
