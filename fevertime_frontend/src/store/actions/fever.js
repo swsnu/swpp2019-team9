@@ -52,7 +52,7 @@ export const putFeverHistory = (hid) => {
 };
 
 export const postFeverProgress = (hid, image) => {
-    return dispatch => {
+    return () => {
         return axios.post('/api/fever_progress/',{
             id : hid,
             image : image

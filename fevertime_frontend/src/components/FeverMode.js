@@ -243,7 +243,11 @@ class FeverMode extends Component {
         )
     }
 }
-
+FeverMode.propTypes={
+    location:PropTypes.object,
+    putFeverHistory:PropTypes.func,
+    postFeverProgress:PropTypes.func
+}
 const mapStateToProps = state =>{
     return {
         selectedCategory:state.feverStart.selectedCategory,

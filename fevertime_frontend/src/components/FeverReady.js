@@ -78,6 +78,12 @@ class FeverReady extends Component {
         )
     }
 }
+FeverReady.propTypes={
+    selectedCategory:PropTypes.object,
+    etcCategory:PropTypes.object,
+    postFeverHistory:PropTypes.func,
+    goalTime:PropTypes.string,
+}
 const mapStateToProps = state => {
     return {
         selectedCategory:state.feverStart.selectedCategory,

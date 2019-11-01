@@ -35,6 +35,11 @@ class FeverEnd extends Component {
         )
     }
 }
+FeverEnd.propTypes={
+    total_time:PropTypes.string,
+    fever_time:PropTypes.string,
+    fever_rate:PropTypes.number
+}
 const mapStateToProps = state => {
     return {
         total_time:state.feverStart.total_time,
