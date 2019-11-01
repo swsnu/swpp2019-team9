@@ -47,11 +47,11 @@ class FriendsBar extends Component {
     }
     clickAcceptRequest = (name)=>{
         axios.post('/api/friend/real/', {'nickname': name})
-        this.onGetFriendList()
+            .then(()=>{this.onGetFriendList()})
     }
     clickDeclineRequest = (name)=>{
         axios.delete('/api/friend/request/'+name+'/')
-        this.onGetFriendList()
+            .then(()=>{this.onGetFriendList()})
     }
     clickAddFriend = () =>{
         this.setState({showAddFriendPopup:true})
@@ -84,11 +84,11 @@ class FriendsBar extends Component {
     }
     clickDeleteReal= (name)=>{
         axios.delete('/api/friend/real/'+name+'/')
-        this.onGetFriendList()
+            .then(()=>{this.onGetFriendList()})
     }
     render() {
         return (
-            <div className='w-20 fri-list p-relative'>
+            <div className='w-20 fri-list p-relative FriendsBar'>
                 <AddFriendPopup show={this.state.showAddFriendPopup}
                             modalTitle={'Add Friend'}
                             content={'Friend name'}
