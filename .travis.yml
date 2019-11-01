@@ -6,6 +6,7 @@ matrix:
         - "cd fevertime_frontend"
       install: 
         - "yarn install"
+        - "yarn add coveralls"
       language: node_js
       node_js: 
         - "10"
@@ -19,11 +20,13 @@ matrix:
         - "./node_modules/.bin/eslint src"
         - "yarn test --coverage --watchAll=false"
         - "sonar-scanner"
+      after_success:
+        - "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
     - 
       before_install: 
         - "cd fevertime_backend"
       install: 
-        - "pip install pylint coverage django django-cors-headers requests"
+        - "pip install pylint coverage django django-cors-headers requests coveralls"
       language: python
       python: 
         - "3.6"
@@ -34,4 +37,6 @@ matrix:
         - "coverage run --source='.' manage.py test"
         - "coverage report --fail-under=70"
         - "pylint **/*.py"
+      after_success:
+        - "coveralls"
 
