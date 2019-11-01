@@ -20,6 +20,8 @@ def signup(request):
             return HttpResponseBadRequest()
         if User.objects.filter(username=username).exists():
             return HttpResponse(status=401)
+        if User.objects.filter(nickname=nickname).exists():
+            return HttpResponse(status=401) #what response?
         User.objects.create_user(username = username, password = password, nickname=nickname)
         return HttpResponse(status=201)
 
