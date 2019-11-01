@@ -1,9 +1,10 @@
 import json
+import base64
 from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
 
 import requests
-import base64
+
 
 from .models import Fever_history, Fever_progress
 
@@ -15,12 +16,8 @@ def fever_history(request):
 
     if request.method == 'POST':
         req_data = json.loads(request.body.decode())
-        category = req_data['category']
-        etcCategory = req_data['etcCategory']
 
-
-        # user = request.user
-        newfever = Fever_history(category=category, user=request.user, etcCategory=etcCategory)
+        newfever = Fever_history(category=req_data['category'], user=request.user, etcCategory=req_data['etcCategory'])
         newfever.save()
         res = {
             'id': newfever.id,
@@ -29,8 +26,7 @@ def fever_history(request):
         return JsonResponse(res,status=201)
     elif request.method == 'PUT':
         req_data = json.loads(request.body.decode())
-        hid = req_data['id']
-        fever = Fever_history.objects.filter(id=hid)
+        fever = Fever_history.objects.filter(id=req_data['id'])
 
         try:
             fever = fever[0]
@@ -87,8 +83,7 @@ def fever_progress(request):
     if request.method == 'POST':
         req_data = json.loads(request.body.decode())
         image = req_data['image']
-        hid = req_data['id']
-        fever = Fever_history.objects.filter(id=hid)
+        fever = Fever_history.objects.filter(id=req_data['id'])
         try:
             fever = fever[0]
         except IndexError:
@@ -99,13 +94,13 @@ def fever_progress(request):
         image = base64.b64decode(image)
 
         ##########################
-        file = {'file': image} #, 'image_url': 20
+        # file = {'file': image} #, 'image_url': 20
 
         url = "https://kapi.kakao.com/v1/vision/face/detect"
         myKey = "3ac17bc0e257b604d053901085eaae99"
         headers = {'Authorization': 'KakaoAK {}'.format(myKey)}
         try:
-            response = requests.post(url, headers=headers, files=file)
+            response = requests.post(url, headers=headers, files={'file': image})
             print(response.text)
             response.raise_for_status()
             response = response.json()['result']
@@ -137,7 +132,7 @@ def fever_progress(request):
                 if score < 0.8:
                     faceDetect = False
 
-            except:
+            except IndexError as e:
                 pass
             ##########
             # 1. 얼굴 인식이 되었으면, fever 했음으로 취급한다.
@@ -146,8 +141,16 @@ def fever_progress(request):
                 fever_yn = 'Y'
 
             ###########
-            newfever_prog = Fever_progress(fever_yn=fever_yn, user=request.user, fever_history=fever,
-                                           facex=facex, facey=facey,facew=facew,faceh=faceh,pitch=pitch, yaw=yaw, roll=roll)
+            newfever_prog = Fever_progress(fever_yn=fever_yn,
+                                           user=request.user,
+                                           fever_history=fever,
+                                           facex=facex,
+                                           facey=facey,
+                                           facew=facew,
+                                           faceh=faceh,
+                                           pitch=pitch,
+                                           yaw=yaw,
+                                           roll=roll)
             newfever_prog.save()
             return JsonResponse({'faceDetect' : faceDetect}, status=200)
         except Exception as e:
