@@ -17,10 +17,10 @@ class Friend_real(models.Model):
     friend1 = models.ForeignKey(
             User,
             on_delete=models.CASCADE,
-            related_name='friend1'
+            related_name='user_friend1'
         )
     friend2 = models.ForeignKey(
             User,
             on_delete=models.CASCADE,
-            related_name='friend2'
+            related_name='user_friend2'
         )

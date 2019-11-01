@@ -10,57 +10,24 @@ class FriendsBar extends Component {
             showAddFriendPopup: false,
             showMyFriend : true,
             friendname : '',
-            friendlist : [
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},{firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},{firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},{firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},{firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'A', name : 'Andrew'},{firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},{firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},{firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},{firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-            ],
-            friendinglist : [
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-                {firstword : 'A', name : 'Andrew'},
-                {firstword : 'G', name : 'Gildong'},
-            ],
+            friendlist : [],
+            friendinglist : [],
 
         }
+    }
+    componentDidMount(){
+        axios.get('/api/friend/request/')
+            .then(res=>{
+                this.setState({friendinglist: res.data.map((value)=>{
+                    return {'firstword' : value.nickname[0], 'name': value.nickname}
+                })}) 
+            })
+        axios.get('api/friend/real/')
+            .then(res=>{
+                this.setState({friendlist: res.data.map((value)=>{
+                    return {'firstword' : value.nickname[0], 'name': value.nickname}
+                })}) 
+            })
     }
     
     clickMyFriends = () => () => {
@@ -77,9 +44,15 @@ class FriendsBar extends Component {
     }
     clickAcceptRequest = (name)=>{
         axios.post('/api/friend/real/', {'nickname': name})
+            .then(this.setState(this.state))
+            .catch(//anything?
+                )
     }
     clickDeclineRequest = (name)=>{
-        axios.delete('/api/friend/request/', {'nickname': name})
+        axios.delete('/api/friend/request/'+name+'/')
+            .then(this.setState(this.state))
+            .catch(//anything??
+                )
     }
     clickAddFriend = () =>{
         this.setState({showAddFriendPopup:true})
@@ -101,10 +74,13 @@ class FriendsBar extends Component {
         }
         else{
             axios.post('/api/friend/request/',{'nickname':this.state.friendname})
-            this.setState({
-                showAddFriendPopup : false,
-                friendname : '',
-            })
+                .then(this.setState({
+                    showAddFriendPopup : false,
+                    friendname : '',
+                }))
+                .catch(
+                    //alert('no such name!')  have to define
+                    )
         }
     }
     render() {
@@ -130,6 +106,7 @@ class FriendsBar extends Component {
                                         <div className='d-flex mt-2' key={index}>
                                             <div className='badge-custom t-center'>{value.firstword}</div>
                                             {value.name}
+                                            <button onClick={()=>this.clickAcceptRequest(value.name)}>Delete</button>
                                         </div>
                                     );
                                 })}
