@@ -17,13 +17,14 @@ def fever_history(request):
     if request.method == 'POST':
         req_data = json.loads(request.body.decode())
 
-        newfever = Fever_history(category=req_data['category'], user=request.user, etcCategory=req_data['etcCategory'])
+        newfever = Fever_history(category=req_data['category'],
+                                 user=request.user,
+                                 etcCategory=req_data['etcCategory'])
         newfever.save()
-        res = {
+        return JsonResponse({
             'id': newfever.id,
             'category': newfever.category
-        }
-        return JsonResponse(res,status=201)
+        }, status=201)
     elif request.method == 'PUT':
         req_data = json.loads(request.body.decode())
         fever = Fever_history.objects.filter(id=req_data['id'])
@@ -45,8 +46,7 @@ def fever_history(request):
         fever.fever_count = fever_cnt
         # 모든 fever_progress 찾아서 time 계산 로직 추가
         fever.click_end = 'Y'
-        end_time = timezone.now()
-        fever.total_time = end_time - fever.start_time
+        fever.total_time = timezone.now() - fever.start_time
         total_time = fever.total_time
         fever.fever_time = total_time * fever.fever_rate
         fever_time = fever.fever_time
@@ -95,10 +95,10 @@ def fever_progress(request):
 
         ##########################
         # file = {'file': image} #, 'image_url': 20
-
+        # myKey = "3ac17bc0e257b604d053901085eaae99"
         url = "https://kapi.kakao.com/v1/vision/face/detect"
-        myKey = "3ac17bc0e257b604d053901085eaae99"
-        headers = {'Authorization': 'KakaoAK {}'.format(myKey)}
+
+        headers = {'Authorization': 'KakaoAK {}'.format("3ac17bc0e257b604d053901085eaae99")}
         try:
             response = requests.post(url, headers=headers, files={'file': image})
             print(response.text)
@@ -106,55 +106,48 @@ def fever_progress(request):
             response = response.json()['result']
 
             # face detect 안됬을때 default 속성
-            facex = 0
-            facey = 0
-            facew = 0
-            faceh = 0
-            score = 0
+            face_list = [0, 0, 0, 0]
             pitch = 0
             yaw = 0
             roll = 0
             faceDetect = False
-
             try:
                 face = response['faces'][0]
-                #face detect 시 res 값으로 update
-                facex = face['x']
-                facey = face['y']
-                facew = face['w']
-                faceh = face['h']
-                score = face['score']
+                # face detect 시 res 값으로 update
+                face_list[0] = face['x']
+                face_list[1] = face['y']
+                face_list[2] = face['w']
+                face_list[3] = face['h']
                 pitch = face['pitch']
                 yaw = face['yaw']
                 roll = face['roll']
 
                 faceDetect = True
-                if score < 0.8:
+                if face['score'] < 0.8:
                     faceDetect = False
 
-            except Exception as e:
+            except KeyError:
                 pass
             ##########
             # 1. 얼굴 인식이 되었으면, fever 했음으로 취급한다.
             fever_yn = 'N'
-            if faceDetect == True:
+            if faceDetect:
                 fever_yn = 'Y'
 
             ###########
             newfever_prog = Fever_progress(fever_yn=fever_yn,
                                            user=request.user,
                                            fever_history=fever,
-                                           facex=facex,
-                                           facey=facey,
-                                           facew=facew,
-                                           faceh=faceh,
+                                           facex=face_list[0],
+                                           facey=face_list[1],
+                                           facew=face_list[2],
+                                           faceh=face_list[3],
                                            pitch=pitch,
                                            yaw=yaw,
                                            roll=roll)
             newfever_prog.save()
             return JsonResponse({'faceDetect' : faceDetect}, status=200)
-        except Exception as e:
-            print(e)
+        except requests.exceptions.HTTPError:
             return HttpResponse(status=400)
 
     elif request.method == 'GET':
