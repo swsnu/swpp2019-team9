@@ -132,7 +132,7 @@ def fever_progress(request):
                 if score < 0.8:
                     faceDetect = False
 
-            except IndexError as e:
+            except Exception as e:
                 pass
             ##########
             # 1. 얼굴 인식이 되었으면, fever 했음으로 취급한다.
