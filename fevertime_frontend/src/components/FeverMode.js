@@ -246,10 +246,10 @@ class FeverMode extends Component {
 }
 FeverMode.propTypes={
     location:PropTypes.object,
-    selectedCategory:PropTypes.object,
-    etcCategory:PropTypes.object,
+    selectedCategory:PropTypes.string,
+    etcCategory:PropTypes.string,
     hid:PropTypes.number,
-    goalTime:PropTypes.number,
+    goalTime:PropTypes.string,
     putFeverHistory:PropTypes.func,
     postFeverProgress:PropTypes.func
 }

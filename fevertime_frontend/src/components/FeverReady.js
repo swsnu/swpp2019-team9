@@ -79,8 +79,8 @@ class FeverReady extends Component {
     }
 }
 FeverReady.propTypes={
-    selectedCategory:PropTypes.object,
-    etcCategory:PropTypes.object,
+    selectedCategory:PropTypes.string,
+    etcCategory:PropTypes.string,
     postFeverHistory:PropTypes.func,
     goalTime:PropTypes.string,
 }
