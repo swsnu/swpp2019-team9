@@ -31,10 +31,7 @@ describe('ActionCreators', () => {
     it('make new history catch', (done) => {
         axios.post = jest.fn(() => {
             return new Promise((reject) => {
-                const result = {
-                    status: 200,
-                    data: stubhistory
-                };
+
                 reject({error:'error'});
             })
         });
@@ -69,10 +66,6 @@ describe('ActionCreators', () => {
         console.log = jest.fn();
         axios.put = jest.fn(() => {
             return new Promise((reject) => {
-                const result = {
-                    status: 200,
-                    data: stubhistory
-                };
                 reject({error:'error'});
             })
         });
