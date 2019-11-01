@@ -74,7 +74,7 @@ class FeverStart extends Component {
                         <div className="w-10">
                         <label>
                             Study 
-                            <input type="radio" value="Study"
+                            <input className='ml-2' type="radio" value="Study"
                                         checked={this.state.selectedCategory === 'Study'}
                                         onChange={this.changeCategory} 
                                         id ='study-radio'/>
@@ -83,7 +83,7 @@ class FeverStart extends Component {
                         <div className="w-10">
                         <label>
                             Work
-                            <input type="radio" value="Work" 
+                            <input className='ml-2' type="radio" value="Work"
                                         checked={this.state.selectedCategory === 'Work'} 
                                         onChange={this.changeCategory} 
                                         id ='work-radio'/>
@@ -92,27 +92,27 @@ class FeverStart extends Component {
                         <div className="w-10">
                         <label>
                             Reading
-                            <input type="radio" value="Reading" 
+                            <input className='ml-2' type="radio" value="Reading"
                                         checked={this.state.selectedCategory === 'Reading'} 
                                         onChange={this.changeCategory} 
                                         id ='read-radio'/>
                         </label>
                         </div>
-                        <div className="w-10">
-                        <label>
+                        <div className="w-30">
+                        <label className='d-flex'>
                             Etc.
-                            <input type="radio" value="Etc." 
+                            <input className='ml-2 etc-radio' type="radio" value="Etc."
                                         checked={this.state.selectedCategory === 'Etc.'} 
                                         onChange={this.changeCategory} 
                                         id ='etc-radio'/>
+                            <div className = "">
+                                {(this.state.selectedCategory === 'Etc.')?(
+                                    <input className='input-1'onChange = {this.changeEtcCategory} id ='etc-text'/>
+                                ):('')}</div>
                         </label>
                         </div>
-                        <div className = "w-30">
-                        {(this.state.selectedCategory === 'Etc.')?(
-                            <input className='w-30 input-1'onChange = {this.changeEtcCategory} id ='etc-text'/>
-                        ):('')}</div>
-
                 </div>
+
                 <div className='d-flex d-ho-center mt-5'>
                     <button className='button-orange' onClick = {this.startFever} id ='start-button'>Go Fever</button>
                 </div>

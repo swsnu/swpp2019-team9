@@ -35,12 +35,12 @@ class FeverReady extends Component {
         this.setState(() => ({  // setState is asynchronous
             time: time + 1}))  // timerHandler will call after setState working is done
         if(time === 10){
-            this.props.postFeverHistory(this.props.selectedCategory, this.props.etcCategory);
+            this.props.postFeverHistory(this.props.selectedCategory, this.props.etcCategory, this.props.goalTime);
         }
     }
 
     clickSkip = () => () => {
-        this.props.postFeverHistory(this.props.selectedCategory, this.props.etcCategory);
+        this.props.postFeverHistory(this.props.selectedCategory, this.props.etcCategory, this.props.goalTime);
     }
     render() {
         return (
@@ -65,9 +65,7 @@ class FeverReady extends Component {
                         <div className='w-10 pr-3 t-right'></div>
                         <div className='w-50 f-large'>
                             <div className='ready-camera-size'>
-                                <Camera
-                                    onTakePhoto = { (dataUri) => { this.onTakePhoto(dataUri); } }
-                                />
+                                <Camera/>
                             </div>
                         </div>
 
@@ -81,20 +79,22 @@ class FeverReady extends Component {
     }
 }
 FeverReady.propTypes={
-    selectedCategory:PropTypes.object,
-    etcCategory:PropTypes.object,
-    postFeverHistory:PropTypes.func
+    selectedCategory:PropTypes.string,
+    etcCategory:PropTypes.string,
+    postFeverHistory:PropTypes.func,
+    goalTime:PropTypes.string,
 }
 const mapStateToProps = state => {
     return {
         selectedCategory:state.feverStart.selectedCategory,
         etcCategory:state.feverStart.etcCategory,
+        goalTime:state.feverStart.goalTime
     };
 }
 const mapDispatchToProps = dispatch => {
     return {
-        postFeverHistory: (cat, etcCat) =>
-            dispatch(actionCreators.postFeverHistory(cat, etcCat))
+        postFeverHistory: (cat, etcCat, goalTime) =>
+            dispatch(actionCreators.postFeverHistory(cat, etcCat, goalTime))
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(withRouter(FeverReady));

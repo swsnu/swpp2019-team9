@@ -19,6 +19,20 @@ describe('ActionCreators', () => {
                     data: stubhistory
                 };
                 resolve(result);
+
+            })
+        });
+
+        store.dispatch(feverAction.postFeverHistory()).then(() => {
+            expect(axios.post).toHaveBeenCalledTimes(1);
+            done();
+        });
+    });
+    it('make new history catch', (done) => {
+        axios.post = jest.fn(() => {
+            return new Promise((reject) => {
+
+                reject({error:'error'});
             })
         });
 
@@ -31,12 +45,13 @@ describe('ActionCreators', () => {
     it('close history', (done) => {
         console.log = jest.fn();
         axios.put = jest.fn(() => {
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
                 const result = {
                     status: 200,
                     data: stubhistory
                 };
                 resolve(result);
+                reject({error:'error'});
             })
         });
 
@@ -46,5 +61,41 @@ describe('ActionCreators', () => {
             done();
         });
     });
-    
+
+    it('close history catch', (done) => {
+        console.log = jest.fn();
+        axios.put = jest.fn(() => {
+            return new Promise((reject) => {
+                reject({error:'error'});
+            })
+        });
+
+        store.dispatch(feverAction.putFeverHistory())
+            .then(() => {
+                expect(axios.put).toHaveBeenCalledTimes(1);
+                done();
+            });
+    });
+    // 에러 나서 차후 다시 볼것
+    // it('post feverProgress ', (done) => {
+    //     console.log = jest.fn();
+    //     axios.post = jest.fn(() => {
+    //         return new Promise((resolve, reject) => {
+    //             const result = {
+    //                 status: 200,
+    //                 data: stubhistory
+    //             };
+    //             resolve(result);
+    //             reject({error:'error'});
+    //         })
+    //     });
+    //
+    //     store.dispatch(feverAction.postFeverProgress())
+    //         .then(() => {
+    //             expect(axios.post).toHaveBeenCalledTimes(1);
+    //             done();
+    //         });
+    //
+    // });
+
 });

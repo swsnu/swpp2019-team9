@@ -7,8 +7,11 @@ import '../App.css'
 import AlarmModal from './component/PopUpModal'
 import 'react-html5-camera-photo/build/css/index.css';
 import Webcam from "react-webcam";
+import Camera from "react-html5-camera-photo";
 import * as actionCreators from "../store/actions";
+import qs from'query-string'
 import PropTypes from 'prop-types';
+
 
 
 class FeverMode extends Component {
@@ -16,6 +19,7 @@ class FeverMode extends Component {
     constructor(props){
         super(props);
         this.state = {
+            hid:0,
             showCamera: false,
             showAlarm: false,
             showAlarmPopup : false,
@@ -25,8 +29,8 @@ class FeverMode extends Component {
             sec : 0,
             currentMyImage : avatar,
             videoConstraints : {
-                width: 160,
-                height: 160,
+                width: 700,
+                height: 700,
                 facingMode: "user"
             },
             selectedGoodWords : "Don’t be afraid your life will end be afraid. That it will never begin",
@@ -54,6 +58,13 @@ class FeverMode extends Component {
     }
     webcamRef = createRef();
     componentDidMount() {
+
+        const query = qs.parse(this.props.location.search);
+        this.setState({
+            hid : query.id,
+            goalTime : query.goalTime
+
+        });
         //timer 참고 https://medium.com/wasd/react%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%B4-%ED%83%80%EC%9D%B4%EB%A8%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-9fc164416586
         this.timerStart();
 
@@ -88,7 +99,7 @@ class FeverMode extends Component {
                 this.setState((prevState) => ({
                     sec: time - (prevState.hour * 3600) - (prevState.min * 60),  // prevState means just changed valud. Without this, sec will be -1
                 }),()=>{
-                    if(time % 60 === 59){
+                    if(time % 10 === 5){
                         this.capture();
                     }
                 });
@@ -111,6 +122,7 @@ class FeverMode extends Component {
             selectedGoodWords : this.state.goodwords[randInt].word,
             selectedGoodWordsMan : this.state.goodwords[randInt].man
         })
+        this.props.postFeverProgress(this.state.hid, this.webcamRef.current.getScreenshot());
 
     }
 
@@ -147,7 +159,7 @@ class FeverMode extends Component {
     }
 
     clickEnd = () => () => {
-        this.props.putFeverHistory(this.props.hid);
+        this.props.putFeverHistory(this.state.hid);
     }
     render() {
         return (
@@ -168,30 +180,23 @@ class FeverMode extends Component {
                     <div>
 
                         { this.state.showCamera ?(
-                            //show camera 시 켜진 실제 카메라 모듈
-                            <div className='camera-size'>
-                                <Webcam
-                                    audio={false}
-                                    height={160}
-                                    ref={this.webcamRef}
-                                    screenshotFormat="image/jpeg"
-                                    width={160}
-                                    videoConstraints={this.state.videoConstraints}
-                                    mirrored ={true}
-                                />
-                                {/*<button onClick={this.capture()}>capture</button>*/}
-                            </div>) : (
-                            //show camera 안했을시 존재하는 화면밖의 가상의 카메라 모듈
-                            <Webcam
-                                    className='invisible-fevermode-webcam'
-                                audio={false}
-                                height={160}
-                                ref={this.webcamRef}
-                                screenshotFormat="image/jpeg"
-                                width={160}
-                                videoConstraints={this.state.videoConstraints}
-                                mirrored ={true}
-                        />)}
+                            //show camera 시 켜진 거울용 카메라 모듈
+                            <div className='w-50 f-large d-flex d-v-center'>
+                                <div className='camera-size'>
+                                    <Camera/>
+                                    {/*<button onClick={this.capture()}>capture</button>*/}
+                                </div>
+                            </div>) : ('')}
+                        <Webcam
+                            className='invisible-fevermode-webcam'
+                            audio={false}
+                            height={700}
+                            mirrored={true}
+                            ref={this.webcamRef}
+                            screenshotFormat="image/jpeg"
+                            width={700}
+                            videoConstraints={this.state.videoConstraints}
+                        />
                     </div>
                 </div>
                 <div className='form-container'>
@@ -211,11 +216,11 @@ class FeverMode extends Component {
                     <div className='d-flex'>
                         <div className='w-70'></div>
                         <div className='w-20 color-gray t-right'>
-                            Goal Time : &nbsp; {this.props.goalTime}
+                            Goal Time : &nbsp; {this.state.goalTime}
                         </div>
                     </div>
                     <div className=' mt-5 d-v-center  fever-form'>
-                        <div className='t-center w-100 f-large'>
+                        <div className='t-center w-100 f-large good-word-box'>
                             {this.state.selectedGoodWords}<br/>
                             - {this.state.selectedGoodWordsMan} -
 
@@ -240,11 +245,13 @@ class FeverMode extends Component {
     }
 }
 FeverMode.propTypes={
-    selectedCategory:PropTypes.object,
-    etcCategory:PropTypes.object,
+    location:PropTypes.object,
+    selectedCategory:PropTypes.string,
+    etcCategory:PropTypes.string,
     hid:PropTypes.number,
-    goalTime:PropTypes.number,
-    putFeverHistory:PropTypes.func
+    goalTime:PropTypes.string,
+    putFeverHistory:PropTypes.func,
+    postFeverProgress:PropTypes.func
 }
 
 const mapStateToProps = state =>{
@@ -258,7 +265,9 @@ const mapStateToProps = state =>{
 const mapDispatchToProps = dispatch => {
     return {
         putFeverHistory: (hid) =>
-            dispatch(actionCreators.putFeverHistory(hid))
+            dispatch(actionCreators.putFeverHistory(hid)),
+        postFeverProgress: (hid, image) =>
+            dispatch(actionCreators.postFeverProgress(hid, image))
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(withRouter(FeverMode));
