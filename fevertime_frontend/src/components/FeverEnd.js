@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import {connect} from 'react-redux'
 import { withRouter } from 'react-router';
-
+import PropTypes from 'prop-types';
 class FeverEnd extends Component {
     render() {
         return (
@@ -39,7 +39,7 @@ FeverEnd.propTypes={
     total_time:PropTypes.string,
     fever_time:PropTypes.string,
     fever_rate:PropTypes.number
-}
+};
 const mapStateToProps = state => {
     return {
         total_time:state.feverStart.total_time,
