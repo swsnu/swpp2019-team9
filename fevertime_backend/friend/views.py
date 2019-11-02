@@ -22,7 +22,7 @@ def friend_request(request):
         if Friend_request.objects.filter(to_user=to_user).filter(from_user=from_user).exists():
             return HttpResponseForbidden()      #403
         if to_user == from_user:
-            return HttpResponseForbidden()      #403
+            return HttpResponse(status=401)     #401
         requested=Friend_request(from_user=from_user, to_user=to_user)
         requested.save()
         return HttpResponse(status=201)

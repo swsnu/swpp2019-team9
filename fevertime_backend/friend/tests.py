@@ -40,7 +40,7 @@ class FriendTestCase(TestCase):
         response = client.post('/api/friend/request/',
                                json.dumps({'nickname':'test'}),
                                content_type='application/json')
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 401)
 
         response = client.delete('/api/friend/request/')
         self.assertEqual(response.status_code, 405)

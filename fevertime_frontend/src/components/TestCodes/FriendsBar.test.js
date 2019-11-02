@@ -19,6 +19,17 @@ jest.mock('../component/PopupFilled', () => {
         );
     });
 });
+
+jest.mock('../component/PopupMessage', () => {
+    return jest.fn((props) => {
+      return (
+        <div className="spyFriendPopupMessage">
+            <button id="spyExit" onClick={props.clickClose}/>
+        </div>
+        );
+    });
+});
+
 const stubInitialUser = {
     uid:1,
     username: 'test',
@@ -150,26 +161,27 @@ describe('FriendsBar', () => {
         wrapper1.simulate('click')
         expect(axios.post).toHaveBeenCalledTimes(1);
     })
-    it('should give alert',()=>{
-        global.alert=jest.fn();
+    it('should give message',()=>{
         const component = mount(friendsBar)
         const button = component.find("#add-friend-button")
         button.simulate('click')
         const wrapper1 = component.find("#spyConfirm")
         wrapper1.simulate('click')
-        expect(global.alert).toHaveBeenCalledTimes(1);
+        expect(component.find('.spyFriendPopupMessage').length).toBe(1);
+        const wrapper = component.find("#spyExit")
+        wrapper.simulate('click')
+        expect(component.find('.FriendsBar').length).toBe(1);
     })
-    /*
     it('should give reject',()=>{
         global.alert=jest.fn();
         axios.post = jest.fn(() => {
             return new Promise((resolve,reject) => {
                 const result = {
-                    status: 404,
+                    response: {status:404},
                     data: null
                 };
+                reject(result)
                 resolve()
-                reject(new Error(result))
             })
         });
         const nickname='test'
@@ -182,8 +194,56 @@ describe('FriendsBar', () => {
         expect(FriendsBarInstance.state.friendname).toEqual('test')
         const wrapper1 = component.find("#spyConfirm")
         wrapper1.simulate('click')
-        expect(global.alert).toHaveBeenCalledTimes(1);
+        expect(component.find('.spyFriendPopupMessage').length).toBe(1);
     })
-    */
    
+    it('should give reject2',()=>{
+        global.alert=jest.fn();
+        axios.post = jest.fn(() => {
+            return new Promise((resolve,reject) => {
+                const result = {
+                    response: {status:401},
+                    data: null
+                };
+                reject(result)
+                resolve()
+            })
+        });
+        const nickname='test'
+        const component = mount(friendsBar)
+        const button = component.find("#add-friend-button")
+        button.simulate('click')
+        const wrapper = component.find("#spyContent")
+        wrapper.simulate('change', {target:{value:nickname}});
+        const FriendsBarInstance = component.find(FriendsBar).instance();
+        expect(FriendsBarInstance.state.friendname).toEqual('test')
+        const wrapper1 = component.find("#spyConfirm")
+        wrapper1.simulate('click')
+        expect(component.find('.spyFriendPopupMessage').length).toBe(1);
+    })
+
+    it('should give reject3',()=>{
+        global.alert=jest.fn();
+        axios.post = jest.fn(() => {
+            return new Promise((resolve,reject) => {
+                const result = {
+                    response: {status:403},
+                    data: null
+                };
+                reject(result)
+                resolve()
+            })
+        });
+        const nickname='test'
+        const component = mount(friendsBar)
+        const button = component.find("#add-friend-button")
+        button.simulate('click')
+        const wrapper = component.find("#spyContent")
+        wrapper.simulate('change', {target:{value:nickname}});
+        const FriendsBarInstance = component.find(FriendsBar).instance();
+        expect(FriendsBarInstance.state.friendname).toEqual('test')
+        const wrapper1 = component.find("#spyConfirm")
+        wrapper1.simulate('click')
+        expect(component.find('.spyFriendPopupMessage').length).toBe(1);
+    })
 });

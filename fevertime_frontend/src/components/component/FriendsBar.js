@@ -29,7 +29,7 @@ class FriendsBar extends Component {
                     return {'firstword' : value.nickname[0], 'name': value.nickname}
                 })}) 
             })
-        axios.get('api/friend/real/')
+        axios.get('/api/friend/real/')
             .then(res=>{
                 this.setState({friendlist: res.data.map((value)=>{
                     return {'firstword' : value.nickname[0], 'name': value.nickname}
@@ -79,7 +79,14 @@ class FriendsBar extends Component {
     }
     clickAddFriendConfirm = () =>{
         if(this.state.friendname ===''){
-            alert('insert name!')
+            this.setState({
+                showAddFriendPopup : false,
+                showAddFriendMessagePopup : true,
+                addFriendSuccess : false,
+                AddFriendMessageTitle : 'Request friend failed',
+                AddFriendMessageContent : 'Insert nickname',
+                friendname : '',
+            })
         }
         else{
             axios.post('/api/friend/request/',{'nickname':this.state.friendname})
@@ -94,13 +101,22 @@ class FriendsBar extends Component {
                     })
                 })
                 .catch(error=>{
-                    if(error.response.status===404)
+                    if(error.response.status===404 || error.response.status===401)
                         this.setState({
                             showAddFriendPopup : false,
                             showAddFriendMessagePopup : true,
                             addFriendSuccess : false,
                             AddFriendMessageTitle : 'Request friend failed',
-                            AddFriendMessageContent : 'No such nickname',
+                            AddFriendMessageContent : 'Unavailable nickname',
+                            friendname : '',
+                        })
+                    else if(error.response.status===403)
+                        this.setState({
+                            showAddFriendPopup : false,
+                            showAddFriendMessagePopup : true,
+                            addFriendSuccess : false,
+                            AddFriendMessageTitle : 'Request friend failed',
+                            AddFriendMessageContent : 'Request already sent',
                             friendname : '',
                         })
                 })
