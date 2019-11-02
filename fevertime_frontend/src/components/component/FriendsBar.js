@@ -24,7 +24,7 @@ class FriendsBar extends Component {
                     return {'firstword' : value.nickname[0], 'name': value.nickname}
                 })}) 
             })
-        axios.get('api/friend/real/')
+        axios.get('/api/friend/real/')
             .then(res=>{
                 this.setState({friendlist: res.data.map((value)=>{
                     return {'firstword' : value.nickname[0], 'name': value.nickname}
@@ -73,14 +73,19 @@ class FriendsBar extends Component {
         else{
             axios.post('/api/friend/request/',{'nickname':this.state.friendname})
                 .then(()=>{
+                    alert('successfully sended request!')
                     this.setState({
-                    showAddFriendPopup : false,
-                    friendname : '',
-                    })
+                        showAddFriendPopup : false,
+                        friendname : '',
+                        })
                 })
                 .catch(error=>{
                     if(error.response.status===404)
                         alert('no such name!')
+                    else if(error.response.status===403)
+                        alert("you've already sended request!")
+                        else if(error.response.status===401)
+                        alert("that's your nickname!")
                 })
         }
     }

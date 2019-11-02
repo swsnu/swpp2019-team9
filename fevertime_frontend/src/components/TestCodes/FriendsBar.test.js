@@ -129,6 +129,7 @@ describe('FriendsBar', () => {
         expect(axios.post).toHaveBeenCalledTimes(0);
     })
     it('should send request',()=>{
+        global.alert=jest.fn();
         axios.post = jest.fn(() => {
             return new Promise((resolve) => {
                 const result = {
@@ -150,7 +151,7 @@ describe('FriendsBar', () => {
         wrapper1.simulate('click')
         expect(axios.post).toHaveBeenCalledTimes(1);
     })
-    it('should give alert',()=>{
+    it('should give alert1',()=>{
         global.alert=jest.fn();
         const component = mount(friendsBar)
         const button = component.find("#add-friend-button")

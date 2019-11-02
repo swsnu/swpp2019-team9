@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'fever.apps.FeverConfig',
     'friend.apps.FriendConfig',
+    'group.apps.GroupConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
