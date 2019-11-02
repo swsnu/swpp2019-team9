@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import {connect} from 'react-redux'
+import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 class FeverEnd extends Component {
     render() {
         return (
@@ -12,17 +15,17 @@ class FeverEnd extends Component {
                     <div className='d-flex mt-5'>
                         <div className='w-20'></div>
                         <div className='w-40 f-large'>Total Time </div>
-                        <div className='w-20 f-xlarge '> 01:23:45</div>
+                        <div className='w-20 f-xlarge '>{this.props.total_time}</div>
                     </div>
                     <div className='d-flex mt-5'>
                         <div className='w-20'></div>
                         <div className='w-40 f-large'>Fever Time </div>
-                        <div className='w-20 f-xlarge '> 01:23:45</div>
+                        <div className='w-20 f-xlarge '>{this.props.fever_time}</div>
                     </div>
                     <div className='d-flex mt-5'>
                         <div className='w-20'></div>
                         <div className='w-40 f-large'>Avg Fever rate </div>
-                        <div className='w-20 f-xlarge '> 80%</div>
+                        <div className='w-20 f-xlarge '> {this.props.fever_rate}%</div>
                     </div>
                 </div>
                 <div className='d-flex d-ho-center'>
@@ -32,4 +35,16 @@ class FeverEnd extends Component {
         )
     }
 }
-export default FeverEnd;
+FeverEnd.propTypes={
+    total_time:PropTypes.string,
+    fever_time:PropTypes.string,
+    fever_rate:PropTypes.number
+};
+const mapStateToProps = state => {
+    return {
+        total_time:state.feverStart.total_time,
+        fever_time:state.feverStart.fever_time,
+        fever_rate:state.feverStart.fever_rate
+    };
+}
+export default connect(mapStateToProps,null)(withRouter(FeverEnd));

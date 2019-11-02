@@ -3,7 +3,7 @@ import * as types from '../actions/actionTypes';
 // 초기 상태를 정의합니다.
 const initialState = {
     selectedCategory:'',
-    goalTime:0,
+    goalTime:'',
     etcCategory:'',
     hid : 0,
     total_time : '',
