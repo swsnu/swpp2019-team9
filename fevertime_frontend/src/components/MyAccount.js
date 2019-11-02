@@ -46,7 +46,7 @@ class MyAccount extends Component {
                 <div className='d-flex mt-5 d-v-center'>
                     <div className='w-20'></div>
                     <div className='w-20'>ID</div>
-                    <input className='w-30 input-1' defaultValue={this.props.storedMyAccount.username} disabled/>
+                    <input className='w-30 input-1 disable-input' defaultValue={this.props.storedMyAccount.username} disabled/>
                 </div>
                 <div className='d-flex mt-3 d-v-center'>
                     <div className='w-20'></div>
@@ -54,7 +54,9 @@ class MyAccount extends Component {
                     <input className='w-30 input-1' id="nickname_input" defaultValue={this.props.storedMyAccount.nickname}
                     onChange={(event => this.setState({nickname: event.target.value}))}
                     />
-                    {this.state.WrongInput[0]}
+                    <div className='ml-3 f-small'>
+                        {this.state.WrongInput[0]}
+                    </div>
                 </div>
                 <div className='d-flex mt-3 d-v-center'>
                     <div className='w-20'></div>
@@ -63,7 +65,9 @@ class MyAccount extends Component {
                     onChange={(event => this.setState({
                         password: event.target.value}))}
                     />
-                    {this.state.WrongInput[1]}
+                    <div className='ml-3 f-small'>
+                        {this.state.WrongInput[1]}
+                    </div>
                 </div>
                 <div className='d-flex mt-3 d-v-center'>
                     <div className='w-20'></div>
@@ -72,7 +76,9 @@ class MyAccount extends Component {
                     onChange={(event => this.setState({
                         password_confirm: event.target.value}))}
                     />
-                    {this.state.WrongInput[2]}
+                    <div className='ml-3 f-small'>
+                        {this.state.WrongInput[2]}
+                    </div>
                 </div>
                 <div className='t-center mt-5 d-flex'>
                     <div className='w-30'></div>

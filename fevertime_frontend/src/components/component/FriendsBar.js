@@ -111,7 +111,7 @@ class FriendsBar extends Component {
                                         <div className='d-flex mt-2' key={index}>
                                             <div className='badge-custom t-center'>{value.firstword}</div>
                                             {value.name}
-                                            <button onClick={()=>this.clickDeleteReal(value.name)} id='delete-button'>Delete</button>
+                                            <button className='friend-delete-button' onClick={()=>this.clickDeleteReal(value.name)} id='delete-button'>Delete</button>
                                         </div>
                                     );
                                 })}
@@ -123,8 +123,8 @@ class FriendsBar extends Component {
                                     <div className='d-flex mt-2' key={index}>
                                         <div className='badge-custom t-center'>{value.firstword}</div>
                                         {value.name}
-                                        <button onClick={()=>this.clickAcceptRequest(value.name)} id='accept-button'>O</button>
-                                        <button onClick={()=>this.clickDeclineRequest(value.name)} id='decline-button'>X</button>
+                                        <button className='friend-accept-button' onClick={()=>this.clickAcceptRequest(value.name)} id='accept-button'>O</button>
+                                        <button className='friend-decline-button' onClick={()=>this.clickDeclineRequest(value.name)} id='decline-button'>X</button>
                                     </div>
                                 );
                             })}
