@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import AddFriendPopup from "./PopupFilled";
+import AddFriendMessagePopup from "./PopupMessage";
 class FriendsBar extends Component {
     constructor (props)
     {
         super(props);
         this.state={
             showAddFriendPopup: false,
+            showAddFriendMessagePopup: false,
             showMyFriend : true,
+            addFriendSuccess : false,
+            AddFriendMessageTitle : '',
+            AddFriendMessageContent : '',
             friendname : '',
             friendlist : [],
             friendinglist : [],
@@ -60,6 +65,12 @@ class FriendsBar extends Component {
             showAddFriendPopup : false,
             friendname : ''
         })
+
+    }
+    clickMessageClose= () =>{
+        this.setState({
+            showAddFriendMessagePopup : false,
+        })
     }
     friendNameChange = (e) =>{
         this.setState({
@@ -75,12 +86,23 @@ class FriendsBar extends Component {
                 .then(()=>{
                     this.setState({
                     showAddFriendPopup : false,
+                    showAddFriendMessagePopup : true,
+                    addFriendSuccess : true,
+                    AddFriendMessageTitle : 'Request friend completed',
+                    AddFriendMessageContent : 'Completed your request to a friend',
                     friendname : '',
                     })
                 })
                 .catch(error=>{
                     if(error.response.status===404)
-                        alert('no such name!')
+                        this.setState({
+                            showAddFriendPopup : false,
+                            showAddFriendMessagePopup : true,
+                            addFriendSuccess : false,
+                            AddFriendMessageTitle : 'Request friend failed',
+                            AddFriendMessageContent : 'No such nickname',
+                            friendname : '',
+                        })
                 })
         }
     }
@@ -98,6 +120,14 @@ class FriendsBar extends Component {
                             clickClose={this.clickClose}
                             clickConfirm={this.clickAddFriendConfirm}
                             changeContent={this.friendNameChange}
+                />
+                <AddFriendMessagePopup show={this.state.showAddFriendMessagePopup}
+                                modalTitle={this.state.AddFriendMessageTitle}
+                                content={this.state.AddFriendMessageContent}
+                                buttonConfirm={'OK'}
+                                isSuccess={this.state.addFriendSuccess}
+                                clickClose={this.clickMessageClose}
+                                clickConfirm={this.clickMessageClose}
                 />
                 <div className='d-flex fri-list-button'>
                     <div id='real-tab' className={(this.state.showMyFriend ? 'show-my-friend-tab' : 'hide-my-friend-tab')} onClick={this.clickMyFriends()}>My Friends</div>
