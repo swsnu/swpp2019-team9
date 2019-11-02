@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import './Friends.css'
 import AddGroupPopup from "./component/PopupFilled";
 import FriendsBar from '../components/component/FriendsBar'
@@ -18,6 +19,19 @@ class Friends extends Component {
 
         }
     }
+
+    componentDidMount(){
+        this.onGetGroupList()
+    }
+    onGetGroupList=()=>{
+        axios.get('/api/group/')
+            .then(res=>{
+                this.setState({groupList: res.data.map((value)=>{
+                    return { 'id': value.gid, 'firstword' : value.groupname[0], 'name': value.nickname, 'num':value.num, 'TopFever': 'not implemented'}
+                })}) 
+            })
+    }
+
     clickAddGroup = () => () => {
         this.setState({
             showAddGroupPopup : true,

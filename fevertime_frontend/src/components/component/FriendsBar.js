@@ -91,7 +91,6 @@ class FriendsBar extends Component {
         else{
             axios.post('/api/friend/request/',{'nickname':this.state.friendname})
                 .then(()=>{
-                    alert('successfully sended request!')
                     this.setState({
                     showAddFriendPopup : false,
                     showAddFriendMessagePopup : true,
