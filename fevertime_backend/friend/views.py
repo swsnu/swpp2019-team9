@@ -1,8 +1,8 @@
 import json
-from json import JSONDecodeError
-from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest, JsonResponse, HttpResponseNotFound, HttpResponseForbidden
-from .models import Friend_real, Friend_request
+from django.http import HttpResponse, HttpResponseNotAllowed, \
+                        JsonResponse, HttpResponseNotFound, HttpResponseForbidden
 from user.models import User
+from .models import Friend_real, Friend_request
 # Create your views here.
 
 def friend_request(request):
@@ -12,11 +12,8 @@ def friend_request(request):
         return JsonResponse(response_dict, safe=False)
             
     elif request.method =='POST':
-        try:
-            body=request.body.decode()
-            to_nickname=json.loads(body)['nickname']
-        except (KeyError, JSONDecodeError):
-            return HttpResponseBadRequest()        #400
+        body=request.body.decode()
+        to_nickname=json.loads(body)['nickname']
         try:
             to_user=User.objects.get(nickname=to_nickname)
         except User.DoesNotExist:
@@ -26,8 +23,8 @@ def friend_request(request):
             return HttpResponseForbidden()      #403
         if to_user == from_user:
             return HttpResponseForbidden()      #403
-        friend_request=Friend_request(from_user=from_user, to_user=to_user)
-        friend_request.save()
+        requested=Friend_request(from_user=from_user, to_user=to_user)
+        requested.save()
         return HttpResponse(status=201)
     else: 
         return HttpResponseNotAllowed(['GET','POST'])
@@ -51,16 +48,13 @@ def request_specific(request,to_nickname):
 
 def friend_real(request):
     if request.method =='GET':
-        friend_real= request.user.user_friend1.all()
-        response_dict=[{'nickname':friend.friend2.nickname} for friend in friend_real]
+        real_list= request.user.user_friend1.all()
+        response_dict=[{'nickname':friend.friend2.nickname} for friend in real_list]
         return JsonResponse(response_dict, safe=False)
             
     elif request.method =='POST':
-        try:
-            body=request.body.decode()
-            nickname=json.loads(body)['nickname']
-        except (KeyError, JSONDecodeError):
-            return HttpResponseBadRequest()        #400
+        body=request.body.decode()
+        nickname=json.loads(body)['nickname']
         try:
             user1=User.objects.get(nickname=nickname)
         except User.DoesNotExist:
@@ -100,7 +94,7 @@ def real_specific(request,nickname):
             delete_real1.delete()
             delete_real2.delete()
         except Friend_real.DoesNotExist:
-            pass      #404
+            return HttpResponseNotFound()       #404
         return HttpResponse(status=200)       
 
     else: 

@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import FriendsBar from '../component/FriendsBar';
 import { getMockStore } from '../../test-utils/mocks';
 import axios from 'axios';
-import PopupFilled from '../component/PopupFilled'
 import { history } from '../../store/store';
 import {ConnectedRouter} from "connected-react-router";
 
@@ -123,7 +122,6 @@ describe('FriendsBar', () => {
             })
         });
         const component = mount(friendsBar)
-        const FriendsBarInstance = component.find(FriendsBar).instance();
         const button = component.find("#add-friend-button")
         button.simulate('click')
         const wrapper1 = component.find("#spyClose")
