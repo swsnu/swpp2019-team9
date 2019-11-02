@@ -17,9 +17,7 @@ export const loginUser = (user) => {
                 dispatch(loginUser_(res.data));
                 dispatch(push('/feverstart'));
             })
-            .catch((error)=>{
-                if(error.response.status===401)
-                    alert('incorrect id or password')
+            .catch(()=>{
             })
     };
 };

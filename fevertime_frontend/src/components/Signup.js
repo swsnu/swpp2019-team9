@@ -79,7 +79,9 @@ class Signup extends Component {
                             onChange={(event => this.setState({
                                 ID: event.target.value}))}
                     />
-                    {this.state.WrongInput[0]}
+                    <div className='ml-3 f-small'>
+                        {this.state.WrongInput[0]}
+                    </div>
                 </div>
                 <div className='d-flex mt-3 d-v-center'>
                     <div className='w-20'></div>
@@ -89,7 +91,9 @@ class Signup extends Component {
                         onChange={(event => this.setState({
                             Nickname: event.target.value}))}
                     />
-                    {this.state.WrongInput[1]}
+                    <div className='ml-3 f-small'>
+                        {this.state.WrongInput[1]}
+                    </div>
                 </div>
                 <div className='d-flex mt-3 d-v-center'>
                     <div className='w-20'></div>
@@ -99,7 +103,9 @@ class Signup extends Component {
                             onChange={(event => this.setState({
                                 Password: event.target.value}))}
                     />
-                    {this.state.WrongInput[2]}
+                    <div className='ml-3 f-small'>
+                        {this.state.WrongInput[2]}
+                    </div>
                 </div>
                 <div className='d-flex mt-3 d-v-center'>
                     <div className='w-20'></div>
@@ -109,7 +115,9 @@ class Signup extends Component {
                             onChange={(event => this.setState({
                                 Password_Confirm: event.target.value}))}
                     />
-                    {this.state.WrongInput[3]}
+                    <div className='ml-3 f-small'>
+                        {this.state.WrongInput[3]}
+                    </div>
                 </div>
                 <div className='d-flex mt-3'>
                     <div className='w-20'></div>
@@ -119,7 +127,9 @@ class Signup extends Component {
                                 Term_of_Use: !this.state.Term_of_Use})}
                     />
                     <div className='ml-1'>Terms of Use</div>
-                    {this.state.WrongInput[4]}
+                    <div className='ml-3 f-small'>
+                        {this.state.WrongInput[4]}
+                    </div>
                 </div>
                 <div className='d-flex mt-1'>
                     <div className='w-20'></div>
@@ -129,7 +139,9 @@ class Signup extends Component {
                                 Term_of_Personal_info: !this.state.Term_of_Personal_info}))}
                     />
                     <div className='ml-1'>Collect and use of personal information</div>
-                    {this.state.WrongInput[5]}
+                    <div className='ml-3 f-small'>
+                        {this.state.WrongInput[5]}
+                    </div>
                 </div>
                 <div className='t-center mt-4 d-flex'>
                     <div className='w-30'></div>

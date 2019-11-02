@@ -3,18 +3,30 @@ import { Link } from 'react-router-dom';
 import * as actionCreators from "../store/actions/index";
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types';
+import LoginFailMessage from "./component/PopupMessage";
 
 class Login extends Component {
     state={
         username:"",
         password:"",
+        loginFailed:false,
+
     }
     clickLogin=()=>{
-        this.props.onLoginUser(this.state.username,this.state.password);
+        this.props.onLoginUser(this.state.username,this.state.password).then(()=>{this.setState({loginFailed:true})})
+    }
+    clickMessageClose=()=>{
+        this.setState({loginFailed:false})
     }
     render() {
         return (
             <div className='form-container Login'>
+                <LoginFailMessage show={this.state.loginFailed}
+                                modalTitle={"Login Failed"}
+                                content={"Wrong ID or password"}
+                                isSuccess={false}
+                                clickClose={this.clickMessageClose}
+                />
                 <div className='t-center mt-5 page-title'>Login</div>
                 <div className='d-flex mt-5 d-v-center'>
                     <div className='w-20'></div>
