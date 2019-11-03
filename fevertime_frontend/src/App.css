@@ -333,3 +333,27 @@
 .good-word-box{
   height: 200px;
 }
+.friend-accept-button{
+  border-radius: 30px;
+  background-color: royalblue;
+  color : white;
+  margin-left: 5px;
+
+}
+.friend-decline-button{
+  background-color: red;
+  color: white;
+  border-radius: 30px;
+  margin-left: 5px;
+}
+.friend-delete-button{
+  background-color: red;
+  color: white;
+  font-size: 14px;
+  border-radius: 30px;
+  margin-left: 5px;
+}
+
+.disable-input{
+  background-color: lightgray;
+}

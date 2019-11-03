@@ -35,6 +35,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 INSTALLED_APPS = [
     'user.apps.UserConfig',
     'fever.apps.FeverConfig',
+    'friend.apps.FriendConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

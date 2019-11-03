@@ -18,7 +18,6 @@ export const loginUser = (user) => {
                 dispatch(push('/feverstart'));
             })
             .catch(()=>{
-                //console.log(error)//have to define
             })
     };
 };

@@ -20,6 +20,16 @@ jest.mock('react-router-dom', () => {
         }
 });
 
+jest.mock('../component/PopupMessage', () => {
+    return jest.fn((props) => {
+      return (
+        <div className="spyLoginMessage">
+            <button id="spyExit" onClick={props.clickClose}/>
+        </div>
+        );
+    });
+});
+
 describe('Login', () => {
     let login;
     beforeEach(() => {
@@ -32,12 +42,15 @@ describe('Login', () => {
                 </ConnectedRouter>
             </Provider>
         );
-        loginAction.loginUser =jest.fn(()=>{return ()=>{}});
+        loginAction.loginUser =jest.fn(()=>() => {
+            return new Promise(() => {})
+        });
     })
     it('should render', () => {
         const component = mount(login);
         expect(component.find('.Login').length).toBe(1);
     });
+
     it('should click login',()=>{
         const id = 'testid'
         const password='testpw';
@@ -52,5 +65,14 @@ describe('Login', () => {
         expect(newLoginInstance.state.password).toEqual(password)
         wrapper3.simulate('click');
         expect(loginAction.loginUser).toHaveBeenCalledTimes(1);
+    })
+
+    it('should give reject',()=>{
+        const component = mount(login)
+        const wrapper3 = component.find("#login-button").at(0);
+        wrapper3.simulate('click');
+        const wrapper1 = component.find("#spyExit")
+        wrapper1.simulate('click')
+        expect(component.find('.Login').length).toBe(1);
     })
 });

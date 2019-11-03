@@ -42,18 +42,7 @@ class Friends extends Component {
             groupName: e.target.value
         })
     }
-    clickMyFriends = () => () => {
-        this.setState({
-            showMyFriend : true,
 
-        })
-    }
-    clickFriendingList = () => () => {
-        this.setState({
-            showMyFriend : false,
-
-        })
-    }
     goGroup = (id) => () => {
         this.props.history.push('/group/'+id)
     }
