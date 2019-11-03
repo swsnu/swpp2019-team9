@@ -95,8 +95,8 @@ class FriendsBar extends Component {
                     showAddFriendPopup : false,
                     showAddFriendMessagePopup : true,
                     addFriendSuccess : true,
-                    AddFriendMessageTitle : 'Request friend completed',
-                    AddFriendMessageContent : 'Completed your request to a friend',
+                    AddFriendMessageTitle : 'Friend request sended',
+                    AddFriendMessageContent : 'Successfully sent your request',
                     friendname : '',
                     })
                 })
@@ -106,7 +106,7 @@ class FriendsBar extends Component {
                             showAddFriendPopup : false,
                             showAddFriendMessagePopup : true,
                             addFriendSuccess : false,
-                            AddFriendMessageTitle : 'Request friend failed',
+                            AddFriendMessageTitle : 'Friend request failed',
                             AddFriendMessageContent : 'Unavailable nickname',
                             friendname : '',
                         })
@@ -115,7 +115,7 @@ class FriendsBar extends Component {
                             showAddFriendPopup : false,
                             showAddFriendMessagePopup : true,
                             addFriendSuccess : false,
-                            AddFriendMessageTitle : 'Request friend failed',
+                            AddFriendMessageTitle : 'Friend request failed',
                             AddFriendMessageContent : 'Request already sent',
                             friendname : '',
                         })

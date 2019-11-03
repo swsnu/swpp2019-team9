@@ -140,7 +140,6 @@ describe('FriendsBar', () => {
         expect(axios.post).toHaveBeenCalledTimes(0);
     })
     it('should send request',()=>{
-        global.alert=jest.fn();
         axios.post = jest.fn(() => {
             return new Promise((resolve) => {
                 const result = {
@@ -175,7 +174,6 @@ describe('FriendsBar', () => {
         expect(component.find('.FriendsBar').length).toBe(1);
     })
     it('should give reject',()=>{
-        global.alert=jest.fn();
         axios.post = jest.fn(() => {
             return new Promise((resolve,reject) => {
                 const result = {
@@ -200,7 +198,6 @@ describe('FriendsBar', () => {
     })
    
     it('should give reject2',()=>{
-        global.alert=jest.fn();
         axios.post = jest.fn(() => {
             return new Promise((resolve,reject) => {
                 const result = {
@@ -225,7 +222,6 @@ describe('FriendsBar', () => {
     })
 
     it('should give reject3',()=>{
-        global.alert=jest.fn();
         axios.post = jest.fn(() => {
             return new Promise((resolve,reject) => {
                 const result = {
