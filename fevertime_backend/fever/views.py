@@ -96,12 +96,18 @@ def fever_progress(request):
         ##########################
         # file = {'file': image} #, 'image_url': 20
         # myKey = "3ac17bc0e257b604d053901085eaae99"
-        url = "https://kapi.kakao.com/v1/vision/face/detect"
+        # kakao api 관련 세팅
+        kakao_url = "https://kapi.kakao.com/v1/vision/face/detect"
+        kakao_headers = {'Authorization': 'KakaoAK {}'.format("3ac17bc0e257b604d053901085eaae99")}
 
-        headers = {'Authorization': 'KakaoAK {}'.format("3ac17bc0e257b604d053901085eaae99")}
+        # msazur api 관련 세팅
+        # msazure_url 은 endpoint + api_url 로 이루어짐
+        MSazure_url = "https://koreacentral.api.cognitive.microsoft.com/vision/v2.1/analyze"
+        MSazure_headers = {'Ocp-Apim-Subscription-Key': "ab6fb46e804f4be48422cdaafb65f4f1",
+           'Content-Type': 'application/octet-stream'}
+        MSazure_params = {'visualFeatures': 'Faces,Description,Objects'}
         try:
-            response = requests.post(url, headers=headers, files={'file': image})
-            print(response.text)
+            response = requests.post(kakao_url, headers=kakao_headers, files={'file': image})
             response.raise_for_status()
             response = response.json()['result']
 
@@ -128,12 +134,28 @@ def fever_progress(request):
 
             except KeyError:
                 pass
+
+            response = requests.post(
+                MSazure_url, headers=MSazure_headers, params=MSazure_params, data=image)
+            response.raise_for_status()
+            MSazure_response = response.json()
+            # print(MSazure_response)
+            fever_yn = 'N'
+            phone_detect = False
             ##########
             # 1. 얼굴 인식이 되었으면, fever 했음으로 취급한다.
-            fever_yn = 'N'
             if faceDetect:
                 fever_yn = 'Y'
-
+            # 2. description option 에서 핸드폰이 detect 되었으면, fever 안했음으로 취급한다.
+            if 'phone' in MSazure_response["description"]["tags"]:
+                fever_yn = 'N'
+                phone_detect = True
+            # 3. objects option 에서 핸드폰이 detect 되었으면, fever 안했음으로 취급한다.
+            for object in MSazure_response["objects"]:
+                if object['object'] == 'cell phone':
+                    fever_yn = 'N'
+                    phone_detect = True
+                    break
             ###########
             newfever_prog = Fever_progress(fever_yn=fever_yn,
                                            user=request.user,
@@ -146,7 +168,8 @@ def fever_progress(request):
                                            yaw=yaw,
                                            roll=roll)
             newfever_prog.save()
-            return JsonResponse({'faceDetect' : faceDetect}, status=200)
+            return JsonResponse({'face_detect': faceDetect,
+                                 'phone_detect': phone_detect}, status=200)
         except requests.exceptions.HTTPError:
             return HttpResponse(status=400)
 
