@@ -7,6 +7,8 @@ import { getMockStore } from '../../test-utils/mocks';
 import { history } from '../../store/store';
 import {ConnectedRouter} from "connected-react-router";
 import * as actionCreator from "../../store/actions/fever";
+import axios from "axios";
+import store from "../../store/store";
 const stubInitialState = {
     selectedCategory: '',
     goalTime: "00:10:00",
@@ -73,6 +75,9 @@ describe('FeverMode', () => {
         const newFeverModeInstance3 = component.find(FeverMode.default.WrappedComponent).instance();
         expect(newFeverModeInstance3.state.showAlarmCheckPopup).toEqual(false);
         expect(newFeverModeInstance3.state.showAlarm).toEqual(true);
+
+
+
 
     });
 
