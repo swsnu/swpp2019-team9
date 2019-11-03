@@ -263,6 +263,7 @@ FeverMode.propTypes={
     face_detect:PropTypes.bool,
     phone_detect:PropTypes.bool,
     clickDetectAlarmPopupClose:PropTypes.func,
+    postFeverProgress:PropTypes.func
 }
 
 const mapStateToProps = state =>{
