@@ -31,7 +31,7 @@ class PopupMessage extends Component {
                         {this.props.buttonConfirm}
                     </Button>
                     ):
-                    (<Button variant="secondary" onClick={this.props.clickClose}>
+                    (<Button variant="secondary" id='popup-message-click-close' onClick={this.props.clickClose}>
                         {this.props.buttonClose}
                     </Button>)}
                 </Modal.Footer>

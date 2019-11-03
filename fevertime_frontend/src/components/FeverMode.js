@@ -5,6 +5,7 @@ import { withRouter } from 'react-router';
 import {connect} from 'react-redux'
 import '../App.css'
 import AlarmModal from './component/PopUpModal'
+import AlarmMessageModal from "./component/PopupMessage";
 import 'react-html5-camera-photo/build/css/index.css';
 import Webcam from "react-webcam";
 import Camera from "react-html5-camera-photo";
@@ -22,7 +23,8 @@ class FeverMode extends Component {
             hid:0,
             showCamera: false,
             showAlarm: false,
-            showAlarmPopup : false,
+            showAlarmCheckPopup : false,
+            showAlarmMessagePopup : false, // 핸드폰 Detect 시 뜨는 알림창을 키고 끄는 변수
             time : 0,
             hour : 0,
             min : 0,
@@ -140,20 +142,20 @@ class FeverMode extends Component {
     }
     onCheckAlarm = (e) => {
         this.setState({
-            showAlarmPopup : e.target.checked,
+            showAlarmCheckPopup : e.target.checked,
             showAlarm : e.target.checked
         })
     }
 
     clickClose = () => () => {
         this.setState({
-            showAlarmPopup : false,
+            showAlarmCheckPopup : false,
             showAlarm : false
         })
     }
     clickConfirm = () => () => {
         this.setState({
-            showAlarmPopup : false,
+            showAlarmCheckPopup : false,
             showAlarm : true
         })
     }
@@ -164,13 +166,20 @@ class FeverMode extends Component {
     render() {
         return (
             <div className='p-relative' id='FeverMode'>
-                <AlarmModal show={this.state.showAlarmPopup}
+                <AlarmModal show={this.state.showAlarmCheckPopup }
                             modalTitle={'Start Alarm mode'}
                             content={'Do you want to turn on the Alarm?'}
                             buttonConfirm={'Turn On'}
                             clickClose={this.clickClose()}
                             clickConfirm={this.clickConfirm()}
-
+                />
+                <AlarmMessageModal show={this.state.showAlarm && this.props.phone_detect}
+                                       modalTitle={'Phone detected'}
+                                       content={'Please come back to fever!'}
+                                       buttonConfirm={'Close'}
+                                       isSuccess={false}
+                                       clickClose={this.props.clickDetectAlarmPopupClose}
+                                       clickConfirm={this.props.clickDetectAlarmPopupClose}
                 />
                 <div className='p-absolute'>
                     <div className='d-flex '>
@@ -251,6 +260,9 @@ FeverMode.propTypes={
     hid:PropTypes.number,
     goalTime:PropTypes.string,
     putFeverHistory:PropTypes.func,
+    face_detect:PropTypes.bool,
+    phone_detect:PropTypes.bool,
+    clickDetectAlarmPopupClose:PropTypes.func,
     postFeverProgress:PropTypes.func
 }
 
@@ -259,7 +271,9 @@ const mapStateToProps = state =>{
         selectedCategory:state.feverStart.selectedCategory,
         goalTime:state.feverStart.goalTime,
         etcCategory:state.feverStart.etcCategory,
-        hid : state.feverStart.hid
+        hid : state.feverStart.hid,
+        face_detect : state.feverStart.face_detect,
+        phone_detect : state.feverStart.phone_detect
     }
 }
 const mapDispatchToProps = dispatch => {
@@ -267,7 +281,9 @@ const mapDispatchToProps = dispatch => {
         putFeverHistory: (hid) =>
             dispatch(actionCreators.putFeverHistory(hid)),
         postFeverProgress: (hid, image) =>
-            dispatch(actionCreators.postFeverProgress(hid, image))
+            dispatch(actionCreators.postFeverProgress(hid, image)),
+        clickDetectAlarmPopupClose: () =>
+            dispatch(actionCreators.clickDetectAlarmPopupClose()),
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(withRouter(FeverMode));
