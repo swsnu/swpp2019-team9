@@ -7,8 +7,7 @@ import { getMockStore } from '../../test-utils/mocks';
 import { history } from '../../store/store';
 import {ConnectedRouter} from "connected-react-router";
 import * as actionCreator from "../../store/actions/fever";
-import axios from "axios";
-import store from "../../store/store";
+
 const stubInitialState = {
     selectedCategory: '',
     goalTime: "00:10:00",
