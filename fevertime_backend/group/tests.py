@@ -6,16 +6,16 @@ from user.models import User
 class GroupTestCase(TestCase):
 
     def setUp(self):
-        User.objects.create_user(username="test",
-                                 password="test",
-                                 nickname="test")
-        User.objects.create_user(username="test2",
-                                 password="test2",
-                                 nickname="test2")
+        User.objects.create_user(username="grouptest",
+                                 password="grouptest",
+                                 nickname="grouptest")
+        User.objects.create_user(username="grouptest2",
+                                 password="grouptest2",
+                                 nickname="grouptest2")
     def test_group(self):
         client = Client(enforce_csrf_checks=False)
         response = client.post('/api/user/signin/',
-                               json.dumps({'username': 'test', 'password': 'test'}),
+                               json.dumps({'username': 'grouptest', 'password': 'grouptest'}),
                                content_type='application/json')
 
         response = client.get('/api/group/')
