@@ -51,17 +51,37 @@ export const putFeverHistory = (hid) => {
     };
 };
 
+export const postFeverProgress_ = (data) => {
+    return {
+        type: actionTypes.FEVER_PROGRESS_POST,
+        face_detect: data.face_detect,
+        phone_detect: data.phone_detect,
+    };
+};
 export const postFeverProgress = (hid, image) => {
-    return () => {
+    return dispatch => {
         return axios.post('/api/fever_progress/',{
             id : hid,
             image : image
         })
             .then(res => {
-                console.log(res.data)
+                console.log(res.data);
+                dispatch(postFeverProgress_(res.data));
             })
             .catch(error=>{
                 console.log(error)//have to define
             })
     };
+};
+
+export const clickDetectAlarmPopupClose_ = () => {
+    return {
+        type: actionTypes.CLICK_DETECT_ALARM_POPUP_CLOSE,
+        phone_detect: false,
+    };
+};
+export const clickDetectAlarmPopupClose = () => {
+    return dispatch =>{
+        dispatch(clickDetectAlarmPopupClose_())
+    }
 };
