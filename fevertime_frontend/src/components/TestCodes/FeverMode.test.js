@@ -59,19 +59,19 @@ describe('FeverMode', () => {
         // const wrapper2 = component.find('#pop-modal-click-close');
         wrapper1.simulate('change', { target: { checked: true } });
         const newFeverModeInstance = component.find(FeverMode.default.WrappedComponent).instance();
-        expect(newFeverModeInstance.state.showAlarmPopup).toEqual(true);
+        expect(newFeverModeInstance.state.showAlarmCheckPopup).toEqual(true);
         expect(newFeverModeInstance.state.showAlarm).toEqual(true);
 
         const wrapper2 = component.find('#pop-modal-click-close').at(0);
         wrapper2.simulate('click');
         const newFeverModeInstance2 = component.find(FeverMode.default.WrappedComponent).instance();
-        expect(newFeverModeInstance2.state.showAlarmPopup).toEqual(false);
+        expect(newFeverModeInstance2.state.showAlarmCheckPopup).toEqual(false);
         expect(newFeverModeInstance2.state.showAlarm).toEqual(false);
 
         const wrapper3 = component.find('#pop-modal-click-confirm').at(0);
         wrapper3.simulate('click');
         const newFeverModeInstance3 = component.find(FeverMode.default.WrappedComponent).instance();
-        expect(newFeverModeInstance3.state.showAlarmPopup).toEqual(false);
+        expect(newFeverModeInstance3.state.showAlarmCheckPopup).toEqual(false);
         expect(newFeverModeInstance3.state.showAlarm).toEqual(true);
 
     });

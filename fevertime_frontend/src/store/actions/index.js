@@ -10,5 +10,6 @@ export {
 export {
     postFeverHistory,
     putFeverHistory,
-    postFeverProgress
+    postFeverProgress,
+    clickDetectAlarmPopupClose
 } from './fever';

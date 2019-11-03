@@ -8,7 +8,9 @@ const initialState = {
     hid : 0,
     total_time : '',
     fever_time : '',
-    fever_rate : 0
+    fever_rate : 0,
+    face_detect : false,
+    phone_detect : false
 };
 
 const feverStart =  (state = initialState, action) => {
@@ -30,7 +32,15 @@ const feverStart =  (state = initialState, action) => {
                 fever_time:action.fever_time,
                 fever_rate:action.fever_rate,
             };
-
+        case types.FEVER_PROGRESS_POST:
+            return {...state,
+                face_detect:action.face_detect,
+                phone_detect:action.phone_detect,
+            };
+        case types.CLICK_DETECT_ALARM_POPUP_CLOSE:
+            return {...state,
+                phone_detect:action.phone_detect,
+            };
         default:
             break
     }
