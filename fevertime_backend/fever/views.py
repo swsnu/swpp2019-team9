@@ -104,7 +104,7 @@ def fever_progress(request):
         # msazure_url 은 endpoint + api_url 로 이루어짐
         MSazure_url = "https://koreacentral.api.cognitive.microsoft.com/vision/v2.1/analyze"
         MSazure_headers = {'Ocp-Apim-Subscription-Key': "ab6fb46e804f4be48422cdaafb65f4f1",
-           'Content-Type': 'application/octet-stream'}
+                           'Content-Type': 'application/octet-stream'}
         MSazure_params = {'visualFeatures': 'Faces,Description,Objects'}
         try:
             response = requests.post(kakao_url, headers=kakao_headers, files={'file': image})
@@ -139,7 +139,8 @@ def fever_progress(request):
                 MSazure_url, headers=MSazure_headers, params=MSazure_params, data=image)
             response.raise_for_status()
             MSazure_response = response.json()
-            # print(MSazure_response)
+            # print(MSazure_response["description"]["tags"])
+            # print(MSazure_response["objects"])
             fever_yn = 'N'
             phone_detect = False
             ##########
@@ -147,12 +148,12 @@ def fever_progress(request):
             if faceDetect:
                 fever_yn = 'Y'
             # 2. description option 에서 핸드폰이 detect 되었으면, fever 안했음으로 취급한다.
-            if 'phone' in MSazure_response["description"]["tags"]:
+            if 'cellphone' in MSazure_response["description"]["tags"]:
                 fever_yn = 'N'
                 phone_detect = True
             # 3. objects option 에서 핸드폰이 detect 되었으면, fever 안했음으로 취급한다.
-            for object in MSazure_response["objects"]:
-                if object['object'] == 'cell phone':
+            for image_object in MSazure_response["objects"]:
+                if image_object['object'] == 'cell phone':
                     fever_yn = 'N'
                     phone_detect = True
                     break
