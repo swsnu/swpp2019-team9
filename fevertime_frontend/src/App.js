@@ -14,12 +14,14 @@ import FeverEnd from "./components/FeverEnd";
 import MyData from "./components/MyData";
 import Friends from "./components/Friends";
 import {connect} from 'react-redux'
-import * as actionCreators from "./store/actions/index";
+import * as actionCreators from "./store/actions";
+import * as feverActionCreators from './store/actions/fever';
 import PropTypes from 'prop-types'
 import Group from "./components/Group";
 class App extends React.Component{
     componentDidMount(){
         this.props.onGetUser()
+        this.props.getFeverException()
     }
     render(){
         return (
@@ -50,6 +52,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onGetUser: ()=>
             dispatch(actionCreators.getUserInfo()),
+        getFeverException: ()=>
+            dispatch(feverActionCreators.getFeverException()),
     }
 }
 export default connect(null,mapDispatchToProps)(App);

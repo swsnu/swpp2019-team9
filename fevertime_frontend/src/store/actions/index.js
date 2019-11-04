@@ -11,5 +11,6 @@ export {
     postFeverHistory,
     putFeverHistory,
     postFeverProgress,
+    getFeverException,
     clickDetectAlarmPopupClose
 } from './fever';

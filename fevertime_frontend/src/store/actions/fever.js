@@ -43,7 +43,11 @@ export const putFeverHistory = (hid) => {
         })
             .then(res => {
                 dispatch(putFeverHistory_(res.data));
-                dispatch(push('/feverend'));
+                dispatch(push({
+                    pathname: '/feverend',
+                    search: '?total_time='+res.data.total_time
+                        +'&fever_time='+res.data.fever_time
+                        +'&fever_rate='+res.data.fever_rate}));
             })
             .catch(error=>{
                 console.log(error)//have to define
@@ -84,4 +88,17 @@ export const clickDetectAlarmPopupClose = () => {
     return dispatch =>{
         dispatch(clickDetectAlarmPopupClose_())
     }
+};
+
+export const getFeverException = () => {
+    return dispatch => {
+        return axios.get('/api/fever_exception/')
+            .then(res => {
+                console.log(res);
+                dispatch(postFeverProgress_(res.data));
+            })
+            .catch(error=>{
+                console.log(error)//have to define
+            })
+    };
 };
