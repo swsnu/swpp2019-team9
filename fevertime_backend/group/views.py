@@ -10,7 +10,7 @@ def group(request):
         response_dict=[{'gid':group.id,
                         'groupname':group.group_name,
                         'num':group.group_members.count(),
-                        'TopFever':'?'
+                        'TopFever': group.group_members.all()[0].nickname
                         } for group in user_groups]
         return JsonResponse(response_dict, safe=False)
 
