@@ -161,6 +161,7 @@ describe('FriendsBar', () => {
         wrapper1.simulate('click')
         expect(axios.post).toHaveBeenCalledTimes(1);
     })
+
     it('should give message',()=>{
         const component = mount(friendsBar)
         const button = component.find("#add-friend-button")
@@ -173,7 +174,6 @@ describe('FriendsBar', () => {
         expect(component.find('.FriendsBar').length).toBe(1);
     })
     it('should give reject',()=>{
-        global.alert=jest.fn();
         axios.post = jest.fn(() => {
             return new Promise((resolve,reject) => {
                 const result = {
@@ -198,7 +198,6 @@ describe('FriendsBar', () => {
     })
    
     it('should give reject2',()=>{
-        global.alert=jest.fn();
         axios.post = jest.fn(() => {
             return new Promise((resolve,reject) => {
                 const result = {
@@ -223,7 +222,6 @@ describe('FriendsBar', () => {
     })
 
     it('should give reject3',()=>{
-        global.alert=jest.fn();
         axios.post = jest.fn(() => {
             return new Promise((resolve,reject) => {
                 const result = {

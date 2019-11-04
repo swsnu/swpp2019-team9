@@ -20,5 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/user/', include('user.urls')),
     path('api/fever', include('fever.urls')),
-    path('api/friend/',include('friend.urls'))
+    path('api/friend/',include('friend.urls')),
+    path('api/group/',include('group.urls'))
 ]

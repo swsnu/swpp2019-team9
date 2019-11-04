@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import './Friends.css'
 import AddGroupPopup from "./component/PopupFilled";
+import AddGroupMessagePopup from "./component/PopupMessage";
 import FriendsBar from '../components/component/FriendsBar'
 import PropTypes from 'prop-types';
 class Friends extends Component {
@@ -9,27 +11,69 @@ class Friends extends Component {
         super(props);
         this.state={
             showAddGroupPopup : false,
-            groupList : [
-                {id: 1,firstword : 'A', name : 'GroupA', num: 4, TopFever : 'Youngjae'},
-                {id: 2, firstword : 'G', name : 'Gildong', num: 2, TopFever : 'Gildong'},
-                {id: 3, firstword : 'D', name : 'GroupD', num: 4, TopFever : 'Youngjae'},
-            ],
+            showAddGroupMessagePopup : false,
+            AddGroupMessageTitle : '',
+            AddGroupMessageContent: '',
+            addGroupSuccess: false,
+            groupList : [],
             groupName : '',
 
         }
     }
+
+    componentDidMount(){
+        this.onGetGroupList()
+    }
+    onGetGroupList=()=>{
+        axios.get('/api/group/')
+            .then(res=>{
+                this.setState({groupList: res.data.map((value)=>{
+                    return { 'id': value.gid, 'firstword' : value.groupname[0], 'name': value.groupname, 'num':value.num, 'TopFever': value.TopFever}
+                })}) 
+            })
+    }
+
     clickAddGroup = () => () => {
         this.setState({
             showAddGroupPopup : true,
-
         })
     }
     clickAddGroupConfirm = () => () => {
-        this.setState({
-            showAddGroupPopup : false,
-            groupName : '',
-
-        })
+        if(this.state.groupName.length <=32){
+            axios.post('/api/group/',{'groupname':this.state.groupName})
+                .then(()=>{
+                    this.setState({
+                        showAddGroupPopup : false,
+                        showAddGroupMessagePopup : true,
+                        addGroupSuccess : true,
+                        AddGroupMessageTitle : 'Created group',
+                        AddGroupMessageContent : 'Successfully created new group',
+                        groupName : '',
+                    })
+                    this.onGetGroupList()
+                })
+                .catch((error)=>{
+                    if(error.response.status===403)
+                        this.setState({
+                            showAddGroupPopup : false,
+                            showAddGroupMessagePopup : true,
+                            addGroupSuccess : false,
+                            AddGroupMessageTitle : 'Failed to create group',
+                            AddGroupMessageContent : 'Group name exists',
+                            groupName : '',
+                        })
+                })
+        }
+        else{
+            this.setState({
+                showAddGroupPopup : false,
+                showAddGroupMessagePopup : true,
+                addGroupSuccess : false,
+                AddGroupMessageTitle : 'Failed to create group',
+                AddGroupMessageContent : 'Name is too long',
+                groupName : '',
+            })
+        }
     }
     clickClose = () => () => {
         this.setState({
@@ -46,6 +90,13 @@ class Friends extends Component {
     goGroup = (id) => () => {
         this.props.history.push('/group/'+id)
     }
+    clickMessageClose= () =>{
+        this.setState({
+            showAddGroupMessagePopup : false,
+            AddGroupMessageTitle : '',
+            AddGroupMessageContent: ''
+        })
+    }
 
     render() {
         return (
@@ -58,12 +109,20 @@ class Friends extends Component {
                             clickConfirm={this.clickAddGroupConfirm()}
                             changeContent={this.groupNameChange}
                 />
+                <AddGroupMessagePopup show={this.state.showAddGroupMessagePopup}
+                                modalTitle={this.state.AddGroupMessageTitle}
+                                content={this.state.AddGroupMessageContent}
+                                buttonConfirm={'OK'}
+                                isSuccess={this.state.addGroupSuccess}
+                                clickClose={this.clickMessageClose}
+                                clickConfirm={this.clickMessageClose}
+                />
                 <div className='w-80 mt-5'>
                     <div className='d-flex'>
                         <div className='w-50 page-title pl-5'>Friends</div>
                         <div className='w-20'></div>
                         <div className='w-20'>
-                            <button onClick={this.clickAddGroup()} className='w-80 button-blue'>Add Group</button>
+                            <button id='add-group-button' onClick={this.clickAddGroup()} className='w-80 button-blue'>Add Group</button>
                         </div>
                     </div>
                     <div className='d-flex mt-5 pl-5'>
@@ -77,7 +136,7 @@ class Friends extends Component {
                         <div>
                             {this.state.groupList.map((value,index) => {
                                 return (
-                                    <div key={index} onClick={this.goGroup(value.id)} className='w-100 d-flex friend-item-list'>
+                                    <div key={index} onClick={this.goGroup(value.id)} className='w-100 d-flex friend-item-list' id='group-name'>
                                         <div className='w-50 d-flex d-ho-center'>
                                             <div className='badge-custom '>{value.firstword}</div>
                                             {value.name}
