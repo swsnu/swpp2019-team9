@@ -18,14 +18,29 @@ import * as actionCreators from "./store/actions";
 import * as feverActionCreators from './store/actions/fever';
 import PropTypes from 'prop-types'
 import Group from "./components/Group";
+import NotEndFeverHistoryModal from "./components/component/PopUpModal";
+
 class App extends React.Component{
     componentDidMount(){
         this.props.onGetUser()
         this.props.getFeverException()
     }
+    clickClose = () => () => {
+        this.props.closeFeverException()
+    }
+    clickConfirm = () => () => {
+        this.props.putFeverException()
+    }
     render(){
         return (
             <div className="App">
+                <NotEndFeverHistoryModal show={this.props.num_fevers !== 0}
+                                   modalTitle={"Find not finished Fever"}
+                                   content={"There are "+this.props.num_fevers+" unfinished Fever. Do you want to return to the last fever?"}
+                                   buttonConfirm={'Go to last Fever'}
+                                   clickClose={this.clickClose()}
+                                   clickConfirm={this.clickConfirm()}
+                />
                 <ConnectedRouter history={this.props.history}>
                     <Header></Header>
                     <Route exact path="/" component={Main}/>
@@ -46,7 +61,16 @@ class App extends React.Component{
 }
 App.propTypes={
     history:PropTypes.object,
-    onGetUser:PropTypes.func
+    onGetUser:PropTypes.func,
+    getFeverException:PropTypes.func,
+    last_hid:PropTypes.number,
+    num_fevers:PropTypes.number
+}
+const mapStateToProps = state => {
+    return {
+        last_hid:state.feverStart.last_hid,
+        num_fevers:state.feverStart.num_fevers
+    };
 }
 const mapDispatchToProps = dispatch => {
     return {
@@ -54,6 +78,10 @@ const mapDispatchToProps = dispatch => {
             dispatch(actionCreators.getUserInfo()),
         getFeverException: ()=>
             dispatch(feverActionCreators.getFeverException()),
+        putFeverException: ()=>
+            dispatch(feverActionCreators.putFeverException()),
+        closeFeverException: ()=>
+            dispatch(feverActionCreators.closeFeverException()),
     }
 }
-export default connect(null,mapDispatchToProps)(App);
+export default connect(mapStateToProps,mapDispatchToProps)(App);

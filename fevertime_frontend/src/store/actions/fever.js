@@ -12,7 +12,8 @@ export const postFeverHistory = (category, etcCategory, goalTime) => {
     return dispatch => {
         return axios.post('/api/fever_history/',{
             category : category,
-            etcCategory : etcCategory
+            etcCategory : etcCategory,
+            goalTime : goalTime
         })
             .then(res => {
                 dispatch(postFeverHistory_(res.data));
@@ -90,15 +91,63 @@ export const clickDetectAlarmPopupClose = () => {
     }
 };
 
+export const getFeverException_ = (data) => {
+    return {
+        type: actionTypes.FEVER_EXCEPTION_GET,
+        last_hid: data.last_hid,
+        num_fevers: data.num_fevers,
+    };
+};
+
 export const getFeverException = () => {
     return dispatch => {
         return axios.get('/api/fever_exception/')
             .then(res => {
-                console.log(res);
-                dispatch(postFeverProgress_(res.data));
+                if(res.status === 200){ //login 되었고, 안끝낸게 존재할때
+                    dispatch(getFeverException_(res.data));
+                }
             })
             .catch(error=>{
                 console.log(error)//have to define
             })
     };
+};
+
+export const putFeverException_ = (data) => {
+    return {
+        type: actionTypes.FEVER_EXCEPTION_PUT,
+        last_hid: data.hid,
+        hid: data.hid,
+        goalTime: data.goalTime,
+        num_fevers: 0,
+    };
+};
+
+export const putFeverException = (hid) => {
+    return dispatch => {
+        return axios.put('/api/fever_exception/',{
+            id : hid
+        })
+            .then(res => {
+                dispatch(putFeverException_(res.data));
+                dispatch(push({
+                    pathname: '/fevermode',
+                    search: '?id='+res.data.hid+'&goalTime='+res.data.goalTime+'&prog_time='+res.data.prog_time}));
+            })
+            .catch(error=>{
+                console.log(error)//have to define
+            })
+    };
+};
+
+export const closeFeverException_ = () => {
+    return {
+        type: actionTypes.FEVER_EXCEPTION_CLOSE,
+        num_fevers: 0,
+    };
+};
+export const closeFeverException = () => {
+    return dispatch =>{
+        dispatch(closeFeverException_())
+    }
 };

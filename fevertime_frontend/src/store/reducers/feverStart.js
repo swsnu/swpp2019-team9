@@ -10,7 +10,9 @@ const initialState = {
     fever_time : '',
     fever_rate : 0,
     face_detect : false,
-    phone_detect : false
+    phone_detect : false,
+    num_fevers : 0,
+    last_hid : 0
 };
 
 const feverStart =  (state = initialState, action) => {
@@ -40,6 +42,20 @@ const feverStart =  (state = initialState, action) => {
         case types.CLICK_DETECT_ALARM_POPUP_CLOSE:
             return {...state,
                 phone_detect:action.phone_detect,
+            };
+        case types.FEVER_EXCEPTION_GET:
+            return {...state,
+                last_hid:action.last_hid,
+                num_fevers:action.num_fevers
+            };
+        case types.FEVER_EXCEPTION_PUT:
+            return {...state,
+                last_hid:action.last_hid,
+                num_fevers:action.num_fevers
+            };
+        case types.FEVER_EXCEPTION_CLOSE:
+            return {...state,
+                num_fevers:action.num_fevers
             };
         default:
             break
