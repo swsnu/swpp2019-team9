@@ -64,7 +64,9 @@ App.propTypes={
     onGetUser:PropTypes.func,
     getFeverException:PropTypes.func,
     last_hid:PropTypes.number,
-    num_fevers:PropTypes.number
+    num_fevers:PropTypes.number,
+    closeFeverException:PropTypes.func,
+    putFeverException:PropTypes.func
 }
 const mapStateToProps = state => {
     return {
