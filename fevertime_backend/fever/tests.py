@@ -30,7 +30,8 @@ class FeverTestCase(TestCase):
 
         # POST #200 테스트
         response = client.post('/api/fever_history/', 
-                               json.dumps({'category': 'Study','etcCategory': '', 'goalTime': '02:00'}),
+                               json.dumps({'category': 'Study','etcCategory': '',
+                                           'goalTime': '02:00'}),
                                content_type='application/json')
         self.assertEqual(response.status_code, 201)
 
@@ -49,7 +50,8 @@ class FeverTestCase(TestCase):
 
         # fever_progress 없을때 테스트
         response = client.post('/api/fever_history/',
-                               json.dumps({'category': 'Study', 'etcCategory': '', 'goalTime': '02:00'}),
+                               json.dumps({'category': 'Study', 'etcCategory': '',
+                                           'goalTime': '02:00'}),
                                content_type='application/json')
         response = client.put('/api/fever_history/', json.dumps({'id': '2'}),
                               content_type='application/json')
@@ -74,7 +76,8 @@ class FeverTestCase(TestCase):
         self.assertEqual(response.status_code, 404)
 
         response = client.post('/api/fever_history/', 
-                               json.dumps({'category': 'Study', 'etcCategory': '', 'goalTime': '02:00'}),
+                               json.dumps({'category': 'Study', 'etcCategory': '',
+                                           'goalTime': '02:00'}),
                                content_type='application/json')
         # 카메라 안나온 사
         # pylint: disable=line-too-long
@@ -132,11 +135,13 @@ class FeverTestCase(TestCase):
         self.assertEqual(response.status_code, 201)
 
 
-        client.post('/api/fever_history/', json.dumps({'category': 'Study', 'etcCategory': '', 'goalTime': '02:00'}),
+        client.post('/api/fever_history/', json.dumps({'category': 'Study', 'etcCategory': '',
+                                                       'goalTime': '02:00'}),
                     content_type='application/json')
 
 
-        client.post('/api/fever_history/', json.dumps({'category': 'Study', 'etcCategory': '', 'goalTime': '02:00'}),
+        client.post('/api/fever_history/', json.dumps({'category': 'Study', 'etcCategory': '',
+                                                       'goalTime': '02:00'}),
                     content_type='application/json')
 
         # pylint: disable=line-too-long
@@ -155,7 +160,8 @@ class FeverTestCase(TestCase):
 
         response = client.get('/api/fever_exception/')
 
-        client.post('/api/fever_history/', json.dumps({'category': 'Study', 'etcCategory': '', 'goalTime': '02:00'}),
+        client.post('/api/fever_history/', json.dumps({'category': 'Study', 'etcCategory': '',
+                                                       'goalTime': '02:00'}),
                     content_type='application/json')
         self.assertEqual(response.status_code, 200)
 

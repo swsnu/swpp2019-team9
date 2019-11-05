@@ -188,11 +188,11 @@ def fever_exception(request):
             fevers = Fever_history.objects.filter(user=request.user).filter(click_end='N')
             if len(fevers) == 0:
                 return HttpResponse(status=201)
-            else:
-                last_hid = fevers[len(fevers)-1].id
-                res_dict = {'last_hid': last_hid,
-                            'num_fevers': len(fevers)}
-                return JsonResponse(res_dict, status=200)
+
+            last_hid = fevers[len(fevers)-1].id
+            res_dict = {'last_hid': last_hid,
+                        'num_fevers': len(fevers)}
+            return JsonResponse(res_dict, status=200)
         elif request.method == 'PUT':
             fevers = Fever_history.objects.filter(user=request.user).filter(click_end='N')
             res_id = 0
