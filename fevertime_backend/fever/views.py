@@ -1,8 +1,8 @@
 import json
 import base64
+import datetime
 from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
-import datetime
 import requests
 
 
@@ -189,10 +189,7 @@ def fever_exception(request):
             if len(fevers) == 0:
                 return HttpResponse(status=201)
             else:
-                last_hid = -1
-                for fever in fevers:
-                    if last_hid < fever.id:
-                        last_hid = fever.id
+                last_hid = fevers[len(fevers)-1].id
                 res_dict = {'last_hid': last_hid,
                             'num_fevers': len(fevers)}
                 return JsonResponse(res_dict, status=200)
@@ -202,8 +199,7 @@ def fever_exception(request):
             res_goalTime = ''
             res_prog_time = 0
             time_standard = 60
-            for i in range(len(fevers)):
-                fever = fevers[i]
+            for i, fever in enumerate(fevers):
                 # 1분에 한번씩 capture 한다면,
                 if i == len(fevers) -1: # 가장 최근의 fever 일때
                     res_id = fever.id
@@ -211,7 +207,8 @@ def fever_exception(request):
                     fever_prog_list = Fever_progress.objects.filter(fever_history=fever)
                     # 가장 최근의 fever 의 start_time 값을 현재에서, fever_progress 가 불렸던 횟수 를 고려해
                     # 지금 이전의 시간으로 업데이트 한다.
-                    fever.start_time = timezone.now() - datetime.timedelta(seconds=len(fever_prog_list) * time_standard)
+                    fever.start_time = timezone.now() - datetime.timedelta(
+                        seconds=len(fever_prog_list) * time_standard)
                     res_prog_time = len(fever_prog_list)
                     fever.save()
                     break
