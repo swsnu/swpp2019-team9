@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import * as Types from '../store/actions/actionTypes'
 import TimeField from 'react-simple-timefield';
+import AlarmMessageModal from "./component/PopupMessage";
 import PropTypes from 'prop-types';
 
 class FeverStart extends Component {
@@ -11,6 +12,7 @@ class FeverStart extends Component {
             selectedCategory:'',
             goalTime:'00:00',
             etcCategory:'',
+            showAlarmMessage: false,
         }
     }
 
@@ -31,15 +33,30 @@ class FeverStart extends Component {
         })
     }
 
+    onAlarmMessage = (message) => {
+        this.setState({
+            alarmMessage: message,
+            showAlarmMessage: true
+        })
+    }
+
+    clickAlarmClose = () => {
+        this.setState({
+            showAlarmMessage: false
+        })
+    }
+
     startFever = () => {
-        if(this.state.goalTime==='00:00') alert('Insert your goalTime!')
-        else if(this.state.selectedCategory==='') alert('Select the category!')
+        
+        if(this.props.storedID==null) this.onAlarmMessage('Please login!')
+        else if(this.state.goalTime==='00:00') this.onAlarmMessage('Insert your goalTime!')
+        else if(this.state.selectedCategory==='') this.onAlarmMessage('Select the category!')
         else if(this.state.selectedCategory!=='Etc.'){
                 this.props.onStoreFeverStart(this.state.selectedCategory, this.state.goalTime, '')
                 this.props.history.push('/feverready')      
         }
         else if(this.state.etcCategory === ''){
-            alert('Insert your Etc. Category!')
+            this.onAlarmMessage('Insert your Etc. Category!')
         }
         else{
             this.props.onStoreFeverStart(this.state.selectedCategory, this.state.goalTime, this.state.etcCategory)
@@ -51,10 +68,16 @@ class FeverStart extends Component {
     }
 
 
-
     render() {
         return (
             <div className='FeverStart'>
+                <AlarmMessageModal show={this.state.showAlarmMessage}
+                                       modalTitle={'title'}
+                                       content={this.state.alarmMessage}
+                                       isSuccess={false}
+                                       clickClose={this.clickAlarmClose}
+                                       clickConfirm={this.clickAlarmClose}
+                />
                 <div className='t-center mt-5 page-title'>Fever mode</div>
                 <div className='d-flex mt-5 d-v-center'>
                     <div className='w-20'></div>
@@ -122,7 +145,15 @@ class FeverStart extends Component {
 }
 FeverStart.propTypes={
     history:PropTypes.object,
-    onStoreFeverStart:PropTypes.func
+    onStoreFeverStart:PropTypes.func,
+    storedID:PropTypes.string
+}
+
+
+const mapStateToProps = state =>{
+    return {
+        storedID:state.login.uid
+    }
 }
 
 const mapDispatchToProps = dispatch => {
@@ -132,4 +163,4 @@ const mapDispatchToProps = dispatch => {
                 goalTime:goalTime, etcCategory:etcCategory})
     };
 };
-export default connect(null,mapDispatchToProps)(FeverStart);
+export default connect(mapStateToProps,mapDispatchToProps)(FeverStart);
