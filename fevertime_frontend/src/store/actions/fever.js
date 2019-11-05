@@ -22,7 +22,7 @@ export const postFeverHistory = (category, etcCategory, goalTime) => {
                     search: '?id='+res.data.id+'&goalTime='+goalTime}));
             })
             .catch(error=>{
-                console.log(error)//have to define
+                // console.log(error)//have to define
             })
     };
 };
@@ -51,7 +51,7 @@ export const putFeverHistory = (hid) => {
                         +'&fever_rate='+res.data.fever_rate}));
             })
             .catch(error=>{
-                console.log(error)//have to define
+                // console.log(error)//have to define
             })
     };
 };
@@ -74,7 +74,7 @@ export const postFeverProgress = (hid, image) => {
                 dispatch(postFeverProgress_(res.data));
             })
             .catch(error=>{
-                console.log(error)//have to define
+                // console.log(error)//have to define
             })
     };
 };
@@ -108,7 +108,7 @@ export const getFeverException = () => {
                 }
             })
             .catch(error=>{
-                console.log(error)//have to define
+                // console.log(error)//have to define
             })
     };
 };
@@ -135,7 +135,7 @@ export const putFeverException = (hid) => {
                     search: '?id='+res.data.hid+'&goalTime='+res.data.goalTime+'&prog_time='+res.data.prog_time}));
             })
             .catch(error=>{
-                console.log(error)//have to define
+                // console.log(error)//have to define
             })
     };
 };

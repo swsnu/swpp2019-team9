@@ -51,6 +51,8 @@ const feverStart =  (state = initialState, action) => {
         case types.FEVER_EXCEPTION_PUT:
             return {...state,
                 last_hid:action.last_hid,
+                hid:action.last_hid,
+                goalTime:action.goalTime,
                 num_fevers:action.num_fevers
             };
         case types.FEVER_EXCEPTION_CLOSE:

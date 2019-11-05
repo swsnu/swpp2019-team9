@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import * as feverAction from '../../store/actions/fever';
-import store from '../../store/store';
+import store, {history} from '../../store/store';
 
 const stubhistory={
     id: 1,
@@ -42,7 +42,9 @@ describe('ActionCreators', () => {
         });
     });
 
-    it('close history', (done) => {
+    it('putFeverHistory', (done) => {
+        const spyHistoryPush = jest.spyOn(history, 'push')
+            .mockImplementation(path => {});
         const stubres={
             id: 1,
             total_time : '',
@@ -51,24 +53,29 @@ describe('ActionCreators', () => {
         };
         console.log = jest.fn();
         axios.put = jest.fn(() => {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 const result = {
                     status: 200,
                     data: stubres
                 };
                 resolve(result);
-                reject({error:'error'});
             })
         });
 
         store.dispatch(feverAction.putFeverHistory())
             .then(() => {
-            expect(axios.put).toHaveBeenCalledTimes(1);
-            done();
-        });
+                expect(axios.put).toHaveBeenCalledTimes(1);
+                // expect(spyHistoryPush).toHaveBeenCalledWith('/fevermode');
+                done();
+
+        })
+
     });
 
-    it('close history catch', (done) => {
+
+
+    it('putFeverHistory catch', (done) => {
+
         console.log = jest.fn();
         axios.put = jest.fn(() => {
             return new Promise((reject) => {
@@ -128,5 +135,80 @@ describe('ActionCreators', () => {
         store.dispatch(feverAction.clickDetectAlarmPopupClose());
         expect(spyclickDetectAlarmPopupClose).toHaveBeenCalled();
     });
+
+
+    it('putFeverException', (done) => {
+        // const spyHistoryPush = jest.spyOn(history, 'push')
+        //     .mockImplementation(path => {});
+        // history.location.pathname = '/';
+        const stubres={
+            hid: 1,
+            goalTime : '02:00'
+        };
+        console.log = jest.fn();
+        axios.put = jest.fn(() => {
+            return new Promise((resolve) => {
+                const result = {
+                    status: 200,
+                    data: stubres
+                };
+                resolve(result);
+            })
+        });
+        store.dispatch(feverAction.putFeverException())
+            .then(() => {
+                expect(axios.put).toHaveBeenCalledTimes(1);
+                done();
+                // expect(spyHistoryPush).toHaveBeenCalled();
+            });
+
+    });
+
+
+    it('putFeverException catch', (done) => {
+        console.log = jest.fn();
+        axios.post = jest.fn(() => {
+            return new Promise((reject) => {
+                reject({error:'error'});
+            })
+        });
+        store.dispatch(feverAction.putFeverException())
+            .then(() => {
+                expect(axios.put).toHaveBeenCalledTimes(1);
+                done();
+            });
+
+    });
+
+    it('click DetectAlarmPopup Close', () => {
+        const spycloseFeverException = jest.spyOn(feverAction, 'closeFeverException');
+        store.dispatch(feverAction.closeFeverException());
+        expect(spycloseFeverException).toHaveBeenCalled();
+    });
+
+    it('getFeverException ', (done) => {
+        const stubres={
+            last_hid: 1,
+            num_fevers : 1
+        };
+        console.log = jest.fn();
+        axios.get = jest.fn(() => {
+            return new Promise((resolve) => {
+                const result = {
+                    status: 200,
+                    data: stubres
+                };
+                resolve(result);
+            })
+        });
+
+        store.dispatch(feverAction.getFeverException())
+            .then(() => {
+                expect(axios.get).toHaveBeenCalledTimes(1);
+                done();
+            });
+
+    });
+
 
 });
