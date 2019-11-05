@@ -21,7 +21,7 @@ export const postFeverHistory = (category, etcCategory, goalTime) => {
                     pathname: '/fevermode',
                     search: '?id='+res.data.id+'&goalTime='+goalTime}));
             })
-            .catch(error=>{
+            .catch(()=>{
                 // console.log(error)//have to define
             })
     };
@@ -50,7 +50,7 @@ export const putFeverHistory = (hid) => {
                         +'&fever_time='+res.data.fever_time
                         +'&fever_rate='+res.data.fever_rate}));
             })
-            .catch(error=>{
+            .catch(()=>{
                 // console.log(error)//have to define
             })
     };
@@ -73,7 +73,7 @@ export const postFeverProgress = (hid, image) => {
                 console.log(res.data);
                 dispatch(postFeverProgress_(res.data));
             })
-            .catch(error=>{
+            .catch(()=>{
                 // console.log(error)//have to define
             })
     };
@@ -107,7 +107,7 @@ export const getFeverException = () => {
                     dispatch(getFeverException_(res.data));
                 }
             })
-            .catch(error=>{
+            .catch(()=>{
                 // console.log(error)//have to define
             })
     };
@@ -134,7 +134,7 @@ export const putFeverException = (hid) => {
                     pathname: '/fevermode',
                     search: '?id='+res.data.hid+'&goalTime='+res.data.goalTime+'&prog_time='+res.data.prog_time}));
             })
-            .catch(error=>{
+            .catch(()=>{
                 // console.log(error)//have to define
             })
     };

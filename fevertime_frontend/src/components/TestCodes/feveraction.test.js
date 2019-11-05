@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import * as feverAction from '../../store/actions/fever';
-import store, {history} from '../../store/store';
+import store from '../../store/store';
 
 const stubhistory={
     id: 1,
@@ -43,8 +43,6 @@ describe('ActionCreators', () => {
     });
 
     it('putFeverHistory', (done) => {
-        const spyHistoryPush = jest.spyOn(history, 'push')
-            .mockImplementation(path => {});
         const stubres={
             id: 1,
             total_time : '',
@@ -65,7 +63,6 @@ describe('ActionCreators', () => {
         store.dispatch(feverAction.putFeverHistory())
             .then(() => {
                 expect(axios.put).toHaveBeenCalledTimes(1);
-                // expect(spyHistoryPush).toHaveBeenCalledWith('/fevermode');
                 done();
 
         })
@@ -138,9 +135,6 @@ describe('ActionCreators', () => {
 
 
     it('putFeverException', (done) => {
-        // const spyHistoryPush = jest.spyOn(history, 'push')
-        //     .mockImplementation(path => {});
-        // history.location.pathname = '/';
         const stubres={
             hid: 1,
             goalTime : '02:00'
@@ -159,7 +153,6 @@ describe('ActionCreators', () => {
             .then(() => {
                 expect(axios.put).toHaveBeenCalledTimes(1);
                 done();
-                // expect(spyHistoryPush).toHaveBeenCalled();
             });
 
     });
