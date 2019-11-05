@@ -14,6 +14,10 @@ class FeverStart extends Component {
         }
     }
 
+    componentDidMount(){
+
+    }
+
     changeGoalTime = (e) => {
         this.setState({
           goalTime: e.target.value
@@ -32,7 +36,9 @@ class FeverStart extends Component {
     }
 
     startFever = () => {
-        if(this.state.goalTime==='00:00') alert('Insert your goalTime!')
+        
+        if(this.props.storedID==null) alert('Please login!')
+        else if(this.state.goalTime==='00:00') alert('Insert your goalTime!')
         else if(this.state.selectedCategory==='') alert('Select the category!')
         else if(this.state.selectedCategory!=='Etc.'){
                 this.props.onStoreFeverStart(this.state.selectedCategory, this.state.goalTime, '')
@@ -125,6 +131,13 @@ FeverStart.propTypes={
     onStoreFeverStart:PropTypes.func
 }
 
+
+const mapStateToProps = state =>{
+    return {
+        storedID:state.login.uid
+    }
+}
+
 const mapDispatchToProps = dispatch => {
     return {
         onStoreFeverStart: (selectedCategory, goalTime, etcCategory) =>
@@ -132,4 +145,4 @@ const mapDispatchToProps = dispatch => {
                 goalTime:goalTime, etcCategory:etcCategory})
     };
 };
-export default connect(null,mapDispatchToProps)(FeverStart);
+export default connect(mapStateToProps,mapDispatchToProps)(FeverStart);
