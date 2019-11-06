@@ -131,7 +131,7 @@ class FriendsBar extends Component {
             <div className='w-20 fri-list p-relative FriendsBar'>
                 <AddFriendPopup show={this.state.showAddFriendPopup}
                             modalTitle={'Add Friend'}
-                            content={'Friend name'}
+                            content={'Friend nickname'}
                             buttonConfirm={'Send request'}
                             clickClose={this.clickClose}
                             clickConfirm={this.clickAddFriendConfirm}
@@ -147,7 +147,7 @@ class FriendsBar extends Component {
                 />
                 <div className='d-flex fri-list-button'>
                     <div id='real-tab' className={(this.state.showMyFriend ? 'show-my-friend-tab' : 'hide-my-friend-tab')} onClick={this.clickMyFriends()}>My Friends</div>
-                    <div id='request-tab' className={(!this.state.showMyFriend ? 'show-my-friend-tab' : 'hide-my-friend-tab')} onClick={this.clickFriendingList()}>Friending list</div>
+                    <div id='request-tab' className={(!this.state.showMyFriend ? 'show-my-friend-tab' : 'hide-my-friend-tab')} onClick={this.clickFriendingList()}>Requests</div>
                 </div>
                 <div className='pl-3 friend-scroll'>
                     {this.state.showMyFriend ? (
