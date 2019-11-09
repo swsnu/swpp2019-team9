@@ -52,15 +52,9 @@ class FeverStart extends Component {
 
     startFever = () => {
         
-<<<<<<< HEAD
         if(this.props.storedID==null) this.onAlarmMessage('Please login!')
         else if(this.state.goalTime==='00:00') this.onAlarmMessage('Insert your goalTime!')
         else if(this.state.selectedCategory==='') this.onAlarmMessage('Select the category!')
-=======
-        if(this.props.storedID==null) alert('Please login!')
-        else if(this.state.goalTime==='00:00') alert('Insert your goalTime!')
-        else if(this.state.selectedCategory==='') alert('Select the category!')
->>>>>>> 0c0356028b3908aa5977cefe12b770fa47e24016
         else if(this.state.selectedCategory!=='Etc.'){
                 this.props.onStoreFeverStart(this.state.selectedCategory, this.state.goalTime, '')
                 this.props.history.push('/feverready')      
