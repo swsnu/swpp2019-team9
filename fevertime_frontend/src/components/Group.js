@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Friends.css'
 import AddMemberPopup from "./component/PopupFilled";
+import AddFriendMessagePopup from "./component/PopupMessage";
 import ModalPopup from "./component/PopUpModal";
 import FriendsBar from '../components/component/FriendsBar'
 import axios from 'axios'
@@ -14,12 +15,12 @@ class Group extends Component {
         this.state={
             showMemberPopup : false,
             showExitPopup : false,
+            showInviteMessagePopup : false,
+            AddFriendMessageTitle : "",
+            AddFriendMessageContent : "",
+            addFriendSuccess : false,
             group_id : 0,
-            groupMemberList : [
-                {rank : 1, firstword : 'Y', name : 'Youngjae', fever_time : '11:10:01'},
-                {rank : 2, firstword : 'G', name : 'Gildong', fever_time : '09:10:01'},
-                {rank : 3, firstword : 'Y', name : 'Youngjae', fever_time : '05:10:01'},
-            ],
+            groupMemberList : [],
             FriendName : '',
             MyInfo : this.props.Mynickname
         }
@@ -40,15 +41,55 @@ class Group extends Component {
     clickInviteFriend = () => () => {
         this.setState({
             showMemberPopup : true,
-
         })
     }
     sendInviteFriend = () => () => {
-        this.setState({
-            showMemberPopup : false,
-            FriendName : '',
-        })
-    }
+        if(this.state.friendname ===''){
+            this.setState({
+                showMemberPopup : false,
+                showInviteMessagePopup : true,
+                addFriendSuccess : false,
+                AddFriendMessageTitle : 'NoNickname Entered',
+                AddFriendMessageContent : 'Insert nickname',
+                FriendName : '',
+            })
+        }
+        else{
+            axios.post('/api/group/group_comment/'+this.state.group_id+"/",
+                {'nickname':this.state.FriendName})
+                .then(()=>{
+                    this.setState({
+                    showMemberPopup : false,
+                    showInviteMessagePopup : true,
+                    addFriendSuccess : true,
+                    AddFriendMessageTitle : 'Friend request sended',
+                    AddFriendMessageContent : 'Successfully sent your request',
+                    FriendName : '',
+                    })
+                })
+                .catch(error=>{
+                    if(error.response.status===404 || error.response.status===401)
+                        this.setState({
+                            showMemberPopup : false,
+                            showInviteMessagePopup : true,
+                            addFriendSuccess : false,
+                            AddFriendMessageTitle : 'Friend request failed',
+                            AddFriendMessageContent : 'Invalid nickname',
+                            FriendName : '',
+                        })
+                    else if(error.response.status===403)
+                        this.setState({
+                            showMemberPopup : false,
+                            showInviteMessagePopup : true,
+                            addFriendSuccess : false,
+                            AddFriendMessageTitle : 'Friend request failed',
+                            AddFriendMessageContent : 'Already in the Group',
+                            FriendName : '',
+                        })
+                })
+            }
+        }
+    
 
     FriendNameChange = (e) =>{
         this.setState({
@@ -59,20 +100,20 @@ class Group extends Component {
     clickExitGroup = () => () => {
         this.setState({
             showExitPopup : true,
-
         })
     }
 
     clickExitConfirm = () => () => {
-        this.setState({
-            showExitPopup : false,
-        })
+        axios.delete('/api/group/group_comment/'+this.state.group_id+"/")
+        .then(this.props.history.push("/friends"))
+        
     }
 
     clickClose = () => () => {
         this.setState({
             showMemberPopup : false,
             showExitPopup : false,
+            showInviteMessagePopup : false,
             FriendName : '',
         })
     }
@@ -95,6 +136,15 @@ class Group extends Component {
                                buttonConfirm={'Confirm'}
                                clickClose={this.clickClose()}
                                clickConfirm={this.clickExitConfirm()}
+                />
+
+                <AddFriendMessagePopup show={this.state.showInviteMessagePopup}
+                                modalTitle={this.state.AddFriendMessageTitle}
+                                content={this.state.AddFriendMessageContent}
+                                buttonConfirm={'OK'}
+                                isSuccess={this.state.addFriendSuccess}
+                                clickClose={this.clickClose()}
+                                clickConfirm={this.clickClose()}
                 />
 
                 <div className='w-80 mt-5'>
