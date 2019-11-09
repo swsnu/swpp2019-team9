@@ -16,10 +16,6 @@ class FeverStart extends Component {
         }
     }
 
-    componentDidMount(){
-
-    }
-
     changeGoalTime = (e) => {
         this.setState({
           goalTime: e.target.value
@@ -76,7 +72,7 @@ class FeverStart extends Component {
         return (
             <div className='FeverStart'>
                 <AlarmMessageModal show={this.state.showAlarmMessage}
-                                       modalTitle={'title'}
+                                       modalTitle={'Alert'}
                                        content={this.state.alarmMessage}
                                        isSuccess={false}
                                        clickClose={this.clickAlarmClose}
@@ -160,12 +156,6 @@ const mapStateToProps = state =>{
     }
 }
 
-
-const mapStateToProps = state =>{
-    return {
-        storedID:state.login.uid
-    }
-}
 
 const mapDispatchToProps = dispatch => {
     return {
