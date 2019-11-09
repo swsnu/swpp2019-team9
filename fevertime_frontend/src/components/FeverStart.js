@@ -48,15 +48,15 @@ class FeverStart extends Component {
 
     startFever = () => {
         
-        if(this.props.storedID==null) this.onAlarmMessage('Please login!')
-        else if(this.state.goalTime==='00:00') this.onAlarmMessage('Insert your goalTime!')
-        else if(this.state.selectedCategory==='') this.onAlarmMessage('Select the category!')
+        if(this.props.storedID==null) this.onAlarmMessage('Please login')
+        else if(this.state.goalTime==='00:00') this.onAlarmMessage('Insert your goalTime')
+        else if(this.state.selectedCategory==='') this.onAlarmMessage('Select the category')
         else if(this.state.selectedCategory!=='Etc.'){
                 this.props.onStoreFeverStart(this.state.selectedCategory, this.state.goalTime, '')
                 this.props.history.push('/feverready')      
         }
         else if(this.state.etcCategory === ''){
-            this.onAlarmMessage('Insert your Etc. Category!')
+            this.onAlarmMessage('Insert your Etc. Category')
         }
         else{
             this.props.onStoreFeverStart(this.state.selectedCategory, this.state.goalTime, this.state.etcCategory)
@@ -72,7 +72,7 @@ class FeverStart extends Component {
         return (
             <div className='FeverStart'>
                 <AlarmMessageModal show={this.state.showAlarmMessage}
-                                       modalTitle={'Alert'}
+                                       modalTitle={'Go Fever failed!'}
                                        content={this.state.alarmMessage}
                                        isSuccess={false}
                                        clickClose={this.clickAlarmClose}
@@ -85,7 +85,7 @@ class FeverStart extends Component {
                     <TimeField  //https://reactjsexample.com/simple-react-time-input-field/
                         value={this.state.goalTime}                     // {String}   required, format '00:00' or '00:00:00'
                         onChange={this.changeGoalTime}      // {Function} required
-                        input={<input className = 'w-10' />} // {Element}  default: <input type="text" />
+                        input={<input className = 'w-10' id = 'id-input' />} // {Element}  default: <input type="text" />
                         colon=":"                        // {String}   default: ":"
                                               // {Boolean}  default: false
                     />
@@ -114,9 +114,9 @@ class FeverStart extends Component {
                         </div>
                         <div className="w-10">
                         <label>
-                            Reading
-                            <input className='ml-2' type="radio" value="Reading"
-                                        checked={this.state.selectedCategory === 'Reading'} 
+                            Read
+                            <input className='ml-2' type="radio" value="Read"
+                                        checked={this.state.selectedCategory === 'Read'} 
                                         onChange={this.changeCategory} 
                                         id ='read-radio'/>
                         </label>
