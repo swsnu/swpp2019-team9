@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './Friends.css'
 import AddMemberPopup from "./component/PopupFilled";
-import EditCommentPopup from "./component/PopupComment";
 import ModalPopup from "./component/PopUpModal";
 import FriendsBar from '../components/component/FriendsBar'
 import axios from 'axios'
@@ -15,32 +14,26 @@ class Group extends Component {
         this.state={
             showMemberPopup : false,
             showExitPopup : false,
-            showEditCommentPopup : false,
-            showDeleteCommentPopup : false,
             group_id : 0,
             groupMemberList : [
                 {rank : 1, firstword : 'Y', name : 'Youngjae', fever_time : '11:10:01'},
                 {rank : 2, firstword : 'G', name : 'Gildong', fever_time : '09:10:01'},
                 {rank : 3, firstword : 'Y', name : 'Youngjae', fever_time : '05:10:01'},
             ],
-            commentsList : [],
             FriendName : '',
-            NewComment : "",
-            EditComment : -1,
             MyInfo : this.props.Mynickname
         }
     }
     componentDidMount(){
         this.setState({group_id : parseInt(window.location.href.split("/")[4],10)})
-        this.getCommentList()
-
+        this.getLeaderboard()
     }
 
-    getCommentList = () =>{
+    getLeaderboard=()=>{
         let group_id=parseInt(window.location.href.split("/")[4],10)
-        axios.get("/api/comment/"+group_id+"/")
+        axios.get("/api/group/group_comment/"+group_id+"/")
         .then(res => {
-            this.setState({commentsList:res.data})
+            this.setState({groupMemberList : res.data})
         })
     }
 
@@ -57,9 +50,9 @@ class Group extends Component {
         })
     }
 
-    FriendNameChange = (e) =>(e) =>{
+    FriendNameChange = (e) =>{
         this.setState({
-            FriendName : e
+            FriendName : e.target.value
         })
     }
 
@@ -80,58 +73,7 @@ class Group extends Component {
         this.setState({
             showMemberPopup : false,
             showExitPopup : false,
-            showCommentPopup : false,
             FriendName : '',
-            EditComment : -1,            
-        })
-    }
-
-    clickCreateComment = () => () => {
-        axios.post("/api/comment/"+this.state.group_id+"/", {content : this.state.NewComment})
-         .then((res) => {
-             let newcomment_list = this.state.commentsList.concat(res.data)
-             this.setState({commentsList : newcomment_list})
-         })
-    }
-
-    clickDeleteComment = ()=> () => {
-        this.setState({
-            showDeleteCommentPopup : true,
-        })
-    }
-
-    confirmDeleteComment = ()=> () => {
-        this.setState({
-            showDeleteCommentPopup : true,
-        })
-    }
-
-    clickEditComment = (index) => (index) => {
-        console.log(index)
-        this.setState({
-            showEditCommentPopup : true,
-            EditComment : index,
-        })
-    }
-
-    Commentdisable = () =>{
-        if(this.state.NewComment === "")
-            return true
-        else
-            return false
-    } 
-
-    CommentOwner = (c) => {
-        return c !== this.state.MyInfo
-    }
-
-    Commentinput = () =>() =>{
-        return this.state.Ed
-    }
-
-    CommentChange = (e) =>(e) =>{
-        this.setState({
-            EditComment : e
         })
     }
 
@@ -144,7 +86,7 @@ class Group extends Component {
                                buttonConfirm={'Confirm'}
                                clickClose={this.clickClose()}
                                clickConfirm={this.sendInviteFriend()}
-                               changeContent={this.FriendNameChange()}
+                               changeContent={this.FriendNameChange}
                 />
                 
                 <ModalPopup show={this.state.showExitPopup}
@@ -155,22 +97,6 @@ class Group extends Component {
                                clickConfirm={this.clickExitConfirm()}
                 />
 
-                <EditCommentPopup  show={this.state.showEditCommentPopup}
-                               modalTitle={'Modifiy Comment'}
-                               //content={this.state.commentsList[this.state.EditComment].content}
-                               buttonConfirm={'Modifiy'}
-                               clickClose={this.clickClose()}
-                               clickConfirm={this.clickEditComment()}
-                               changeContent={this.CommentChange()}
-                />  
-
-                <ModalPopup show={this.state.showDeleteCommentPopup}
-                               modalTitle={'Delete Comment'}
-                               content={'Really want to Delete Comment?'}
-                               buttonConfirm={'Confirm'}
-                               clickClose={this.clickClose()}
-                               clickConfirm={this.confirmDeleteComment()}
-                />
                 <div className='w-80 mt-5'>
                     <div className='d-flex'>
                         <div className='w-50 page-title pl-5'>{this.state.groupName} Leaderboard</div>
