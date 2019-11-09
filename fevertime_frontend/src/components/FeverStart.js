@@ -146,7 +146,7 @@ class FeverStart extends Component {
 FeverStart.propTypes={
     history:PropTypes.object,
     onStoreFeverStart:PropTypes.func,
-    storedID:PropTypes.string
+    storedID:PropTypes.number,
 }
 
 
