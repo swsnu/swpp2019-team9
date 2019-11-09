@@ -1,85 +1,185 @@
 import React, { Component } from 'react';
 import './Friends.css'
-import AddGroupPopup from "./component/PopupFilled";
+import AddMemberPopup from "./component/PopupFilled";
+import EditCommentPopup from "./component/PopupComment";
+import ModalPopup from "./component/PopUpModal";
 import FriendsBar from '../components/component/FriendsBar'
+import axios from 'axios'
+import { withRouter } from 'react-router';
+import {connect} from 'react-redux'
+import CommentSection from "./component/CommentSection"
 class Group extends Component {
     constructor (props)
     {
         super(props);
         this.state={
-            showAddGroupPopup : false,
+            showMemberPopup : false,
+            showExitPopup : false,
+            showEditCommentPopup : false,
+            showDeleteCommentPopup : false,
+            group_id : 0,
             groupMemberList : [
                 {rank : 1, firstword : 'Y', name : 'Youngjae', fever_time : '11:10:01'},
                 {rank : 2, firstword : 'G', name : 'Gildong', fever_time : '09:10:01'},
                 {rank : 3, firstword : 'Y', name : 'Youngjae', fever_time : '05:10:01'},
             ],
-            commentsList : [
-                {content : "I'm best fever", firstword : 'Y', name : 'Youngjae', reg_date : '2019-01-21 11:00'},
-                {content : "I was so sick..", firstword : 'G', name : 'Gildong', reg_date : '2019-02-01 11:00'},
-                {content : "Let's eat some dinner...", firstword : 'Y', name : 'Youngjae', reg_date : '2019-10-21 23:08'},
-            ],
-            groupName : 'Group A',
-            myInfo : {firstword : 'Y', name : 'Youngjae', id:2},
-
+            commentsList : [],
+            FriendName : '',
+            NewComment : "",
+            EditComment : -1,
+            MyInfo : this.props.Mynickname
         }
     }
-    clickAddGroup = () => () => {
+    componentDidMount(){
+        this.setState({group_id : parseInt(window.location.href.split("/")[4],10)})
+        this.getCommentList()
+
+    }
+
+    getCommentList = () =>{
+        let group_id=parseInt(window.location.href.split("/")[4],10)
+        axios.get("/api/comment/"+group_id+"/")
+        .then(res => {
+            this.setState({commentsList:res.data})
+        })
+    }
+
+    clickInviteFriend = () => () => {
         this.setState({
-            showAddGroupPopup : true,
+            showMemberPopup : true,
 
         })
     }
-    clickAddGroupConfirm = () => () => {
+    sendInviteFriend = () => () => {
         this.setState({
-            showAddGroupPopup : false,
-            groupName : '',
+            showMemberPopup : false,
+            FriendName : '',
+        })
+    }
+
+    FriendNameChange = (e) =>(e) =>{
+        this.setState({
+            FriendName : e
+        })
+    }
+
+    clickExitGroup = () => () => {
+        this.setState({
+            showExitPopup : true,
 
         })
     }
+
+    clickExitConfirm = () => () => {
+        this.setState({
+            showExitPopup : false,
+        })
+    }
+
     clickClose = () => () => {
         this.setState({
-            showAddGroupPopup : false,
-            groupName : ''
+            showMemberPopup : false,
+            showExitPopup : false,
+            showCommentPopup : false,
+            FriendName : '',
+            EditComment : -1,            
         })
     }
-    groupNameChange = (e) => {
-        this.setState({
-            groupName: e.target.value
-        })
-    }
-    clickMyFriends = () => () => {
-        this.setState({
-            showMyFriend : true,
 
+    clickCreateComment = () => () => {
+        axios.post("/api/comment/"+this.state.group_id+"/", {content : this.state.NewComment})
+         .then((res) => {
+             let newcomment_list = this.state.commentsList.concat(res.data)
+             this.setState({commentsList : newcomment_list})
+         })
+    }
+
+    clickDeleteComment = ()=> () => {
+        this.setState({
+            showDeleteCommentPopup : true,
         })
     }
-    clickFriendingList = () => () => {
-        this.setState({
-            showMyFriend : false,
 
+    confirmDeleteComment = ()=> () => {
+        this.setState({
+            showDeleteCommentPopup : true,
+        })
+    }
+
+    clickEditComment = (index) => (index) => {
+        console.log(index)
+        this.setState({
+            showEditCommentPopup : true,
+            EditComment : index,
+        })
+    }
+
+    Commentdisable = () =>{
+        if(this.state.NewComment === "")
+            return true
+        else
+            return false
+    } 
+
+    CommentOwner = (c) => {
+        return c !== this.state.MyInfo
+    }
+
+    Commentinput = () =>() =>{
+        return this.state.Ed
+    }
+
+    CommentChange = (e) =>(e) =>{
+        this.setState({
+            EditComment : e
         })
     }
 
     render() {
         return (
             <div className='d-flex h-100 Friends'>
-                <AddGroupPopup show={this.state.showAddGroupPopup}
-                               modalTitle={'Add Group'}
-                               content={'Group name'}
-                               buttonConfirm={'Make Group'}
+                <AddMemberPopup show={this.state.showMemberPopup}
+                               modalTitle={'Add Member'}
+                               content={'Friend Name'}
+                               buttonConfirm={'Confirm'}
                                clickClose={this.clickClose()}
-                               clickConfirm={this.clickAddGroupConfirm()}
-                               changeContent={this.groupNameChange}
+                               clickConfirm={this.sendInviteFriend()}
+                               changeContent={this.FriendNameChange()}
+                />
+                
+                <ModalPopup show={this.state.showExitPopup}
+                               modalTitle={'Exit Group'}
+                               content={'Really want to leave the group?'}
+                               buttonConfirm={'Confirm'}
+                               clickClose={this.clickClose()}
+                               clickConfirm={this.clickExitConfirm()}
+                />
+
+                <EditCommentPopup  show={this.state.showEditCommentPopup}
+                               modalTitle={'Modifiy Comment'}
+                               //content={this.state.commentsList[this.state.EditComment].content}
+                               buttonConfirm={'Modifiy'}
+                               clickClose={this.clickClose()}
+                               clickConfirm={this.clickEditComment()}
+                               changeContent={this.CommentChange()}
+                />  
+
+                <ModalPopup show={this.state.showDeleteCommentPopup}
+                               modalTitle={'Delete Comment'}
+                               content={'Really want to Delete Comment?'}
+                               buttonConfirm={'Confirm'}
+                               clickClose={this.clickClose()}
+                               clickConfirm={this.confirmDeleteComment()}
                 />
                 <div className='w-80 mt-5'>
                     <div className='d-flex'>
                         <div className='w-50 page-title pl-5'>{this.state.groupName} Leaderboard</div>
                         <div className='w-10'></div>
                         <div className='w-20'>
-                            <button onClick={this.clickAddGroup()} className='w-80 button-blue'>Invite friends</button>
+                            <button onClick={this.clickInviteFriend()} className='w-80 button-blue'>Invite friends</button>
                         </div>
                         <div className='w-20'>
-                            <button onClick={this.clickAddGroup()} className='w-80 button-red'>Exit group</button>
+                            <button onClick={this.clickExitGroup()} className='w-80 button-red'>Exit group</button>
                         </div>
                     </div>
                     <div className='d-flex mt-5 pl-5'>
@@ -105,37 +205,17 @@ class Group extends Component {
                             })}
                         </div>
                     </div>
-                    <div className='pl-5 pr-5 mt-10'>
-                        <div className='f-large'>Comments</div>
-                        <div className='w-100 d-flex comments-list'></div>
-                        <div>
-                            {this.state.commentsList.map((value,index) => {
-                                return (
-                                    <div key={index} className='w-100 d-flex group-item-list'>
-                                        <div className='w-30 d-flex d-ho-center'>
-                                            <div className='badge-custom '>{value.firstword}</div>
-                                            {value.name}
-                                        </div>
-                                        <div className='w-20'>{value.content}</div>
-                                        <div className='w-50'>{value.reg_date}</div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-                    <div className='pl-5 pr-5'>
-                        <div  className='w-100 d-flex group-comment-my'>
-                            <div className='w-10'></div>
-                            <div className='w-60'>
-                                <input placeholder=' Comments something...' className='w-80 group-comment-input'/>
-                            </div>
-                            <button className='w-20 button-blue'>Comment</button>
-                        </div>
-                    </div>
+                    <CommentSection/>
                 </div>
                 <FriendsBar />
             </div>
         )
     }
 }
-export default Group;
+const mapStateToProps = state =>{
+    return {
+        Mynickname : state.login.nickname
+    }
+}
+
+export default connect(mapStateToProps,null)(withRouter(Group));

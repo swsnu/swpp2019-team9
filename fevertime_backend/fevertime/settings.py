@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 AUTH_USER_MODEL = 'user.User'
 CORS_ORIGIN_ALLOW_ALL = True
 INSTALLED_APPS = [
+    'comment.apps.CommentConfig',
     'user.apps.UserConfig',
     'fever.apps.FeverConfig',
     'friend.apps.FriendConfig',
