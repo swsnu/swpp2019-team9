@@ -87,18 +87,18 @@ def user_weekly_feverExtraction(user, backstep):
     total_fever_time = timedelta(microseconds=0)
     for session in user.fever_history_user.all():
         if(session.click_end=="Y"):
-            session_ISO_tuple = session.start_time.isocalendar()
+            session_ISO_tuple = session.end_time.isocalendar()
             if(session_ISO_tuple == Current_ISO_tuple):
                 total_fever_time += session.fever_time
     tsec = total_fever_time.total_seconds()
     hour = int(tsec//(60*60))
-    min = int((tsec%3600)//60)
+    minute = int((tsec%3600)//60)
     sec = int((tsec%60))
     return_dict = {
         "rank" : 0,
         "firstword" : user.nickname[0], 
         "name" : user.nickname, 
-        "fever_time" : "{:03d}:{:02d}:{:02d}".format(hour,min,sec)
+        "fever_time" : "{:03d}:{:02d}:{:02d}".format(hour,minute,sec)
     }
     
     return return_dict
