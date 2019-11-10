@@ -4,7 +4,7 @@ from user.models import User
 # Create your tests here.
 
 class GroupTestCase(TestCase):
-
+    preclient = None
     def setUp(self):
         User.objects.create_user(username="grouptest",
                                  password="grouptest",
@@ -33,3 +33,67 @@ class GroupTestCase(TestCase):
 
         response = client.delete('/api/group/')
         self.assertEqual(response.status_code, 405)
+
+class GroupMemberTestCase(TestCase):
+    preclient = None
+    def setUp(self):
+        self.preclient = Client()
+        self.preclient.post('/api/user/signup/', json.dumps(
+            {'username': 'SY', "nickname":"SYLEE",'password': 'Lee'}),
+                            content_type='application/json')
+        
+        self.preclient.post('/api/user/signup/', json.dumps(
+            {'username': 'YB', "nickname":"YBLEE",'password': 'Lee'}),
+                            content_type='application/json')
+
+        self.preclient.post("/api/user/signin/", json.dumps({
+            'username' : "SY",
+            "password" : "Lee"
+        }),content_type="application/json")
+        self.preclient.post('/api/group/',
+                json.dumps({'groupname':'test'}),
+                content_type='application/json')
+        self.preclient.post('/api/group/',
+                json.dumps({'groupname':'test2'}),
+                content_type='application/json')
+
+    def tearDown(self):
+        pass
+
+    def test_getMembers(self):
+        res = self.preclient.get('/api/group/group_members/4/')
+        self.assertEqual(res.status_code, 404)
+
+        res = self.preclient.get('/api/group/group_members/1/')
+        self.assertEqual(res.status_code, 200)
+
+    def test_postMembers(self):
+        self.preclient.post('/api/group/group_members/2/', json.dumps(
+            {"nickname":"YBLEE"}), content_type='application/json')
+
+        res = self.preclient.post('/api/group/group_members/1/', json.dumps(
+            {"name":"YBLEE"}), content_type='application/json')
+        self.assertEqual(res.status_code, 400)
+
+        res = self.preclient.post('/api/group/group_members/1/', json.dumps(
+            {"nickname":"HBLEE"}), content_type='application/json')
+        self.assertEqual(res.status_code, 404)
+
+        res = self.preclient.post('/api/group/group_members/1/', json.dumps(
+            {"nickname":"SYLEE"}), content_type='application/json')
+        self.assertEqual(res.status_code, 403)
+
+        res = self.preclient.post('/api/group/group_members/1/', json.dumps(
+            {"nickname":"YBLEE"}), content_type='application/json')
+        self.assertEqual(res.status_code, 201)
+
+        res = self.preclient.put('/api/group/group_members/1/', json.dumps(
+            {"nickname":"YBLEE"}), content_type='application/json')
+        self.assertEqual(res.status_code, 405)
+    
+    def test_deleteMembers(self):
+        res = self.preclient.delete('/api/group/group_members/1/')
+        self.assertEqual(res.status_code, 200)
+
+        res = self.preclient.delete('/api/group/group_members/1/')
+        self.assertEqual(res.status_code, 404)

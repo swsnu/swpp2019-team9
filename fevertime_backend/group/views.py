@@ -36,16 +36,13 @@ def group_member_op(request, group_id=0):
         return HttpResponse(status=404)
 
     if request.method == 'GET':
-        try:
-            group_members= group_instance.group_members.all()
-        except:
-            return HttpResponse(status=404)
+        group_members= group_instance.group_members.all()
         
         response_list=[user_weekly_feverExtraction(user,0) for user in group_members]
         response_list.sort(key=lambda timeinfo: timeinfo["fever_time"], reverse=True)
         for index,dictionary in enumerate(response_list):
             dictionary['rank']=index+1
-        return JsonResponse(response_list, safe=False)
+        return JsonResponse(response_list, safe=False, status=200)
 
     elif request.method == 'POST':
         try:
@@ -64,9 +61,6 @@ def group_member_op(request, group_id=0):
             if(group.id == group_id):
                 return  HttpResponseForbidden()  #403
 
-        if guest_user == request.user:
-            return HttpResponse(status=401)     #401  self invite
-
         group_instance.group_members.add(guest_user)
         return HttpResponse(status=201)
     
@@ -77,7 +71,7 @@ def group_member_op(request, group_id=0):
             return HttpResponseNotFound()   #404
         
         group_instance.group_members.remove(request.user)
-        return HttpResponse(status=201)
+        return HttpResponse(status=200)
 
     else:
         return HttpResponseNotAllowed(['GET','POST','DELETE'])

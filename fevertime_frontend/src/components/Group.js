@@ -32,7 +32,7 @@ class Group extends Component {
 
     getLeaderboard=()=>{
         let group_id=parseInt(window.location.href.split("/")[4],10)
-        axios.get("/api/group/group_comment/"+group_id+"/")
+        axios.get("/api/group/group_members/"+group_id+"/")
         .then(res => {
             this.setState({groupMemberList : res.data})
         })
@@ -55,7 +55,7 @@ class Group extends Component {
             })
         }
         else{
-            axios.post('/api/group/group_comment/'+this.state.group_id+"/",
+            axios.post('/api/group/group_members/'+this.state.group_id+"/",
                 {'nickname':this.state.FriendName})
                 .then(()=>{
                     this.setState({
@@ -104,7 +104,7 @@ class Group extends Component {
     }
 
     clickExitConfirm = () => () => {
-        axios.delete('/api/group/group_comment/'+this.state.group_id+"/")
+        axios.delete('/api/group/group_members/'+this.state.group_id+"/")
         .then(this.props.history.push("/friends"))
         
     }

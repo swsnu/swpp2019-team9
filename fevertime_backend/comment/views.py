@@ -25,6 +25,8 @@ def comment(request, group_id=0):
         return HttpResponse(status=404)
     
     if request.method == 'GET':
+        if(not request.user.is_authenticated):
+            return HttpResponse(status=401)
         comment_list = Comment.objects.filter(group=group_id)
         retrun_list = [comment_2_dic(cObject) for cObject in comment_list]
         return JsonResponse(retrun_list,status=200, safe=False)
@@ -41,7 +43,7 @@ def comment(request, group_id=0):
 
         created_comment=Comment(author=request.user, group=group_instance, content=content)
         created_comment.save()
-        return JsonResponse(comment_2_dic(created_comment))
+        return JsonResponse(comment_2_dic(created_comment), status=201)
     
     elif request.method =='PUT':
         try:
@@ -76,3 +78,5 @@ def delete_comment(request, comment_id=0):
         
         deleting_comment.delete()
         return HttpResponse(status=200)
+    else:
+        return HttpResponseNotAllowed(['DELETE'])     #405   
