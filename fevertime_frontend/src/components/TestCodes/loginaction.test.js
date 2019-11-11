@@ -86,6 +86,7 @@ describe('ActionCreators', () => {
             done();
         });
     });
+
     it('logout user', (done) => {
         axios.get = jest.fn(() => {
             return new Promise((resolve) => {
@@ -99,6 +100,23 @@ describe('ActionCreators', () => {
 
         store.dispatch(loginAction.logoutUser()).then(() => {
             expect(axios.get).toHaveBeenCalledTimes(1);
+            done();
+        });
+    });
+    
+    it('change user info', (done) => {
+        axios.put = jest.fn(() => {
+            return new Promise((resolve) => {
+                const result = {
+                    status: 200,
+                    data: stubUser
+                };
+                resolve(result);
+            })
+        });
+
+        store.dispatch(loginAction.ChangeMyAccount()).then(() => {
+            expect(axios.put).toHaveBeenCalledTimes(1);
             done();
         });
     });
