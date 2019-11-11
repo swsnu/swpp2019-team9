@@ -1,6 +1,7 @@
 import * as actionTypes from './actionTypes';
 import { push } from 'connected-react-router';
 import axios from 'axios'
+import * as feverActionCreators from './fever';
 
 export const loginUser_ = (user) => {
     return { 
@@ -15,7 +16,9 @@ export const loginUser = (user) => {
         return axios.post('/api/user/signin/',user)
             .then(res => {
                 dispatch(loginUser_(res.data));
+                dispatch(feverActionCreators.getFeverException());
                 dispatch(push('/feverstart'));
+
             })
             .catch(()=>{
             })

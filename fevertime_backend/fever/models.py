@@ -12,6 +12,7 @@ class Fever_history(models.Model):
     )
     category = models.CharField(max_length=45)
     etcCategory = models.CharField(max_length=45, blank=True)
+    goalTime = models.CharField(max_length=45, default='01:00')
 
     start_time = models.DateTimeField(auto_now_add=True)
     end_time = models.DateTimeField(auto_now=True)

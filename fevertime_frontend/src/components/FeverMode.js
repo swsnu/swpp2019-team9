@@ -62,11 +62,19 @@ class FeverMode extends Component {
     componentDidMount() {
 
         const query = qs.parse(this.props.location.search);
-        this.setState({
-            hid : query.id,
-            goalTime : query.goalTime
+        if(query.prog_time !== undefined){
+            this.setState({
+                hid : query.id,
+                goalTime : query.goalTime,
+                time : Number(query.prog_time) * 60 // 1분에 한번씩 capture 하므로
 
-        });
+            });
+        }else{
+            this.setState({
+                hid : query.id,
+                goalTime : query.goalTime,
+            });
+        }
         //timer 참고 https://medium.com/wasd/react%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%B4-%ED%83%80%EC%9D%B4%EB%A8%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-9fc164416586
         this.timerStart();
 
@@ -101,7 +109,7 @@ class FeverMode extends Component {
                 this.setState((prevState) => ({
                     sec: time - (prevState.hour * 3600) - (prevState.min * 60),  // prevState means just changed valud. Without this, sec will be -1
                 }),()=>{
-                    if(time % 10 === 5){
+                    if(time % 10 === 9){
                         this.capture();
                     }
                 });
