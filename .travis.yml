@@ -29,7 +29,12 @@ matrix:
         - mysql -e 'create user 'user'@'localhost' identified by 'fever1234''
         - mysql -e 'grant all on fevertime.* to 'user'@'localhost''
         - mysql -e 'flush privileges'
-
+      addons:
+        apt:
+          sources:
+            - mysql-5.7-trusty
+          packages:
+            - mysql-server
       install: 
         - "pip install pylint coverage django django-cors-headers requests coveralls mysqlclient"
       language: python
