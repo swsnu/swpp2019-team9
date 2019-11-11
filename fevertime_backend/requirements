@@ -1,1 +1,1 @@
-pylint coverage django django-cors-headers requests coveralls
+pylint coverage django django-cors-headers requests coveralls mysqlclient
