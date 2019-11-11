@@ -39,4 +39,6 @@ matrix:
         - "pylint **/*.py"
       after_success:
         - "coveralls"
+      services:
+        - mysql
 
