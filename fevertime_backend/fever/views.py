@@ -1,8 +1,8 @@
 import json
 import base64
+import datetime
 from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
-
 import requests
 
 
@@ -19,6 +19,7 @@ def fever_history(request):
 
         newfever = Fever_history(category=req_data['category'],
                                  user=request.user,
+                                 goalTime=req_data['goalTime'],
                                  etcCategory=req_data['etcCategory'])
         newfever.save()
         return JsonResponse({
@@ -182,15 +183,57 @@ def fever_progress(request):
 
 # @csrf_exempt
 def fever_exception(request):
-    if request.method == 'GET':
-        fevers = Fever_history.objects.filter(user=request.user)
-        if len(fevers) == 0:
-            return HttpResponse(status=200)
+    if request.user.is_authenticated:
+        if request.method == 'GET':
+            fevers = Fever_history.objects.filter(user=request.user).filter(click_end='N')
+            if len(fevers) == 0:
+                return HttpResponse(status=201)
+
+            last_hid = fevers[len(fevers)-1].id
+            res_dict = {'last_hid': last_hid,
+                        'num_fevers': len(fevers)}
+            return JsonResponse(res_dict, status=200)
+        elif request.method == 'PUT':
+            fevers = Fever_history.objects.filter(user=request.user).filter(click_end='N')
+            res_id = 0
+            res_goalTime = ''
+            res_prog_time = 0
+            time_standard = 60
+            for i, fever in enumerate(fevers):
+                # 1분에 한번씩 capture 한다면,
+                if i == len(fevers) -1: # 가장 최근의 fever 일때
+                    res_id = fever.id
+                    res_goalTime = fever.goalTime
+                    fever_prog_list = Fever_progress.objects.filter(fever_history=fever)
+                    # 가장 최근의 fever 의 start_time 값을 현재에서, fever_progress 가 불렸던 횟수 를 고려해
+                    # 지금 이전의 시간으로 업데이트 한다.
+                    fever.start_time = timezone.now() - datetime.timedelta(
+                        seconds=len(fever_prog_list) * time_standard)
+                    res_prog_time = len(fever_prog_list)
+                    fever.save()
+                    break
+                # 가장 마지막 fever 를 제외하곤, 모두 Y 로 값을 만들어 버린다.
+                fever.click_end = 'Y'
+                fever_prog_list = Fever_progress.objects.filter(fever_history=fever)
+                fever_cnt = 0
+                for prog in fever_prog_list:
+                    if prog.fever_yn == 'Y':
+                        fever_cnt += 1
+                if len(fever_prog_list) == 0:
+                    fever.fever_rate = 0
+                else:
+                    fever.fever_rate = fever_cnt / len(fever_prog_list)
+
+                # 이때 모든 시간은 fever_progress 를 기준으로 한다.
+                fever.fever_count = fever_cnt
+                fever.total_time = datetime.timedelta(seconds=len(fever_prog_list) * time_standard)
+                fever.fever_time = datetime.timedelta(seconds=fever_cnt * time_standard)
+                fever.save()
+
+            return JsonResponse({'hid': res_id,
+                                 'goalTime': res_goalTime,
+                                 'prog_time': res_prog_time}, status=200)
         else:
-            id_list = []
-            for fever in fevers:
-                if fever.click_end == 'N':
-                    id_list.append(fever.id)
-            return JsonResponse({'id_list': id_list}, status=201)
-    else:
-        return HttpResponse(status=405)
+            return HttpResponse(status=405)
+    else:   # login 안한 유저일때 예외처리
+        return HttpResponse(status=204)

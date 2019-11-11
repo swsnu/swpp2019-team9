@@ -11,5 +11,8 @@ export {
     postFeverHistory,
     putFeverHistory,
     postFeverProgress,
-    clickDetectAlarmPopupClose
+    getFeverException,
+    clickDetectAlarmPopupClose,
+    putFeverException,
+    closeFeverException
 } from './fever';
