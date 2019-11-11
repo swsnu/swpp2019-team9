@@ -51,6 +51,13 @@ describe('FeverMode', () => {
         expect(componentWillUnmount).toHaveBeenCalled();
 
     });
+    // it('should test componentDidMount', () => {
+    //     history.location.pathname = '/fevermode?id=96&goalTime=02:00&prog_time=1';
+    //     const component = mount(feverMode);
+    //     const newFeverModeInstance = component.find(FeverMode.default.WrappedComponent).instance();
+    //     expect(newFeverModeInstance.state.time).toEqual(60);
+    //
+    // });
 
     it(`should check fevermode-alarm-checkbox`, () => {
 
