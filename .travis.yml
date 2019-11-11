@@ -26,8 +26,8 @@ matrix:
       before_install: 
         - "cd fevertime_backend"
         - mysql -e 'CREATE DATABASE fevertime character set utf8'
-        - mysql -e 'create user 'user'@'#' identified by 'fever1234''
-        - mysql -e 'grant all on fevertime.* to 'user'@'#''
+        - mysql -e 'create user 'user'@'localhost' identified by 'fever1234''
+        - mysql -e 'grant all on fevertime.* to 'user'@'localhost''
         - mysql -e 'flush privileges'
 
       install: 
