@@ -15,10 +15,19 @@ const stubLoginInitState= {
 
 const mockStore = getMockStore(stubLoginInitState,{});
 
+jest.mock('../component/PopupMessage', () => {
+    return jest.fn((props) => {
+      return (
+        <div className="spyPopupMessage">
+            <button id="spyExit" onClick={props.clickClose}/>
+        </div>
+        );
+    });
+});
+
 
 describe('MyAccount', () => {
     let myaccount;
-    let spyhistoryPush
     let Nickname = "Nick"
     let Password = "1234"
     let Password_C = "1234"
@@ -31,10 +40,9 @@ describe('MyAccount', () => {
                 </ConnectedRouter>
             </Provider>
         );
-        loginAction.ChangeMyAccount = jest.fn(()=>{return ()=>{}});
-        window.alert = jest.fn(()=>{return ()=>{}});
-        spyhistoryPush = jest.spyOn(history, 'push')
-        .mockImplementation(() => { return () => {}; });
+        loginAction.changeMyAccount = jest.fn(()=>() => {
+            return new Promise((resolve) => {resolve({})})
+        });
 
     })
     
@@ -56,10 +64,10 @@ describe('MyAccount', () => {
 
         component.find("#confirm_button").simulate("click");
         const newmyaccount = component.find(MyAccount.WrappedComponent).instance();
-        expect(newmyaccount.state.WrongInput).toEqual(["","",""]);
-        expect(loginAction.ChangeMyAccount).toHaveBeenCalledTimes(1);
-        expect(window.alert).toHaveBeenCalledTimes(1);
-        expect(spyhistoryPush).toHaveBeenCalledTimes(1);
+        component.find("#spyExit").at(0).simulate("click");
+        expect(newmyaccount.state.showSigninPopup).toEqual(true)
+        component.find("#spyExit").at(1).simulate("click");
+        expect(newmyaccount.state.showErrorPopup).toEqual(false)
     }); 
 
     it("should check Invalid nickname", () => { 
@@ -74,8 +82,7 @@ describe('MyAccount', () => {
         component.find("#confirm_button").simulate("click");
         const newmyaccount = component.find(MyAccount.WrappedComponent).instance();
         expect(newmyaccount.state.WrongInput).toEqual(["Empty Nickname","Empty Password","Wrong Password Confirm"]);
-        expect(loginAction.ChangeMyAccount).toHaveBeenCalledTimes(0);
-        expect(window.alert).toHaveBeenCalledTimes(0);
+        expect(loginAction.changeMyAccount).toHaveBeenCalledTimes(0);
     }); 
 
 

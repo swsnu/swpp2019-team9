@@ -21,7 +21,7 @@ def signup(request):
         if User.objects.filter(username=username).exists():
             return HttpResponse(status=401)
         if User.objects.filter(nickname=nickname).exists():
-            return HttpResponse(status=401) #what response?
+            return HttpResponse(status=402) #what response?
         User.objects.create_user(username = username, password = password, nickname=nickname)
         return HttpResponse(status=201)
     else:
@@ -75,6 +75,8 @@ def user(request):
         except (KeyError, JSONDecodeError):
             return HttpResponseBadRequest()        #400
         #Changing_User = User.objects.get(id=request.user.id)
+        if User.objects.filter(nickname=user_nickname).exists():
+            return HttpResponse(status=402) #what response?
         request.user.set_password(user_password)
         request.user.nickname=user_nickname
         request.user.save()
@@ -84,8 +86,5 @@ def user(request):
             'nickname': request.user.nickname,
         }
         return JsonResponse(response_dict, status=200)
-    elif request.method =='DELETE':
-        return HttpResponse()
-        #delete user
     else:
-        return HttpResponseNotAllowed(['GET','PUT','DELETE'])     #405
+        return HttpResponseNotAllowed(['GET','PUT'])     #405
