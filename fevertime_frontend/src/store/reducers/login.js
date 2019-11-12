@@ -5,19 +5,20 @@ const initialState = {
     uid:null,
     username:null,
     nickname:null,
+    showdata:null,
 };
 
 const login =  (state = initialState, action) => {
 
     switch(action.type) {
         case types.LOGIN:
-            return {...state, uid:action.uid, username:action.username, nickname: action.nickname};
+            return {...state, uid:action.uid, username:action.username, nickname: action.nickname,showdata:action.showdata};
         
         case types.GET_USER_INFO:
-            return {...state, uid:action.uid, username:action.username, nickname: action.nickname};
+            return {...state, uid:action.uid, username:action.username, nickname: action.nickname, showdata:action.showdata};
         
         case types.LOGOUT:
-            return {...state, uid:null,username:null,nickname:null}
+            return {...state, uid:null,username:null,nickname:null,showdata:null}
         default:
             break;
     }

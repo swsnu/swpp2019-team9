@@ -133,7 +133,7 @@ class Group extends Component {
                         </div>
                     </div>
                 </div>
-                <FriendsBar />
+                <FriendsBar history={this.props.history}/>
             </div>
         )
     }

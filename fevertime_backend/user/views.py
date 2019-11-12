@@ -40,7 +40,8 @@ def signin(request):
             login(request,signin_user)
             res_dict={'id':signin_user.id, 
                       'username':signin_user.username,
-                      'nickname':signin_user.nickname}
+                      'nickname':signin_user.nickname,
+                      'showdata':signin_user.showdata}
             return JsonResponse(res_dict,status=200)
         else:
             return HttpResponse(status=401)
@@ -63,7 +64,9 @@ def user(request):
             return HttpResponse(status=204)
         res_dict={'id':request.user.id, 
                   'username':request.user.username,
-                  'nickname':request.user.nickname}
+                  'nickname':request.user.nickname,
+                  'showdata':request.user.showdata,
+                  }
         return JsonResponse(res_dict,status=200)
     elif request.method =='PUT':
         if not request.user.is_authenticated:
@@ -84,7 +87,19 @@ def user(request):
             'id': request.user.id,
             'username': request.user.username,
             'nickname': request.user.nickname,
+            'showdata':signin_user.showdata,
         }
         return JsonResponse(response_dict, status=200)
     else:
         return HttpResponseNotAllowed(['GET','PUT'])     #405
+
+
+def social(request):
+    if request.method =='PUT':
+        user_showdata=request.user.showdata
+        user_showdata = not user_showdata
+        request.user.showdata=user_showdata
+        request.user.save()
+        return HttpResponse(status=200)
+    else: 
+        return HttpResponseNotAllowed(['PUT'])     #405
