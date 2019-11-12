@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import AddFriendPopup from "./PopupFilled";
 import AddFriendMessagePopup from "./PopupMessage";
+import DeleteModal from '../component/PopUpModal'
 class FriendsBar extends Component {
     constructor (props)
     {
@@ -11,9 +12,11 @@ class FriendsBar extends Component {
             showAddFriendMessagePopup: false,
             showMyFriend : true,
             addFriendSuccess : false,
+            deleteFriendModal:false,
             AddFriendMessageTitle : '',
             AddFriendMessageContent : '',
             friendname : '',
+            deleteName: '',
             friendlist : [],
             friendinglist : [],
 
@@ -123,8 +126,15 @@ class FriendsBar extends Component {
         }
     }
     clickDeleteReal= (name)=>{
-        axios.delete('/api/friend/real/'+name+'/')
+        this.setState({deleteName:name,deleteFriendModal:true})
+    }
+    clickModalClose = ()=>{
+        this.setState({deleteName:'',deleteFriendModal:false})
+    }
+    clickModalConfirm = ()=>{
+        axios.delete('/api/friend/real/'+this.state.deleteName+'/')
             .then(()=>{this.onGetFriendList()})
+        this.setState({deleteName:'',deleteFriendModal:false})
     }
     render() {
         return (
@@ -144,6 +154,13 @@ class FriendsBar extends Component {
                                 isSuccess={this.state.addFriendSuccess}
                                 clickClose={this.clickMessageClose}
                                 clickConfirm={this.clickMessageClose}
+                />
+                <DeleteModal show={this.state.deleteFriendModal }
+                            modalTitle={'Confirmation'}
+                            content={'Are you sure to delete your friend?'}
+                            buttonConfirm={'Delete'}
+                            clickClose={this.clickModalClose}
+                            clickConfirm={this.clickModalConfirm}
                 />
                 <div className='d-flex fri-list-button'>
                     <div id='real-tab' className={(this.state.showMyFriend ? 'show-my-friend-tab' : 'hide-my-friend-tab')} onClick={this.clickMyFriends()}>My Friends</div>

@@ -64,8 +64,15 @@ export const getUserInfo = (user) => {
             .then(res => {
                 if(res.status===200)
                     dispatch(getUserInfo_(res.data));
-                else if(res.status===204)
+                else if(res.status===204){
                     dispatch(getUserInfo_({id:null,username:null,nickname:null}))
+                    if(window.location.pathname !== '/signup' &&
+                       window.location.pathname !== '/login' &&
+                       window.location.pathname !== '/feverstart' &&
+                       window.location.pathname !== '/'){  
+                        dispatch(push('/login'));
+                       }
+                }
             })
     };
 };
