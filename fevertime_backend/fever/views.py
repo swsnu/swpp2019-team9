@@ -194,6 +194,8 @@ def fever_exception(request):
                         'num_fevers': len(fevers)}
             return JsonResponse(res_dict, status=200)
         elif request.method == 'PUT':
+            req_data = json.loads(request.body.decode())
+            clickmode = req_data['clickmode']
             fevers = Fever_history.objects.filter(user=request.user).filter(click_end='N')
             res_id = 0
             res_goalTime = ''
@@ -201,7 +203,7 @@ def fever_exception(request):
             time_standard = 60
             for i, fever in enumerate(fevers):
                 # 1분에 한번씩 capture 한다면,
-                if i == len(fevers) -1: # 가장 최근의 fever 일때
+                if clickmode == 'confirm' and i == len(fevers) -1: # 가장 최근의 fever 일때
                     res_id = fever.id
                     res_goalTime = fever.goalTime
                     fever_prog_list = Fever_progress.objects.filter(fever_history=fever)
@@ -229,10 +231,12 @@ def fever_exception(request):
                 fever.total_time = datetime.timedelta(seconds=len(fever_prog_list) * time_standard)
                 fever.fever_time = datetime.timedelta(seconds=fever_cnt * time_standard)
                 fever.save()
-
-            return JsonResponse({'hid': res_id,
-                                 'goalTime': res_goalTime,
-                                 'prog_time': res_prog_time}, status=200)
+            if clickmode == 'confirm':
+                return JsonResponse({'hid': res_id,
+                                     'goalTime': res_goalTime,
+                                     'prog_time': res_prog_time}, status=200)
+            else:
+                return HttpResponse(status=201)
         else:
             return HttpResponse(status=405)
     else:   # login 안한 유저일때 예외처리
