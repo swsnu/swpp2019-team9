@@ -116,6 +116,18 @@ describe('FriendsBar', () => {
         component.find("#spyYes").simulate("click")
         expect(axios.delete).toHaveBeenCalledTimes(1);
     })
+    /*
+    it('should find friend data',()=>{
+        push=jest.fn((str)=>{})
+        const component = mount(friendsBar)
+        const FriendsBarInstance = component.find(FriendsBar).instance();
+        FriendsBarInstance.setState({friendlist: [{'firstword' : 'r', 'name': 'real', 'showdata':true}],
+                                    friendinglist: [{'firstword' : 'r', 'name': 'request'}]})
+        component.find("#real-tab").simulate('click')
+        component.find('#friend-button').simulate('click')
+        expect(history.push).toHaveBeenCalledTimes(1);
+    })
+    */
     it('should decline request',()=>{
         axios.delete = jest.fn(() => {
             return new Promise((resolve) => {

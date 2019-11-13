@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Friends.css'
 import AddGroupPopup from "./component/PopupFilled";
 import FriendsBar from '../components/component/FriendsBar'
+import PropTypes from 'prop-types';
 class Group extends Component {
     constructor (props)
     {
@@ -133,9 +134,15 @@ class Group extends Component {
                         </div>
                     </div>
                 </div>
-                <FriendsBar />
+                <FriendsBar history={this.props.history}/>
             </div>
         )
     }
 }
+
+
+Group.propTypes={
+    history:PropTypes.object,
+}
+
 export default Group;

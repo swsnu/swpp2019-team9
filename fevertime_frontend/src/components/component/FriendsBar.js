@@ -3,6 +3,7 @@ import axios from 'axios';
 import AddFriendPopup from "./PopupFilled";
 import AddFriendMessagePopup from "./PopupMessage";
 import DeleteModal from '../component/PopUpModal'
+import PropTypes from 'prop-types';
 class FriendsBar extends Component {
     constructor (props)
     {
@@ -35,8 +36,8 @@ class FriendsBar extends Component {
         axios.get('/api/friend/real/')
             .then(res=>{
                 this.setState({friendlist: res.data.map((value)=>{
-                    return {'firstword' : value.nickname[0], 'name': value.nickname}
-                })}) 
+                    return {'id': value.id,'firstword' : value.nickname[0], 'name': value.nickname, 'showdata': value.showdata}
+                })})
             })
     }
     
@@ -136,6 +137,9 @@ class FriendsBar extends Component {
             .then(()=>{this.onGetFriendList()})
         this.setState({deleteName:'',deleteFriendModal:false})
     }
+    clickFriend = (id)=>{
+        this.props.history.push('/mydata/'+id+'/') 
+    }
     render() {
         return (
             <div className='w-20 fri-list p-relative FriendsBar'>
@@ -172,7 +176,9 @@ class FriendsBar extends Component {
                                 {this.state.friendlist.map((value,index) => {
                                     return (
                                         <div className='d-flex mt-2' key={index}>
-                                            <div className='badge-custom t-center'>{value.firstword}</div>
+                                            {value.showdata?
+                                            <div className='badge-custom t-center' id='friend-button' onClick={()=>this.clickFriend(value.id)}>{value.firstword}</div>:
+                                            <div className='badge-custom2 t-center'>{value.firstword}</div>}
                                             {value.name}
                                             <button className='friend-delete-button' onClick={()=>this.clickDeleteReal(value.name)} id='delete-button'>Delete</button>
                                         </div>
@@ -201,4 +207,9 @@ class FriendsBar extends Component {
         )
     }
 }
+
+FriendsBar.propTypes={
+    history:PropTypes.object,
+}
+
 export default FriendsBar;

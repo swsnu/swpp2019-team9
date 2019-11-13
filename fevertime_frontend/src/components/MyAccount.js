@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types';
 import Popup from "./component/PopupMessage";
+import axios from 'axios';
 import * as actionCreators from "../store/actions/index"
 class MyAccount extends Component {
     state={
@@ -43,7 +44,10 @@ class MyAccount extends Component {
     clickErrorClose = ()=>{
         this.setState({showErrorPopup:false})
     }
-
+    clicktoggle = ()=>{
+        axios.put('/api/user/social/')
+            .then(this.props.onGetUser())
+    }
     render() {
         return (
             <div className='form-container MyAccount'>
@@ -64,6 +68,9 @@ class MyAccount extends Component {
                                 clickConfirm={this.clickErrorClose}
                 />
                 <div className='t-center mt-5 page-title'>My Account</div>
+                <button className='button-blue' id="toggle-button"
+                    onClick = {this.clicktoggle}
+                    >toggle</button>
                 <div className='d-flex mt-5 d-v-center'>
                     <div className='w-20'></div>
                     <div className='w-20'>ID</div>
@@ -116,6 +123,7 @@ MyAccount.propTypes={
     storedMyAccount:PropTypes.object,
     changeMyAccount:PropTypes.func,
     history:PropTypes.object,
+    onGetUser:PropTypes.func,
 }
 
 const mapStateToProps = state =>{
@@ -126,6 +134,7 @@ const mapStateToProps = state =>{
 const mapDispatchToProps = dispatch =>{
     return{
         changeMyAccount : (pkt) => dispatch(actionCreators.ChangeMyAccount(pkt)),
+        onGetUser: ()=>dispatch(actionCreators.getUserInfo()),
     };
 };
 export default connect(mapStateToProps,mapDispatchToProps)(withRouter(MyAccount));

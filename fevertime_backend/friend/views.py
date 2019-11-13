@@ -49,9 +49,11 @@ def request_specific(request,to_nickname):
 def friend_real(request):
     if request.method =='GET':
         real_list= request.user.user_friend1.all()
-        response_dict=[{'nickname':friend.friend2.nickname} for friend in real_list]
+        response_dict=[{'id':friend.friend2.id,
+                        'nickname':friend.friend2.nickname,
+                        'showdata':friend.friend2.showdata} for friend in real_list]
         return JsonResponse(response_dict, safe=False)
-            
+
     elif request.method =='POST':
         body=request.body.decode()
         nickname=json.loads(body)['nickname']

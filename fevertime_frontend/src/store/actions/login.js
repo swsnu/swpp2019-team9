@@ -9,6 +9,7 @@ export const loginUser_ = (user) => {
         uid: user.id,
         username: user.username,
         nickname: user.nickname,
+        showdata: user.showdata,
     };
 };
 export const loginUser = (user) => {
@@ -59,6 +60,7 @@ export const getUserInfo_ = (user) => {
         uid: user.id,
         username: user.username,
         nickname: user.nickname,
+        showdata: user.showdata,
     };
 };
 export const getUserInfo = (user) => {
@@ -68,7 +70,7 @@ export const getUserInfo = (user) => {
                 if(res.status===200)
                     dispatch(getUserInfo_(res.data));
                 else if(res.status===204){
-                    dispatch(getUserInfo_({id:null,username:null,nickname:null}))
+                    dispatch(getUserInfo_({id:null,username:null,nickname:null,showdata: null,}))
                     if(window.location.pathname !== '/signup' &&
                        window.location.pathname !== '/login' &&
                        window.location.pathname !== '/feverstart' &&
