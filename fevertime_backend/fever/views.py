@@ -235,7 +235,6 @@ def fever_exception(request):
                 return JsonResponse({'hid': res_id,
                                      'goalTime': res_goalTime,
                                      'prog_time': res_prog_time}, status=200)
-            
             return HttpResponse(status=201)
         # else:
         #     return HttpResponse(status=405)
