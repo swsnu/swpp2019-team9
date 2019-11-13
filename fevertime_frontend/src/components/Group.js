@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import './Friends.css'
-import AddMemberPopup from "./component/PopupFilled";
 import AddFriendMessagePopup from "./component/PopupMessage";
 import ModalPopup from "./component/PopUpModal";
 import FriendsBar from '../components/component/FriendsBar'
 import axios from 'axios'
 import { withRouter } from 'react-router';
 import {connect} from 'react-redux'
+import {Modal, Button} from 'react-bootstrap'
 import CommentSection from "./component/CommentSection"
 class Group extends Component {
     constructor (props)
@@ -19,19 +19,21 @@ class Group extends Component {
             AddFriendMessageTitle : "",
             AddFriendMessageContent : "",
             addFriendSuccess : false,
+            loadFriendSuccess : false,
             group_id : 0,
             groupMemberList : [],
-            FriendName : '',
+            friendlist : [],
+            FriendNames : [],
             MyInfo : this.props.Mynickname
         }
     }
     componentDidMount(){
-        this.setState({group_id : parseInt(window.location.href.split("/")[4],10)})
-        this.getLeaderboard()
+        let group_id=parseInt(window.location.href.split("/")[4],10)
+        this.setState({group_id : group_id})
+        this.getLeaderboard(group_id)
     }
 
-    getLeaderboard=()=>{
-        let group_id=parseInt(window.location.href.split("/")[4],10)
+    getLeaderboard=(group_id)=>{
         axios.get("/api/group/group_members/"+group_id+"/")
         .then(res => {
             this.setState({groupMemberList : res.data})
@@ -39,62 +41,56 @@ class Group extends Component {
     }
 
     clickInviteFriend = () => () => {
+        axios.get('/api/group/group_add/'+this.state.group_id+"/")
+            .then(res=>{
+                let thing = res.data.map((value)=>{
+                        return {'firstword' : value.nickname[0], 'name': value.nickname}})
+                console.log(thing)
+                this.setState({friendlist: thing, loadFriendSuccess : true})
+            })
+
         this.setState({
             showMemberPopup : true,
+            FriendNames : [],
         })
     }
     sendInviteFriend = () => () => {
-        if(this.state.friendname ===''){
+        if(this.state.FriendNames === []){
             this.setState({
                 showMemberPopup : false,
                 showInviteMessagePopup : true,
                 addFriendSuccess : false,
-                AddFriendMessageTitle : 'NoNickname Entered',
-                AddFriendMessageContent : 'Insert nickname',
-                FriendName : '',
+                AddFriendMessageTitle : 'No Friend Selected',
+                AddFriendMessageContent : 'Select Friend',
+                FriendNames : [],
             })
         }
         else{
             axios.post('/api/group/group_members/'+this.state.group_id+"/",
-                {'nickname':this.state.FriendName})
+                {'nickname':this.state.FriendNames})
                 .then(()=>{
                     this.setState({
                     showMemberPopup : false,
                     showInviteMessagePopup : true,
                     addFriendSuccess : true,
                     AddFriendMessageTitle : 'Friend request sended',
-                    AddFriendMessageContent : 'Successfully sent your request',
-                    FriendName : '',
+                    AddFriendMessageContent : 'Successfully Invited',
+                    FriendNames : [],
                     })
                 })
                 .catch(error=>{
-                    if(error.response.status===404 || error.response.status===401)
+                    if(error.response.status===404 || error.response.status===400)
                         this.setState({
                             showMemberPopup : false,
                             showInviteMessagePopup : true,
                             addFriendSuccess : false,
-                            AddFriendMessageTitle : 'Friend request failed',
+                            AddFriendMessageTitle : 'Friend Invitation failed',
                             AddFriendMessageContent : 'Invalid nickname',
-                            FriendName : '',
+                            FriendNames : [],
                         })
-                    else if(error.response.status===403)
-                        this.setState({
-                            showMemberPopup : false,
-                            showInviteMessagePopup : true,
-                            addFriendSuccess : false,
-                            AddFriendMessageTitle : 'Friend request failed',
-                            AddFriendMessageContent : 'Already in the Group',
-                            FriendName : '',
-                        })
-                })
-            }
-        }
-    
 
-    FriendNameChange = (e) =>{
-        this.setState({
-            FriendName : e.target.value
-        })
+            })
+        }
     }
 
     clickExitGroup = () => () => {
@@ -106,7 +102,6 @@ class Group extends Component {
     clickExitConfirm = () => () => {
         axios.delete('/api/group/group_members/'+this.state.group_id+"/")
         .then(this.props.history.push("/friends"))
-        
     }
 
     clickClose = () => () => {
@@ -114,21 +109,55 @@ class Group extends Component {
             showMemberPopup : false,
             showExitPopup : false,
             showInviteMessagePopup : false,
-            FriendName : '',
+            FriendNames : [],
         })
     }
 
+    clickfriendName = (name)=>{
+        let newlist = this.state.FriendNames.concat(name)
+        this.setState({FriendNames : newlist})
+    }
+
     render() {
+        let FriendListShown = this.state.friendlist.map((value,index) => {
+            return (
+                <div className='d-flex mt-2' key={index}>
+                    <div className='badge-custom t-center'>{value.firstword}</div>
+                    {value.name}
+                    <input type="checkbox" className='friend-add-button' 
+                    onClick={()=>this.clickfriendName(value.name)}
+                    id='add-button'></input>
+                </div>
+            );
+            })
+        let AddMemberPopup = 
+        <Modal show={this.state.showMemberPopup} onHide={this.clickClose()} className='AddMemberPopup'>
+            <Modal.Header closeButton>
+                <Modal.Title>Add Member</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <div className='d-flex'>
+                    <div className='w-40'>
+                    Friend list
+                    </div>
+                    <div>
+                        {(this.state.loadFriendSuccess) ? FriendListShown : <div>No Friends Available</div>}
+                    </div>
+                </div>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={this.clickClose()}>
+                Cancel
+                </Button>
+                <Button variant="primary" onClick={this.sendInviteFriend()}>
+                Confirm
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    
         return (
             <div className='d-flex h-100 Friends'>
-                <AddMemberPopup show={this.state.showMemberPopup}
-                               modalTitle={'Add Member'}
-                               content={'Friend Name'}
-                               buttonConfirm={'Confirm'}
-                               clickClose={this.clickClose()}
-                               clickConfirm={this.sendInviteFriend()}
-                               changeContent={this.FriendNameChange}
-                />
+                {AddMemberPopup}
                 
                 <ModalPopup show={this.state.showExitPopup}
                                modalTitle={'Exit Group'}

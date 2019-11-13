@@ -25,7 +25,8 @@ def group(request):
         created_group=Group(group_name=groupName)
         created_group.save()
         created_group.group_members.add(request.user)
-        return HttpResponse(status=201)
+        for user in created_group.group_members.all():
+            return HttpResponse(status=201)
     else:
         return HttpResponseNotAllowed(['GET','POST'])
 
@@ -50,18 +51,21 @@ def group_member_op(request, group_id=0):
             guest=json.loads(body)['nickname']
         except:
             return HttpResponseBadRequest()
-
-        try:
-            guest_user=User.objects.get(nickname=guest)
-
-        except User.DoesNotExist:
-            return HttpResponseNotFound()       #404
         
-        for group in guest_user.user_groups.all(): #already in the group
-            if(group.id == group_id):
-                return  HttpResponseForbidden()  #403
+        user_list= []
+        for name in guest:
+            try:
+                user_list.append(User.objects.get(nickname=name))
+            except User.DoesNotExist:
+                continue
+        
+        if(len(user_list)==0):        
+            return HttpResponseNotFound()       #404
 
-        group_instance.group_members.add(guest_user)
+        for user in user_list:
+            if(group_instance not in user.user_groups.all()):
+                group_instance.group_members.add(user)
+        
         return HttpResponse(status=201)
     
     elif request.method == 'DELETE':
@@ -71,10 +75,29 @@ def group_member_op(request, group_id=0):
             return HttpResponseNotFound()   #404
         
         group_instance.group_members.remove(request.user)
+        if(len(group_instance.group_members.all()) == 0):
+            group_instance.delete()
         return HttpResponse(status=200)
 
     else:
         return HttpResponseNotAllowed(['GET','POST','DELETE'])
+
+def group_add(request,group_id=0):
+    try:
+        group_instance = Group.objects.get(id=group_id)
+    except:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        response_list = []
+        user_friends = request.user.user_friend1.all()
+        for friend in user_friends:
+            if(group_instance not in friend.friend2.user_groups.all()):
+                response_list.append({'nickname':friend.friend2.nickname})
+        return JsonResponse(response_list, safe=False)
+
+    else:
+        return HttpResponseNotAllowed(['GET','POST'])
 
 def user_weekly_feverExtraction(user, backstep):
     Current_ISO_tuple = (datetime.now()-timedelta(weeks=backstep)).isocalendar()
@@ -82,7 +105,8 @@ def user_weekly_feverExtraction(user, backstep):
     for session in user.fever_history_user.all():
         if(session.click_end=="Y"):
             session_ISO_tuple = session.end_time.isocalendar()
-            if(session_ISO_tuple == Current_ISO_tuple):
+            if((session_ISO_tuple[0] == Current_ISO_tuple[0]) and
+               (session_ISO_tuple[1] == Current_ISO_tuple[1])):
                 total_fever_time += session.fever_time
     tsec = total_fever_time.total_seconds()
     hour = int(tsec//(60*60))
@@ -90,13 +114,10 @@ def user_weekly_feverExtraction(user, backstep):
     sec = int((tsec%60))
     return_dict = {
         "rank" : 0,
-        "firstword" : user.nickname[0], 
-        "name" : user.nickname, 
+        "firstword" : user.nickname[0],
+        "name" : user.nickname,
         "fever_time" : "{:03d}:{:02d}:{:02d}".format(hour,minute,sec)
     }
-    
     return return_dict
-        
-        
-            
+
         

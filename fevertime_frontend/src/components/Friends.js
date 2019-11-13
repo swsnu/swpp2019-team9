@@ -15,6 +15,7 @@ class Friends extends Component {
             AddGroupMessageTitle : '',
             AddGroupMessageContent: '',
             addGroupSuccess: false,
+            groupListLoaded : false,
             groupList : [],
             groupName : '',
 
@@ -29,7 +30,8 @@ class Friends extends Component {
             .then(res=>{
                 this.setState({groupList: res.data.map((value)=>{
                     return { 'id': value.gid, 'firstword' : value.groupname[0], 'name': value.groupname, 'num':value.num, 'TopFever': value.TopFever}
-                })}) 
+                }), groupListLoaded: true})
+                  
             })
     }
 
@@ -132,7 +134,7 @@ class Friends extends Component {
                         </div>
                     </div>
                     <div className='pl-5'>
-
+                        {(this.state.groupListLoaded) ? 
                         <div>
                             {this.state.groupList.map((value,index) => {
                                 return (
@@ -147,6 +149,7 @@ class Friends extends Component {
                                 );
                             })}
                         </div>
+                        : <div>please refresh</div>}
                     </div>
                 </div>
                 <FriendsBar />

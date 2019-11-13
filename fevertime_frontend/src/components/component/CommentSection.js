@@ -6,7 +6,7 @@ import axios from 'axios'
 import { withRouter } from 'react-router';
 import {connect} from 'react-redux'
 
-class Group extends Component {
+class CommentSection extends Component {
     constructor (props)
     {
         super(props);
@@ -18,13 +18,11 @@ class Group extends Component {
             NewComment : "",
             WorkingID : -1,
             EditingComment : {},
-            MyInfo : this.props.Mynickname
         }
     }
     componentDidMount(){
         this.setState({group_id : parseInt(window.location.href.split("/")[4],10)})
         this.getCommentList()
-
     }
 
     getCommentList = () =>{
@@ -111,7 +109,7 @@ class Group extends Component {
     } 
 
     CommentOwner = (c) => {
-        return c !== this.state.MyInfo
+        return c !== this.props.Mynickname
     }
 
     CommentChange = (e) =>{
@@ -122,7 +120,7 @@ class Group extends Component {
 
     render() {
         return (
-                <div className='pl-5 pr-5 mt-10'>
+                <div className='pl-5 pr-5 mt-10' id="CommentSection">
                     <EditCommentPopup  show={this.state.showEditCommentPopup}
                                modalTitle={'Modifiy Comment'}
                                content={this.state.EditingComment.content}
@@ -142,7 +140,8 @@ class Group extends Component {
                     <div className='f-large'>Comments</div>
                     <div className='w-100 d-flex comments-list'></div>
                     <div>
-                        {this.state.commentsList.map((value,index) => {
+                        {(this.props.Mynickname != null) ?
+                        (this.state.commentsList.map((value,index) => {
                             return (
                                 <div key={index} className='w-100 d-flex group-item-list'
                                 >
@@ -150,32 +149,37 @@ class Group extends Component {
                                         <div className='badge-custom '>{value.firstword}</div>
                                         {value.name}
                                     </div>
-                                    <div className='w-50'>{value.content}</div>
+                                    <div className='w-50' id="comment_content">{value.content}</div>
                                     <div className='w-20'>{value.reg_date}</div>
                                     <button className='w-5 button-blue'
+                                        id="edit_button"
                                         onClick={() => this.clickEditComment(index)}
                                         disabled={this.CommentOwner(value.name)}
                                         hidden={this.CommentOwner(value.name)}
                                     >Edit</button>
                                     <button className='w-5 button-red'
+                                        id="delete_button"
                                         onClick={() => this.clickDeleteComment(value.id)}
                                         disabled={this.CommentOwner(value.name)}
                                         hidden={ this.CommentOwner(value.name)}
                                     >Delete</button>
                                 </div>
                             );
-                        })}
+                        })) : null
+                    }
                     </div>
                 <div className='pl-5 pr-5'>
                     <div  className='w-100 d-flex group-comment-my'>
                         <div className='w-10'></div>
                         <div className='w-60'>
                             <input placeholder=' Comments something...' className='w-80 group-comment-input'
+                            id="new_comment_input"
                             value = {this.state.NewComment}
                             onChange={event => this.setState({NewComment: event.target.value})}
                             />
                         </div>
                         <button className='w-20 button-blue'
+                        id="post_comment"
                         onClick={this.clickCreateComment()}
                         disabled = {this.Commentdisable()}
                         >Comment</button>
@@ -191,4 +195,4 @@ const mapStateToProps = state =>{
     }
 }
 
-export default connect(mapStateToProps,null)(withRouter(Group));
+export default connect(mapStateToProps,null)(withRouter(CommentSection));
