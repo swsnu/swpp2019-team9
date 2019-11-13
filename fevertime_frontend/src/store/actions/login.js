@@ -30,9 +30,9 @@ export const ChangeMyAccount = (pkt) => {
         return axios.put('/api/user/',pkt)
             .then(() => {
                 dispatch({type:actionTypes.LOGOUT});
+                dispatch(push('/login'));
             })
             .catch(()=>{
-                //console.log(error)//have to define
             })
     };
 };
@@ -49,9 +49,7 @@ export const logoutUser = () => {
                 dispatch(logoutUser_());
                 dispatch(push('/'));
             })
-            .catch(error=>{
-                console.log(error)//have to define
-            })
+            .catch(()=>{})
     };
 };
 
@@ -69,8 +67,15 @@ export const getUserInfo = (user) => {
             .then(res => {
                 if(res.status===200)
                     dispatch(getUserInfo_(res.data));
-                else if(res.status===204)
+                else if(res.status===204){
                     dispatch(getUserInfo_({id:null,username:null,nickname:null}))
+                    if(window.location.pathname !== '/signup' &&
+                       window.location.pathname !== '/login' &&
+                       window.location.pathname !== '/feverstart' &&
+                       window.location.pathname !== '/'){  
+                        dispatch(push('/login'));
+                       }
+                }
             })
     };
 };
