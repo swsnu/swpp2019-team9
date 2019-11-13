@@ -70,7 +70,7 @@ export const postFeverProgress = (hid, image) => {
             image : image
         })
             .then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 dispatch(postFeverProgress_(res.data));
             })
             .catch(()=>{
@@ -123,16 +123,20 @@ export const putFeverException_ = (data) => {
     };
 };
 
-export const putFeverException = (hid) => {
+export const putFeverException = (clickmode) => {
     return dispatch => {
         return axios.put('/api/fever_exception/',{
-            id : hid
+            clickmode : clickmode
         })
             .then(res => {
-                dispatch(putFeverException_(res.data));
-                dispatch(push({
-                    pathname: '/fevermode',
-                    search: '?id='+res.data.hid+'&goalTime='+res.data.goalTime+'&prog_time='+res.data.prog_time}));
+                if(res.status===200){
+                    dispatch(putFeverException_(res.data));
+                    dispatch(push({
+                        pathname: '/fevermode',
+                        search: '?id='+res.data.hid+'&goalTime='+res.data.goalTime+'&prog_time='+res.data.prog_time}));
+                }else{  //force end all 인 경우
+                    dispatch(closeFeverException_())
+                }
             })
             .catch(()=>{
                 // console.log(error)//have to define

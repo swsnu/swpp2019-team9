@@ -157,6 +157,29 @@ describe('ActionCreators', () => {
 
     });
 
+    it('putFeverException res status 201', (done) => {
+        const stubres={
+            hid: 1,
+            goalTime : '02:00'
+        };
+        console.log = jest.fn();
+        axios.put = jest.fn(() => {
+            return new Promise((resolve) => {
+                const result = {
+                    status: 201,
+                    data: stubres
+                };
+                resolve(result);
+            })
+        });
+        store.dispatch(feverAction.putFeverException())
+            .then(() => {
+                expect(axios.put).toHaveBeenCalledTimes(1);
+                done();
+            });
+
+    });
+
 
     it('putFeverException catch', (done) => {
         console.log = jest.fn();
