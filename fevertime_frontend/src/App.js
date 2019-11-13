@@ -26,18 +26,19 @@ class App extends React.Component{
         this.props.getFeverException()
     }
     clickClose = () => () => {
-        this.props.closeFeverException()
+        this.props.putFeverException('close')
     }
     clickConfirm = () => () => {
-        this.props.putFeverException()
+        this.props.putFeverException('confirm')
     }
     render(){
         return (
             <div className="App">
                 <NotEndFeverHistoryModal show={this.props.num_fevers !== 0}
                                    modalTitle={"Find not finished Fever"}
-                                   content={"There are "+this.props.num_fevers+" unfinished Fever. Do you want to return to the last fever?"}
-                                   buttonConfirm={'Go to last Fever'}
+                                   content={"There is unfinished Fever. Do you want to return to the last fever?"}
+                                   buttonConfirm={"Go Last Fever"}
+                                   buttonClose={"Force end all"}
                                    clickClose={this.clickClose()}
                                    clickConfirm={this.clickConfirm()}
                 />
@@ -65,7 +66,6 @@ App.propTypes={
     getFeverException:PropTypes.func,
     last_hid:PropTypes.number,
     num_fevers:PropTypes.number,
-    closeFeverException:PropTypes.func,
     putFeverException:PropTypes.func
 }
 const mapStateToProps = state => {
@@ -80,10 +80,8 @@ const mapDispatchToProps = dispatch => {
             dispatch(actionCreators.getUserInfo()),
         getFeverException: ()=>
             dispatch(feverActionCreators.getFeverException()),
-        putFeverException: ()=>
-            dispatch(feverActionCreators.putFeverException()),
-        closeFeverException: ()=>
-            dispatch(feverActionCreators.closeFeverException()),
+        putFeverException: (clickmode)=>
+            dispatch(feverActionCreators.putFeverException(clickmode)),
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(App);

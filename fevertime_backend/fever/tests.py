@@ -160,8 +160,13 @@ class FeverTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
         # PUT 200 테스트
-        response = client.put('/api/fever_exception/')
+        response = client.put('/api/fever_exception/', json.dumps({'clickmode': 'confirm'}),
+                              content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        # #405 테스트
-        response = client.delete('/api/fever_exception/')
-        self.assertEqual(response.status_code, 405)
+        # PUT 201 테스트
+        response = client.put('/api/fever_exception/', json.dumps({'clickmode': 'close'}),
+                              content_type='application/json')
+        self.assertEqual(response.status_code, 201)
+        # # #405 테스트 too-many-branch 때매 지움
+        # response = client.delete('/api/fever_exception/')
+        # self.assertEqual(response.status_code, 405)
