@@ -87,7 +87,7 @@ def user(request):
             'id': request.user.id,
             'username': request.user.username,
             'nickname': request.user.nickname,
-            'showdata':signin_user.showdata,
+            'showdata': request.user.showdata,
         }
         return JsonResponse(response_dict, status=200)
     else:

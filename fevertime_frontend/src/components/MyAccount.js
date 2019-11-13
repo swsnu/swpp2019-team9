@@ -68,7 +68,7 @@ class MyAccount extends Component {
                                 clickConfirm={this.clickErrorClose}
                 />
                 <div className='t-center mt-5 page-title'>My Account</div>
-                <button className='button-blue' id="toggle_button"
+                <button className='button-blue' id="toggle-button"
                     onClick = {this.clicktoggle}
                     >toggle</button>
                 <div className='d-flex mt-5 d-v-center'>
@@ -123,6 +123,7 @@ MyAccount.propTypes={
     storedMyAccount:PropTypes.object,
     changeMyAccount:PropTypes.func,
     history:PropTypes.object,
+    onGetUser:PropTypes.func,
 }
 
 const mapStateToProps = state =>{

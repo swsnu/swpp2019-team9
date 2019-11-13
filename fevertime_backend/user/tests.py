@@ -133,3 +133,15 @@ class UserTestCase(TestCase):
         }),content_type="application/json")
         self.assertEqual(response.status_code, 405)
         #def test_user_delete(self):
+
+    def test_social(self):
+        response = self.preclient.post("/api/user/signin/", json.dumps({
+            'username' : "SY",
+            "password" : "Lee"
+        }),content_type="application/json")
+        self.assertEqual(response.status_code, 200)
+
+        response = self.preclient.put("/api/user/social/")
+        self.assertEqual(response.status_code, 200)
+        response = self.preclient.get("/api/user/social/")
+        self.assertEqual(response.status_code, 405)

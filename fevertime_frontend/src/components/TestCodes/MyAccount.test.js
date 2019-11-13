@@ -6,6 +6,7 @@ import { getMockStore } from '../../test-utils/mocks';
 import { history } from '../../store/store';
 import {ConnectedRouter} from "connected-react-router";
 import * as loginAction from '../../store/actions/login';
+import axios from 'axios';
 
 const stubLoginInitState= {
     uid:1,
@@ -40,7 +41,7 @@ describe('MyAccount', () => {
                 </ConnectedRouter>
             </Provider>
         );
-        loginAction.changeMyAccount = jest.fn(()=>() => {
+        loginAction.changeMyAccount = jest.fn(() =>() => {
             return new Promise((resolve) => {resolve({})})
         });
 
@@ -68,6 +69,20 @@ describe('MyAccount', () => {
         expect(newmyaccount.state.showSigninPopup).toEqual(true)
         component.find("#spyExit").at(1).simulate("click");
         expect(newmyaccount.state.showErrorPopup).toEqual(false)
+    }); 
+
+    it("should toggle", () => { 
+        axios.get = jest.fn(() => {
+            return new Promise((resolve) => {
+                const result = {
+                    status: 200,
+                };
+                resolve(result);
+            })
+        });
+        const component = mount(myaccount);
+        component.find("#toggle-button").simulate("click");
+        expect(axios.get).toHaveBeenCalledTimes(1)
     }); 
 
     it("should check Invalid nickname", () => { 
