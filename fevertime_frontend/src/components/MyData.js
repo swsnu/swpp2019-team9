@@ -1,7 +1,35 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import {connect} from 'react-redux'
 import StackedColumnChart from "./Chart/StackedColumnChart";
 class MyData extends Component {
-    render() {
+    constructor(props){
+        super(props)
+        this.state={
+            article: '',
+            users: '',
+            comments: '',
+            check: false,
+            check2: false,
+            check3: false,
+        }
+    }
+
+    componentDidMount(){
+        axios.get('/api/fever_history/',{
+            user_id: this.props.match.params.user_id
+        }).then( res =>
+            {
+                console(res)
+                // this.setState({
+                //     article: res.data,
+                //     check: true,
+                // })        
+            })
+
+    }
+
+    render() {        
         return (
             <div className='form-container MyData'>
                 <div className='w-30  page-title mt-5'>My Data</div>
@@ -15,6 +43,8 @@ class MyData extends Component {
                 </div>
             </div>
         )
-    }
+    } 
 }
-export default MyData;
+
+export default connect(null,null)(MyData);
+
