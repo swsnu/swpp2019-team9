@@ -135,29 +135,5 @@ describe("Comment Section",()=>{
         expect(component.find('.spyEditPopup').length).toBe(0);
         */
         done();
-    })
-
-    it("should show delete popup",()=>{
-        axios.delete = jest.fn(() => {
-            return new Promise((resolve,reject) => {
-                const result = {
-                    status: 200,
-                };
-                resolve(result);
-                reject({status:400})
-            })
-        });
-        const component = mount(commentSection)
-        /*
-        delete_button.simulate("click")
-        expect(component.find('.spyDeletePopup').length).toBe(1);
-        const delete_confirm_button = component.find("#spyOK")
-        delete_confirm_button.simulate("click")
-        expect(axios.delete).toHaveBeenCalledTimes(1);
-        expect(component.find('.spyDeletePopup').length).toBe(1);
-        */
-    })
-
-    
-
+    })  
 })
