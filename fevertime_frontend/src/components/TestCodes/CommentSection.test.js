@@ -148,7 +148,6 @@ describe("Comment Section",()=>{
             })
         });
         const component = mount(commentSection)
-        const delete_button = component.find("#delete_button")
         /*
         delete_button.simulate("click")
         expect(component.find('.spyDeletePopup').length).toBe(1);
