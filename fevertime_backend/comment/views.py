@@ -66,7 +66,7 @@ def delete_comment(request, comment_id=0):
     if request.method == 'DELETE':
         try:
             deleting_comment = Comment.objects.get(id=comment_id)
-        except Group.DoesNotExist:
+        except Comment.DoesNotExist:
             return HttpResponse(status=404)
         
         if request.user.id != deleting_comment.author.id:

@@ -76,10 +76,6 @@ class GroupMemberTestCase(TestCase):
         self.assertEqual(res.status_code, 400)
 
         res = self.preclient.post('/api/group/group_members/1/', json.dumps(
-            {"nickname":["HBLEE"]}), content_type='application/json')
-        self.assertEqual(res.status_code, 404)
-
-        res = self.preclient.post('/api/group/group_members/1/', json.dumps(
             {"nickname":["SYLEE"]}), content_type='application/json')
         self.assertEqual(res.status_code, 201)
 

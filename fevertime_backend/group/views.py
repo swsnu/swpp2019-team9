@@ -2,7 +2,7 @@ import json
 from datetime import datetime, timedelta
 from django.http import HttpResponse, HttpResponseNotAllowed, \
                         JsonResponse, HttpResponseForbidden, \
-                        HttpResponseBadRequest, HttpResponseNotFound
+                        HttpResponseBadRequest
 from user.models import User
 from .models import Group
 

@@ -196,7 +196,7 @@ const mapStateToProps = state =>{
 }
 
 CommentSection.propTypes={
-    Mynickname:PropTypes.object,
+    Mynickname:PropTypes.string,
 }
 
 export default connect(mapStateToProps,null)(withRouter(CommentSection));
