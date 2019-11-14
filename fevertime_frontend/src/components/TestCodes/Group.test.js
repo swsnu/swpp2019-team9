@@ -100,13 +100,15 @@ describe("Group",()=>{
 
     afterEach(() => { jest.clearAllMocks() });
 
-    it("should render", ()=>{
+    it("should render", (done)=>{
         const component = mount(group);
         expect(component.find('#group_body').length).toBe(1);
+        done()
     })
 
-    it("should exit group", ()=>{
+    it("should exit group", (done)=>{
         const component = mount(group);
+        done()
         const exit_button = component.find("#ExitGroupButton")
         exit_button.simulate("click")
 
@@ -124,7 +126,7 @@ describe("Group",()=>{
         expect(spyhistoryPush).toHaveBeenCalledTimes(1);
     })
 
-    it("should click friends and close", ()=>{
+    it("should click friends and close", (done)=>{
         const component = mount(group);
         const add_button = component.find("#AddMemberButton")
         add_button.simulate("click")
@@ -136,9 +138,10 @@ describe("Group",()=>{
         cancel_button.at(0).simulate("click")
         expect(newGroupInstance.state.showMemberPopup).toBe(false);
         expect(newGroupInstance.state.FriendNames).toStrictEqual([]);
+        done()
     })
 
-    it("should click friends and confirm", ()=>{
+    it("should click friends and confirm", (done)=>{
         const component = mount(group);
         const add_button = component.find("#AddMemberButton")
         
@@ -153,9 +156,10 @@ describe("Group",()=>{
         component.find("#spyConfirm").simulate("click")
 
         expect(newGroupInstance.state.showInviteMessagePopup).toBe(false);
+        done()
     })
 
-    it("should click friends check and confirm", ()=>{
+    it("should click friends check and confirm", (done)=>{
         const component = mount(group);
         const newGroupInstance = component.find(Group.WrappedComponent).instance();
         
@@ -171,6 +175,7 @@ describe("Group",()=>{
         //expect(newGroupInstance.state.showMemberPopup).toBe(false);
         //expect(newGroupInstance.state.showInviteMessagePopup).toBe(true);
         expect(axios.post).toHaveBeenCalledTimes(1);
+        done()
         //expect(newGroupInstance.state.AddFriendMessageTitle).toBe("Friend request sended");
         //expect(newGroupInstance.state.AddFriendMessageContent).toBe("Successfully Invited");
         //component.find("#spyConfirm").simulate("click")

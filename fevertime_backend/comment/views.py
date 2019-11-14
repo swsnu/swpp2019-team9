@@ -17,7 +17,7 @@ def comment_2_dic(cObject):
 def comment(request, group_id=0):
     try:
         group_instance = Group.objects.get(id=group_id)
-    except:
+    except Group.DoesNotExist:
         return HttpResponse(status=404)
     
     if request.method == 'GET':
@@ -46,7 +46,7 @@ def comment(request, group_id=0):
             body = request.body.decode()
             cid = json.loads(body)['id']
             content = json.loads(body)['content']
-        except (KeyError, json.JSONDecodeError) as e:
+        except (KeyError, json.JSONDecodeError):
             return HttpResponseBadRequest()
 
         modified_comment=Comment.objects.get(id=cid)
@@ -66,7 +66,7 @@ def delete_comment(request, comment_id=0):
     if request.method == 'DELETE':
         try:
             deleting_comment = Comment.objects.get(id=comment_id)
-        except:
+        except Group.DoesNotExist:
             return HttpResponse(status=404)
         
         if request.user.id != deleting_comment.author.id:

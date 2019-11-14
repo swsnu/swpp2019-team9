@@ -32,7 +32,7 @@ def group(request):
 def group_member_op(request, group_id=0):
     try:
         group_instance = Group.objects.get(id=group_id)
-    except:
+    except Group.DoesNotExist:
         return HttpResponse(status=404)
 
     if request.method == 'GET':
@@ -47,7 +47,7 @@ def group_member_op(request, group_id=0):
         try:
             body = request.body.decode()
             guest = json.loads(body)['nickname']
-        except:
+        except (KeyError, json.JSONDecodeError):
             return HttpResponseBadRequest()
         user_list = []
         for name in guest:
@@ -55,18 +55,12 @@ def group_member_op(request, group_id=0):
                 user_list.append(User.objects.get(nickname=name))
             except User.DoesNotExist:
                 continue
-        if len(user_list) == 0:
-            return HttpResponseNotFound()       #404
 
         for user in user_list:
             if group_instance not in user.user_groups.all():
                 group_instance.group_members.add(user)
         return HttpResponse(status=201)
     elif request.method == 'DELETE':
-        try:
-            group_instance.group_members.get(id=request.user.id)
-        except:
-            return HttpResponseNotFound()   #404
         group_instance.group_members.remove(request.user)
         if len(group_instance.group_members.all()) == 0:
             group_instance.delete()
@@ -78,7 +72,7 @@ def group_member_op(request, group_id=0):
 def group_add(request,group_id=0):
     try:
         group_instance = Group.objects.get(id=group_id)
-    except:
+    except Group.DoesNotExist:
         return HttpResponse(status=404)
 
     if request.method == 'GET':
