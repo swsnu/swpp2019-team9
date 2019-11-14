@@ -25,8 +25,7 @@ def group(request):
         created_group = Group(group_name=groupName)
         created_group.save()
         created_group.group_members.add(request.user)
-        for user in created_group.group_members.all():
-            return HttpResponse(status=201)
+        return HttpResponse(status=201)
     else:
         return HttpResponseNotAllowed(['GET', 'POST'])
 
@@ -56,11 +55,11 @@ def group_member_op(request, group_id=0):
                 user_list.append(User.objects.get(nickname=name))
             except User.DoesNotExist:
                 continue
-        if(len(user_list) == 0):
+        if len(user_list) == 0:
             return HttpResponseNotFound()       #404
 
         for user in user_list:
-            if(group_instance not in user.user_groups.all()):
+            if group_instance not in user.user_groups.all():
                 group_instance.group_members.add(user)
         return HttpResponse(status=201)
     elif request.method == 'DELETE':
@@ -69,7 +68,7 @@ def group_member_op(request, group_id=0):
         except:
             return HttpResponseNotFound()   #404
         group_instance.group_members.remove(request.user)
-        if(len(group_instance.group_members.all()) == 0):
+        if len(group_instance.group_members.all()) == 0:
             group_instance.delete()
         return HttpResponse(status=200)
 
@@ -86,7 +85,7 @@ def group_add(request,group_id=0):
         response_list = []
         user_friends = request.user.user_friend1.all()
         for friend in user_friends:
-            if(group_instance not in friend.friend2.user_groups.all()):
+            if group_instance not in friend.friend2.user_groups.all():
                 response_list.append({'nickname':friend.friend2.nickname})
         return JsonResponse(response_list, safe=False)
     else:
@@ -96,7 +95,7 @@ def user_weekly_feverExtraction(user, backstep):
     Current_ISO_tuple = (datetime.now()-timedelta(weeks=backstep)).isocalendar()
     total_fever_time = timedelta(microseconds=0)
     for session in user.fever_history_user.all():
-        if(session.click_end == "Y"):
+        if session.click_end == "Y":
             session_ISO_tuple = session.end_time.isocalendar()
             if((session_ISO_tuple[0] == Current_ISO_tuple[0]) and
                (session_ISO_tuple[1] == Current_ISO_tuple[1])):

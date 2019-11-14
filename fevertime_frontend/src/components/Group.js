@@ -8,6 +8,7 @@ import {connect} from 'react-redux'
 import axios from 'axios'
 import {Modal, Button} from 'react-bootstrap'
 import CommentSection from "./component/CommentSection"
+import PropTypes from 'prop-types';
 class Group extends Component {
     constructor (props)
     {
@@ -217,5 +218,7 @@ class Group extends Component {
         )
     }
 }
-
+Group.propTypes={
+    history:PropTypes.object,
+}
 export default connect(null,null)(withRouter(Group));

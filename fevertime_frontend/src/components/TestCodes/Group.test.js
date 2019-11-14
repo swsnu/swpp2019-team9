@@ -8,7 +8,7 @@ import { history } from '../../store/store';
 import {ConnectedRouter} from "connected-react-router";
 
 jest.mock('../component/FriendsBar', () => {
-    return jest.fn(props => {
+    return jest.fn(() => {
       return (
         <div className="spyFriendsBar">
         </div>
@@ -17,7 +17,7 @@ jest.mock('../component/FriendsBar', () => {
 });
 
 jest.mock('../component/CommentSection', () => {
-    return jest.fn(props => {
+    return jest.fn(() => {
       return (
         <div className="spyFriendsBar">
         </div>
@@ -95,7 +95,7 @@ describe("Group",()=>{
             })
         })
         spyhistoryPush = jest.spyOn(history, 'push')
-        .mockImplementation(() => { return path => {}; });
+        .mockImplementation(() => { return {}; });
     });
 
     afterEach(() => { jest.clearAllMocks() });

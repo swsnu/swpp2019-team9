@@ -1,20 +1,16 @@
-from django.shortcuts import render
 import json
-from json import JSONDecodeError
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest,JsonResponse
-from django.contrib.auth import authenticate
-from django.forms.models import model_to_dict
 from .models import Comment
 from .models import Group
 
 # Create your views here.
 def comment_2_dic(cObject):
     return {
-            "id" : cObject.id,
-            "content" : cObject.content,
-            "firstword" : cObject.author.nickname[0],
-            "name" : cObject.author.nickname,
-            "reg_date" : cObject.createdate.strftime("%Y/%m/%d, %H:%M")
+        "id" : cObject.id,
+        "content" : cObject.content,
+        "firstword" : cObject.author.nickname[0],
+        "name" : cObject.author.nickname,
+        "reg_date" : cObject.createdate.strftime("%Y/%m/%d, %H:%M")
         }
 
 
@@ -25,7 +21,7 @@ def comment(request, group_id=0):
         return HttpResponse(status=404)
     
     if request.method == 'GET':
-        if(not request.user.is_authenticated):
+        if not request.user.is_authenticated:
             return HttpResponse(status=401)
         comment_list = Comment.objects.filter(group=group_id)
         retrun_list = [comment_2_dic(cObject) for cObject in comment_list]
@@ -35,10 +31,10 @@ def comment(request, group_id=0):
         try:
             body = request.body.decode()
             content = json.loads(body)['content']
-        except (KeyError, json.JSONDecodeError) as e:
+        except (KeyError, json.JSONDecodeError):
             return HttpResponseBadRequest()
         
-        if(not request.user.is_authenticated):
+        if not request.user.is_authenticated:
             return HttpResponse(status=401)
 
         created_comment=Comment(author=request.user, group=group_instance, content=content)
@@ -55,7 +51,7 @@ def comment(request, group_id=0):
 
         modified_comment=Comment.objects.get(id=cid)
 
-        if(request.user.id != modified_comment.author.id):
+        if request.user.id != modified_comment.author.id:
             return HttpResponse(status=401)
 
         modified_comment.content=content
@@ -73,7 +69,7 @@ def delete_comment(request, comment_id=0):
         except:
             return HttpResponse(status=404)
         
-        if(request.user.id != deleting_comment.author.id):
+        if request.user.id != deleting_comment.author.id:
             return HttpResponse(status=401)
         
         deleting_comment.delete()

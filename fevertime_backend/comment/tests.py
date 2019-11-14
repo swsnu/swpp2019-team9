@@ -19,8 +19,8 @@ class CommentTestCase(TestCase):
             "password" : "Lee"
         }),content_type="application/json")
         self.preclient.post('/api/group/',
-                json.dumps({'groupname':'test'}),
-                content_type='application/json')
+                            json.dumps({'groupname':'test'}),
+                            content_type='application/json')
 
     def tearDown(self):
         pass
@@ -97,4 +97,3 @@ class CommentTestCase(TestCase):
         self.preclient.get("/api/user/signout/")
         res = self.preclient.delete("/api/comment/delete/2/")
         self.assertEqual(res.status_code, 401)
-

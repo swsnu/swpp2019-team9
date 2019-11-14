@@ -51,11 +51,11 @@ class GroupMemberTestCase(TestCase):
             "password" : "Lee"
         }),content_type="application/json")
         self.preclient.post('/api/group/',
-                json.dumps({'groupname':'test'}),
-                content_type='application/json')
+                            json.dumps({'groupname':'test'}),
+                            content_type='application/json')
         self.preclient.post('/api/group/',
-                json.dumps({'groupname':'test2'}),
-                content_type='application/json')
+                            json.dumps({'groupname':'test2'}),
+                            content_type='application/json')
 
     def tearDown(self):
         pass
@@ -97,8 +97,8 @@ class GroupMemberTestCase(TestCase):
 
     def test_groupadd(self):
         self.preclient.post('/api/friend/request/',
-                               json.dumps({'nickname':'YBLEE'}),
-                               content_type='application/json')
+                            json.dumps({'nickname':'YBLEE'}),
+                            content_type='application/json')
         self.preclient.get('/api/user/signout/')
 
         self.preclient.post("/api/user/signin/", json.dumps({
@@ -107,8 +107,8 @@ class GroupMemberTestCase(TestCase):
         }),content_type="application/json")
 
         self.preclient.post('/api/friend/real/',
-                               json.dumps({'nickname':'SYLEE'}),
-                               content_type='application/json')
+                            json.dumps({'nickname':'SYLEE'}),
+                            content_type='application/json')
         
         self.preclient.get('/api/user/signout/')
         self.preclient.post("/api/user/signin/", json.dumps({
@@ -124,4 +124,3 @@ class GroupMemberTestCase(TestCase):
 
         res = self.preclient.get('/api/group/group_add/1/')
         self.assertEqual(res.status_code, 200)
-

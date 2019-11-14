@@ -5,7 +5,7 @@ import DeleteCommentPopup from "./PopUpModal";
 import axios from 'axios'
 import { withRouter } from 'react-router';
 import {connect} from 'react-redux'
-
+import PropTypes from 'prop-types';
 class CommentSection extends Component {
     constructor (props)
     {
@@ -84,7 +84,7 @@ class CommentSection extends Component {
             "content" : this.state.EditingComment.content,
             "id" : this.state.EditingComment.id
         })
-        .then((res)=>{
+        .then(()=>{
             const modified = this.state.commentsList.map((cm) =>{
                     if(cm.id === this.state.WorkingID){
                         return this.state.EditingComment
@@ -193,6 +193,10 @@ const mapStateToProps = state =>{
     return {
         Mynickname : state.login.nickname
     }
+}
+
+CommentSection.propTypes={
+    Mynickname:PropTypes.object,
 }
 
 export default connect(mapStateToProps,null)(withRouter(CommentSection));

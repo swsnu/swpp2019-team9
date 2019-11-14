@@ -10,3 +10,4 @@ class Comment(models.Model):
         Group, on_delete=models.CASCADE)
     content = models.TextField()
     createdate = models.DateTimeField(auto_now_add=True)
+    
