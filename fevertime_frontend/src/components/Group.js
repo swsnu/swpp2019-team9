@@ -1,86 +1,191 @@
 import React, { Component } from 'react';
 import './Friends.css'
-import AddGroupPopup from "./component/PopupFilled";
-import FriendsBar from '../components/component/FriendsBar'
+import AddFriendMessagePopup from "./component/PopupMessage";
+import ModalPopup from "./component/PopUpModal";
+import FriendsBar from './component/FriendsBar'
+import { withRouter } from 'react-router';
+import {connect} from 'react-redux'
+import axios from 'axios'
+import {Modal, Button} from 'react-bootstrap'
+import CommentSection from "./component/CommentSection"
 import PropTypes from 'prop-types';
 class Group extends Component {
     constructor (props)
     {
         super(props);
         this.state={
-            showAddGroupPopup : false,
-            groupMemberList : [
-                {rank : 1, firstword : 'Y', name : 'Youngjae', fever_time : '11:10:01'},
-                {rank : 2, firstword : 'G', name : 'Gildong', fever_time : '09:10:01'},
-                {rank : 3, firstword : 'Y', name : 'Youngjae', fever_time : '05:10:01'},
-            ],
-            commentsList : [
-                {content : "I'm best fever", firstword : 'Y', name : 'Youngjae', reg_date : '2019-01-21 11:00'},
-                {content : "I was so sick..", firstword : 'G', name : 'Gildong', reg_date : '2019-02-01 11:00'},
-                {content : "Let's eat some dinner...", firstword : 'Y', name : 'Youngjae', reg_date : '2019-10-21 23:08'},
-            ],
-            groupName : 'Group A',
-            myInfo : {firstword : 'Y', name : 'Youngjae', id:2},
-
+            showMemberPopup : false,
+            showExitPopup : false,
+            showInviteMessagePopup : false,
+            AddFriendMessageTitle : "",
+            AddFriendMessageContent : "",
+            addFriendSuccess : false,
+            loadFriendSuccess : false,
+            group_id : 0,
+            groupMemberList : [],
+            friendlist : [],
+            FriendNames : [],
         }
     }
-    clickAddGroup = () => () => {
-        this.setState({
-            showAddGroupPopup : true,
+    componentDidMount(){
+        let group_id=parseInt(window.location.href.split("/")[4],10)
+        this.setState({group_id : group_id})
+        this.getLeaderboard(group_id)
+    }
 
+    getLeaderboard=(group_id)=>{
+        axios.get("/api/group/group_members/"+group_id+"/")
+        .then(res => {
+            this.setState({groupMemberList : res.data})
         })
     }
-    clickAddGroupConfirm = () => () => {
-        this.setState({
-            showAddGroupPopup : false,
-            groupName : '',
 
+    clickInviteFriend = () => () => {
+        axios.get('/api/group/group_add/'+this.state.group_id+"/")
+            .then(res=>{
+                let thing = res.data.map((value)=>{
+                        return {'firstword' : value.nickname[0], 'name': value.nickname}})
+                this.setState({friendlist: thing, loadFriendSuccess : true})
+            })
+
+        this.setState({
+            showMemberPopup : true,
+            FriendNames : [],
         })
     }
+    sendInviteFriend = () => () => {
+        if(this.state.FriendNames.length === 0 ){
+            this.setState({
+                showMemberPopup : false,
+                showInviteMessagePopup : true,
+                addFriendSuccess : false,
+                AddFriendMessageTitle : 'No Friend Selected',
+                AddFriendMessageContent : 'Select Friend',
+                FriendNames : [],
+            })
+        }
+        else{
+            axios.post('/api/group/group_members/'+this.state.group_id+"/",
+                {'nickname':this.state.FriendNames})
+                .then(()=>{
+                    this.setState({
+                    showMemberPopup : false,
+                    showInviteMessagePopup : true,
+                    addFriendSuccess : true,
+                    AddFriendMessageTitle : 'Friend request sended',
+                    AddFriendMessageContent : 'Successfully Invited',
+                    FriendNames : [],
+                    })
+                })
+                .catch(error=>{
+                    if(error.response.status===404 || error.response.status===400)
+                        this.setState({
+                            showMemberPopup : false,
+                            showInviteMessagePopup : true,
+                            addFriendSuccess : false,
+                            AddFriendMessageTitle : 'Friend Invitation failed',
+                            AddFriendMessageContent : 'Invalid nickname',
+                            FriendNames : [],
+                        })
+
+            })
+        }
+    }
+
+    clickExitGroup = () => () => {
+        this.setState({
+            showExitPopup : true,
+        })
+    }
+
+    clickExitConfirm = () => () => {
+        axios.delete('/api/group/group_members/'+this.state.group_id+"/")
+        .then(this.props.history.push("/friends"))
+    }
+
     clickClose = () => () => {
         this.setState({
-            showAddGroupPopup : false,
-            groupName : ''
+            showMemberPopup : false,
+            showExitPopup : false,
+            showInviteMessagePopup : false,
+            FriendNames : [],
         })
     }
-    groupNameChange = (e) => {
-        this.setState({
-            groupName: e.target.value
-        })
-    }
-    clickMyFriends = () => () => {
-        this.setState({
-            showMyFriend : true,
 
-        })
-    }
-    clickFriendingList = () => () => {
-        this.setState({
-            showMyFriend : false,
-
-        })
+    clickfriendName = (name)=>{
+        let newlist = this.state.FriendNames.filter(x=> x!==name)
+        if(newlist.length === this.state.FriendNames.length){
+            newlist= newlist.concat(name)
+        }
+        this.setState({FriendNames : newlist})
     }
 
     render() {
+        let FriendListShown = this.state.friendlist.map((value,index) => {
+            return (
+                <div className='d-flex mt-2' key={index}>
+                    <div className='badge-custom t-center'>{value.firstword}</div>
+                    {value.name}
+                    <input type="checkbox" className='friend-add-button' id="friendcheckbox"
+                    onClick={()=>this.clickfriendName(value.name)}></input>
+                </div>
+            );
+            })
+        let AddMemberPopup = 
+        <Modal show={this.state.showMemberPopup} onHide={this.clickClose()} className='AddMemberPopup'>
+            <Modal.Header closeButton>
+                <Modal.Title>Add Member</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <div className='d-flex'>
+                    <div className='w-40'>
+                    Friend list
+                    </div>
+                    <div>
+                        {(this.state.loadFriendSuccess) ? FriendListShown : <div>No Friends Available</div>}
+                    </div>
+                </div>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" id="closeAddMember" onClick={this.clickClose()}>
+                Cancel
+                </Button>
+                <Button variant="primary" id="confirmAddMember" onClick={this.sendInviteFriend()}>
+                Confirm
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    
         return (
             <div className='d-flex h-100 Friends'>
-                <AddGroupPopup show={this.state.showAddGroupPopup}
-                               modalTitle={'Add Group'}
-                               content={'Group name'}
-                               buttonConfirm={'Make Group'}
+                {AddMemberPopup}
+                
+                <ModalPopup show={this.state.showExitPopup}
+                               modalTitle={'Exit Group'}
+                               content={'Really want to leave the group?'}
+                               buttonConfirm={'Confirm'}
                                clickClose={this.clickClose()}
-                               clickConfirm={this.clickAddGroupConfirm()}
-                               changeContent={this.groupNameChange}
+                               clickConfirm={this.clickExitConfirm()}
                 />
-                <div className='w-80 mt-5'>
+
+                <AddFriendMessagePopup show={this.state.showInviteMessagePopup}
+                                modalTitle={this.state.AddFriendMessageTitle}
+                                content={this.state.AddFriendMessageContent}
+                                buttonConfirm={'OK'}
+                                isSuccess={this.state.addFriendSuccess}
+                                clickClose={this.clickClose()}
+                                clickConfirm={this.clickClose()}
+                />
+
+                <div className='w-80 mt-5' id="group_body">
                     <div className='d-flex'>
                         <div className='w-50 page-title pl-5'>{this.state.groupName} Leaderboard</div>
                         <div className='w-10'></div>
                         <div className='w-20'>
-                            <button onClick={this.clickAddGroup()} className='w-80 button-blue'>Invite friends</button>
+                            <button onClick={this.clickInviteFriend()} id="AddMemberButton" className='w-80 button-blue'>Invite friends</button>
                         </div>
                         <div className='w-20'>
-                            <button onClick={this.clickAddGroup()} className='w-80 button-red'>Exit group</button>
+                            <button onClick={this.clickExitGroup()} id="ExitGroupButton" className='w-80 button-red'>Exit group</button>
                         </div>
                     </div>
                     <div className='d-flex mt-5 pl-5'>
@@ -106,43 +211,14 @@ class Group extends Component {
                             })}
                         </div>
                     </div>
-                    <div className='pl-5 pr-5 mt-10'>
-                        <div className='f-large'>Comments</div>
-                        <div className='w-100 d-flex comments-list'></div>
-                        <div>
-                            {this.state.commentsList.map((value,index) => {
-                                return (
-                                    <div key={index} className='w-100 d-flex group-item-list'>
-                                        <div className='w-30 d-flex d-ho-center'>
-                                            <div className='badge-custom '>{value.firstword}</div>
-                                            {value.name}
-                                        </div>
-                                        <div className='w-20'>{value.content}</div>
-                                        <div className='w-50'>{value.reg_date}</div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-                    <div className='pl-5 pr-5'>
-                        <div  className='w-100 d-flex group-comment-my'>
-                            <div className='w-10'></div>
-                            <div className='w-60'>
-                                <input placeholder=' Comments something...' className='w-80 group-comment-input'/>
-                            </div>
-                            <button className='w-20 button-blue'>Comment</button>
-                        </div>
-                    </div>
+                    <CommentSection/>
                 </div>
                 <FriendsBar history={this.props.history}/>
             </div>
         )
     }
 }
-
-
 Group.propTypes={
     history:PropTypes.object,
 }
-
-export default Group;
+export default connect(null,null)(withRouter(Group));
