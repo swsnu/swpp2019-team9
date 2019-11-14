@@ -68,9 +68,6 @@ class MyAccount extends Component {
                                 clickConfirm={this.clickErrorClose}
                 />
                 <div className='t-center mt-5 page-title'>My Account</div>
-                <button className='button-blue' id="toggle-button"
-                    onClick = {this.clicktoggle}
-                    >toggle</button>
                 <div className='d-flex mt-5 d-v-center'>
                     <div className='w-20'></div>
                     <div className='w-20'>ID</div>
@@ -107,6 +104,13 @@ class MyAccount extends Component {
                     <div className='ml-3 f-small'>
                         {this.state.WrongInput[2]}
                     </div>
+                </div>
+                <div className='d-flex mt-3 d-v-center'>
+                    <div className='w-20'></div>
+                    <div className='w-20'>Fever Info Disclosure</div>
+                    <button className='w-30 button-blue' id="toggle-button"
+                            onClick = {this.clicktoggle}
+                    >toggle</button>
                 </div>
                 <div className='t-center mt-5 d-flex'>
                     <div className='w-30'></div>

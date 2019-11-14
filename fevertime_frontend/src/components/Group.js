@@ -123,11 +123,11 @@ class Group extends Component {
     render() {
         let FriendListShown = this.state.friendlist.map((value,index) => {
             return (
-                <div className='d-flex mt-2' key={index}>
+                <div className='d-flex mt-2 friend-add-button-wrapper' key={index}>
+                    <input type="checkbox" className='friend-add-button' id="friendcheckbox"
+                           onClick={()=>this.clickfriendName(value.name)}></input>
                     <div className='badge-custom t-center'>{value.firstword}</div>
                     {value.name}
-                    <input type="checkbox" className='friend-add-button' id="friendcheckbox"
-                    onClick={()=>this.clickfriendName(value.name)}></input>
                 </div>
             );
             })
@@ -177,7 +177,7 @@ class Group extends Component {
                                 clickConfirm={this.clickClose()}
                 />
 
-                <div className='w-80 mt-5' id="group_body">
+                <div className='w-80 mt-5 group-body' id="group_body">
                     <div className='d-flex'>
                         <div className='w-50 page-title pl-5'>{this.state.groupName} Leaderboard</div>
                         <div className='w-10'></div>

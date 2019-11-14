@@ -86,3 +86,13 @@
 .hide-my-friend-tab:active{
     background-color: darkorange;
 }
+.friend-add-button-wrapper{
+    align-items: center;
+}
+.friend-add-button{
+    margin-right: 10px;
+    transform: scale(1.3);
+}
+.group-body{
+    overflow: scroll; /* showing scrollbars */
+}

@@ -119,7 +119,7 @@ class Friends extends Component {
                                 clickClose={this.clickMessageClose}
                                 clickConfirm={this.clickMessageClose}
                 />
-                <div className='w-80 mt-5'>
+                <div className='w-80 mt-5 group-body'>
                     <div className='d-flex'>
                         <div className='w-50 page-title pl-5'>Friends</div>
                         <div className='w-20'></div>
