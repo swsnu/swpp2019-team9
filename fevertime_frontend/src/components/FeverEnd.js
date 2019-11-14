@@ -15,8 +15,6 @@ class FeverEnd extends Component {
     componentDidMount(){
         var search = this.props.location.search
         var params = new URLSearchParams(search)
-        console.log(params.get('total_time'))
-        var params
         this.setState({
             total_time : params.get('total_time'),  
             fever_time : params.get('fever_time'),
@@ -54,15 +52,6 @@ class FeverEnd extends Component {
     }
 }
 FeverEnd.propTypes={
-    total_time:PropTypes.string,
-    fever_time:PropTypes.string,
-    fever_rate:PropTypes.number
+    location:PropTypes.object,
 };
-const mapStateToProps = state => {
-    return {
-        total_time:state.feverStart.total_time,
-        fever_time:state.feverStart.fever_time,
-        fever_rate:state.feverStart.fever_rate
-    };
-}
-export default connect(mapStateToProps,null)(withRouter(FeverEnd));
+export default connect(null,null)(withRouter(FeverEnd));
