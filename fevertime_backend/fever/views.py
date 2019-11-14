@@ -4,7 +4,7 @@ import datetime
 from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
 import requests
-
+from django.forms.models import model_to_dict
 
 from .models import Fever_history, Fever_progress
 
@@ -14,7 +14,15 @@ from .models import Fever_history, Fever_progress
 # @csrf_exempt
 def fever_history(request):
 
-    if request.method == 'POST':
+    if request.method == 'GET':
+        try:
+            user_id = json.loads(request.body.decode())['user_id']
+            print(user_id)
+            fever_hist_list = [model_to_dict(hist) for hist in Fever_history.objects.filter(user_id=user_id)]
+            return JsonResponse({fever_hist_list})
+        except Fever_history.DoesNotExist:
+            return HttpResponse(status=404)
+    elif request.method == 'POST':
         req_data = json.loads(request.body.decode())
 
         newfever = Fever_history(category=req_data['category'],
@@ -78,6 +86,7 @@ def fever_history(request):
         return JsonResponse(res, status=200)
     else:
         return HttpResponse(status=405)
+    
 
 # @csrf_exempt
 def fever_progress(request):
