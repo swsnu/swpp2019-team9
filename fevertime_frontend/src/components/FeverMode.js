@@ -1,5 +1,4 @@
 import React, { Component ,createRef } from 'react';
-import smileImg from '../assets/img/smileIcon.png';
 import avatar from '../assets/img/man-avatar.jpg';
 import { withRouter } from 'react-router';
 import {connect} from 'react-redux'
@@ -23,6 +22,7 @@ class FeverMode extends Component {
             hid:0,
             showCamera: false,
             showAlarm: false,
+            onDisplayMode: false,
             showAlarmCheckPopup : false,
             showAlarmMessagePopup : false, // 핸드폰 Detect 시 뜨는 알림창을 키고 끄는 변수
             time : 0,
@@ -35,9 +35,11 @@ class FeverMode extends Component {
                 height: 700,
                 facingMode: "user"
             },
-            selectedGoodWords : "Don’t be afraid your life will end be afraid. That it will never begin",
-            selectedGoodWordsMan : "Grace Hansen",
-            goodwords : [{word: "Business? It's quite simple. It's other people's money.", man : "Alexandre Dumas"},
+            selectedGoodWords : "",
+            selectedGoodWordsMan : "",
+            goodwords : [
+                {word: "Don’t be afraid your life will end be afraid. That it will never begin", man: "Grace Hansen"},
+                {word: "Business? It's quite simple. It's other people's money.", man : "Alexandre Dumas"},
                 {word: "A hungry man is not a free man.", man : "Adlai Stevenson"},
                 {word: "The secret of business is to know something that nobody else knows.", man : "Aristotle Onassis"},
                 {word: "One man with courage makes a majority.", man : "Andrew Jackson"},
@@ -60,13 +62,27 @@ class FeverMode extends Component {
     }
     webcamRef = createRef();
     componentDidMount() {
-
+        let min = 0;
+        let max = 16;
+        let randInt = min+ parseInt(Math.random() *(max-min));
         const query = qs.parse(this.props.location.search);
-        this.setState({
-            hid : query.id,
-            goalTime : query.goalTime
+        if(query.prog_time !== undefined){
+            this.setState({
+                hid : query.id,
+                goalTime : query.goalTime,
+                time : Number(query.prog_time) * 60, // 1분에 한번씩 capture 하므로
+                selectedGoodWords : this.state.goodwords[randInt].word,
+                selectedGoodWordsMan : this.state.goodwords[randInt].man
 
-        });
+            });
+        }else{
+            this.setState({
+                hid : query.id,
+                goalTime : query.goalTime,
+                selectedGoodWords : this.state.goodwords[randInt].word,
+                selectedGoodWordsMan : this.state.goodwords[randInt].man
+            });
+        }
         //timer 참고 https://medium.com/wasd/react%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%B4-%ED%83%80%EC%9D%B4%EB%A8%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-9fc164416586
         this.timerStart();
 
@@ -86,8 +102,6 @@ class FeverMode extends Component {
             time: time + 1,
         }), () => this.timesSetter());  // timerHandler will call after setState working is done
 
-
-
     }
     timesSetter(){
         const {time } = this.state;
@@ -101,7 +115,7 @@ class FeverMode extends Component {
                 this.setState((prevState) => ({
                     sec: time - (prevState.hour * 3600) - (prevState.min * 60),  // prevState means just changed valud. Without this, sec will be -1
                 }),()=>{
-                    if(time % 10 === 5){
+                    if(time % 60 === 59){
                         this.capture();
                     }
                 });
@@ -109,20 +123,9 @@ class FeverMode extends Component {
         });
     }
 
-    // capture = () => () => {
-    //     console.log(this.webcamRef);
-    //     this.setState({
-    //         currentMyImage : this.webcamRef.current.getScreenshot(),
-    //     })
-    // }
     capture(){
-        let min = 0;
-        let max = 15;
-        let randInt = min+ parseInt(Math.random() *(max-min));
         this.setState({
-            currentMyImage : this.webcamRef.current.getScreenshot(),
-            selectedGoodWords : this.state.goodwords[randInt].word,
-            selectedGoodWordsMan : this.state.goodwords[randInt].man
+            currentMyImage : this.webcamRef.current.getScreenshot()
         })
         this.props.postFeverProgress(this.state.hid, this.webcamRef.current.getScreenshot());
 
@@ -146,6 +149,11 @@ class FeverMode extends Component {
             showAlarm : e.target.checked
         })
     }
+    onCheckDisplay = (e) => {
+        this.setState({
+            onDisplayMode : e.target.checked,
+        })
+    }
 
     clickClose = () => () => {
         this.setState({
@@ -159,13 +167,34 @@ class FeverMode extends Component {
             showAlarm : true
         })
     }
-
+    clickDisplayModeEnd= () => () => {
+        this.setState({
+            onDisplayMode : false
+        })
+    }
     clickEnd = () => () => {
         this.props.putFeverHistory(this.state.hid);
     }
     render() {
         return (
             <div className='p-relative' id='FeverMode'>
+                { this.state.onDisplayMode &&
+                <div className='fevermode-fullscreen'>
+                    <div className='d-flex'>
+                        <h1 className='d-flex fevermode-fullscreen-time'>
+                            <div>{this.transTime(this.state.hour)}&nbsp; :&nbsp; </div>
+                            <div>{this.transTime(this.state.min)}&nbsp; :&nbsp; </div>
+                            <div>{this.transTime(this.state.sec)}</div>
+                        </h1>
+                    </div>
+                    <div className='d-flex'>
+                        <h1 className='d-flex fevermode-fullscreen-checkbox'>
+                            <div className='fevermode-fullscreen-button-orange' id='fevermode-display-off-button'  onClick={this.clickDisplayModeEnd()}>Hide Off</div>
+                        </h1>
+                    </div>
+
+                </div>
+                }
                 <AlarmModal show={this.state.showAlarmCheckPopup }
                             modalTitle={'Start Alarm mode'}
                             content={'Do you want to turn on the Alarm?'}
@@ -223,7 +252,11 @@ class FeverMode extends Component {
                         </div>
                     </div>
                     <div className='d-flex'>
-                        <div className='w-70'></div>
+                        <div className='w-60'></div>
+                        <div className='w-20 d-flex'>
+                            <input type='checkbox' id='fevermode-display-checkbox' checked={this.state.onDisplayMode} onChange={this.onCheckDisplay} />
+                            <div className='ml-1 show-camera-button'>Hide mode On</div>
+                        </div>
                         <div className='w-20 color-gray t-right'>
                             Goal Time : &nbsp; {this.state.goalTime}
                         </div>
@@ -232,16 +265,13 @@ class FeverMode extends Component {
                         <div className='t-center w-100 f-large good-word-box'>
                             {this.state.selectedGoodWords}<br/>
                             - {this.state.selectedGoodWordsMan} -
-
                         </div>
                         <div className='d-flex mt-5'>
+                            <div className='w-33'></div>
                             <div className='w-33 pr-3 t-right'>
                                 <img className='icon-size' alt='' src={this.state.currentMyImage}/>
                             </div>
-                            <div className='w-33 f-large'>Avg Fever rate : </div>
-                            <div className='w-33 '>
-                                <img className='icon-size' alt='' src={smileImg}/>
-                            </div>
+                            <div className='w-33'></div>
                         </div>
                     </div>
                     <div className='d-flex d-ho-center'>

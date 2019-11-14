@@ -33,6 +33,12 @@ class UserTestCase(TestCase):
             "password" : "asdf"
         }),content_type="application/json")
         self.assertEqual(response.status_code, 401)
+        response = client.post("/api/user/signup/", json.dumps({
+            'username' : "asd",
+            "nickname" : "asdf",
+            "password" : "asdf"
+        }),content_type="application/json")
+        self.assertEqual(response.status_code, 402)
         response = client.get("/api/user/signup/")
         self.assertEqual(response.status_code, 405)
 
@@ -111,6 +117,15 @@ class UserTestCase(TestCase):
             "password" : "lee"
         }),content_type="application/json")
         self.assertEqual(response.status_code, 200)
+        response = self.preclient.post("/api/user/signin/", json.dumps({
+            'username' : "SY",
+            "password" : "lee"
+        }),content_type="application/json")
+        response = self.preclient.put("/api/user/", json.dumps({
+            'nickname' : "sy",
+            "password" : "lee"
+        }),content_type="application/json")
+        self.assertEqual(response.status_code, 402)
     def test_user_invalid(self):
         response = self.preclient.post("/api/user/", json.dumps({
             'nickname' : "sy",
@@ -118,3 +133,15 @@ class UserTestCase(TestCase):
         }),content_type="application/json")
         self.assertEqual(response.status_code, 405)
         #def test_user_delete(self):
+
+    def test_social(self):
+        response = self.preclient.post("/api/user/signin/", json.dumps({
+            'username' : "SY",
+            "password" : "Lee"
+        }),content_type="application/json")
+        self.assertEqual(response.status_code, 200)
+
+        response = self.preclient.put("/api/user/social/")
+        self.assertEqual(response.status_code, 200)
+        response = self.preclient.get("/api/user/social/")
+        self.assertEqual(response.status_code, 405)

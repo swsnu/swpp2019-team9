@@ -51,6 +51,13 @@ describe('FeverMode', () => {
         expect(componentWillUnmount).toHaveBeenCalled();
 
     });
+    // it('should test componentDidMount', () => {
+    //     history.location.pathname = '/fevermode?id=96&goalTime=02:00&prog_time=1';
+    //     const component = mount(feverMode);
+    //     const newFeverModeInstance = component.find(FeverMode.default.WrappedComponent).instance();
+    //     expect(newFeverModeInstance.state.time).toEqual(60);
+    //
+    // });
 
     it(`should check fevermode-alarm-checkbox`, () => {
 
@@ -88,6 +95,21 @@ describe('FeverMode', () => {
         wrapper1.simulate('change', { target: { checked: true } });
         const newFeverModeInstance = component.find(FeverMode.default.WrappedComponent).instance();
         expect(newFeverModeInstance.state.showCamera).toEqual(true);
+
+    });
+
+    it(`should check fevermode-display-checkbox`, () => {
+        const component = mount(feverMode);
+        const wrapper1 = component.find('#fevermode-display-checkbox');
+        // const wrapper1 = component.find('#pop-modal-click-confirm');
+        // const wrapper2 = component.find('#pop-modal-click-close');
+        wrapper1.simulate('change', { target: { checked: true } });
+        const newFeverModeInstance = component.find(FeverMode.default.WrappedComponent).instance();
+        expect(newFeverModeInstance.state.onDisplayMode).toEqual(true);
+        const wrapper2 = component.find('#fevermode-display-off-button');
+        wrapper2.simulate('click');
+        const newFeverModeInstance2 = component.find(FeverMode.default.WrappedComponent).instance();
+        expect(newFeverModeInstance2.state.onDisplayMode).toEqual(false);
 
     });
 

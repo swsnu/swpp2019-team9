@@ -152,7 +152,7 @@ class Friends extends Component {
                         : <div>please refresh</div>}
                     </div>
                 </div>
-                <FriendsBar />
+                <FriendsBar  history={this.props.history}/>
             </div>
         )
     }

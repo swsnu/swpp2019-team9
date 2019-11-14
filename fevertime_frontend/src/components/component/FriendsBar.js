@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import AddFriendPopup from "./PopupFilled";
 import AddFriendMessagePopup from "./PopupMessage";
+import DeleteModal from '../component/PopUpModal'
+import PropTypes from 'prop-types';
 class FriendsBar extends Component {
     constructor (props)
     {
@@ -11,9 +13,11 @@ class FriendsBar extends Component {
             showAddFriendMessagePopup: false,
             showMyFriend : true,
             addFriendSuccess : false,
+            deleteFriendModal:false,
             AddFriendMessageTitle : '',
             AddFriendMessageContent : '',
             friendname : '',
+            deleteName: '',
             friendlist : [],
             friendinglist : [],
 
@@ -32,8 +36,8 @@ class FriendsBar extends Component {
         axios.get('/api/friend/real/')
             .then(res=>{
                 this.setState({friendlist: res.data.map((value)=>{
-                    return {'firstword' : value.nickname[0], 'name': value.nickname}
-                })}) 
+                    return {'id': value.id,'firstword' : value.nickname[0], 'name': value.nickname, 'showdata': value.showdata}
+                })})
             })
     }
     
@@ -123,15 +127,25 @@ class FriendsBar extends Component {
         }
     }
     clickDeleteReal= (name)=>{
-        axios.delete('/api/friend/real/'+name+'/')
+        this.setState({deleteName:name,deleteFriendModal:true})
+    }
+    clickModalClose = ()=>{
+        this.setState({deleteName:'',deleteFriendModal:false})
+    }
+    clickModalConfirm = ()=>{
+        axios.delete('/api/friend/real/'+this.state.deleteName+'/')
             .then(()=>{this.onGetFriendList()})
+        this.setState({deleteName:'',deleteFriendModal:false})
+    }
+    clickFriend = (id)=>{
+        this.props.history.push('/mydata/'+id+'/') 
     }
     render() {
         return (
             <div className='w-20 fri-list p-relative FriendsBar'>
                 <AddFriendPopup show={this.state.showAddFriendPopup}
                             modalTitle={'Add Friend'}
-                            content={'Friend name'}
+                            content={'Friend nickname'}
                             buttonConfirm={'Send request'}
                             clickClose={this.clickClose}
                             clickConfirm={this.clickAddFriendConfirm}
@@ -145,9 +159,16 @@ class FriendsBar extends Component {
                                 clickClose={this.clickMessageClose}
                                 clickConfirm={this.clickMessageClose}
                 />
+                <DeleteModal show={this.state.deleteFriendModal }
+                            modalTitle={'Confirmation'}
+                            content={'Are you sure to delete your friend?'}
+                            buttonConfirm={'Delete'}
+                            clickClose={this.clickModalClose}
+                            clickConfirm={this.clickModalConfirm}
+                />
                 <div className='d-flex fri-list-button'>
                     <div id='real-tab' className={(this.state.showMyFriend ? 'show-my-friend-tab' : 'hide-my-friend-tab')} onClick={this.clickMyFriends()}>My Friends</div>
-                    <div id='request-tab' className={(!this.state.showMyFriend ? 'show-my-friend-tab' : 'hide-my-friend-tab')} onClick={this.clickFriendingList()}>Friending list</div>
+                    <div id='request-tab' className={(!this.state.showMyFriend ? 'show-my-friend-tab' : 'hide-my-friend-tab')} onClick={this.clickFriendingList()}>Requests</div>
                 </div>
                 <div className='pl-3 friend-scroll'>
                     {this.state.showMyFriend ? (
@@ -155,7 +176,9 @@ class FriendsBar extends Component {
                                 {this.state.friendlist.map((value,index) => {
                                     return (
                                         <div className='d-flex mt-2' key={index}>
-                                            <div className='badge-custom t-center'>{value.firstword}</div>
+                                            {value.showdata?
+                                            <div className='badge-custom t-center' id='friend-button' onClick={()=>this.clickFriend(value.id)}>{value.firstword}</div>:
+                                            <div className='badge-custom2 t-center'>{value.firstword}</div>}
                                             {value.name}
                                             <button className='friend-delete-button' onClick={()=>this.clickDeleteReal(value.name)} id='delete-button'>Delete</button>
                                         </div>
@@ -184,4 +207,9 @@ class FriendsBar extends Component {
         )
     }
 }
+
+FriendsBar.propTypes={
+    history:PropTypes.object,
+}
+
 export default FriendsBar;

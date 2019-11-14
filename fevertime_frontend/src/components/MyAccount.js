@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types';
+import Popup from "./component/PopupMessage";
+import axios from 'axios';
 import * as actionCreators from "../store/actions/index"
 class MyAccount extends Component {
     state={
@@ -9,6 +11,8 @@ class MyAccount extends Component {
         password: "",
         password_confirm: "",
         WrongInput : ["","",""],
+        showSigninPopup: false,
+        showErrorPopup : false,
     }
     clickConfirmChange = () =>{
         let LocalWrongInput = ["","",""]
@@ -30,19 +34,43 @@ class MyAccount extends Component {
         this.setState({WrongInput : LocalWrongInput})
 
         if(!wrong){
-            this.props.changeMyAccount({
-                nickname : this.state.nickname,
-                password : this.state.password,})
-            this.props.history.push('/')
-            window.alert("Please Signin Again")
-            
+            this.setState({showSigninPopup:true})
         }
     }
-
+    clickSigninClose= ()=>{
+        this.props.changeMyAccount({nickname : this.state.nickname,password : this.state.password,})
+            .then(()=>{this.setState({showSigninPopup:false,showErrorPopup:true})})
+    }
+    clickErrorClose = ()=>{
+        this.setState({showErrorPopup:false})
+    }
+    clicktoggle = ()=>{
+        axios.put('/api/user/social/')
+            .then(this.props.onGetUser())
+    }
     render() {
         return (
             <div className='form-container MyAccount'>
+                <Popup show={this.state.showSigninPopup}
+                                modalTitle={'Notice'}
+                                content={"Login after modification"}
+                                buttonConfirm={'OK'}
+                                isSuccess={true}
+                                clickClose={this.clickSigninClose}
+                                clickConfirm={this.clickSigninClose}
+                />
+                <Popup show={this.state.showErrorPopup}
+                                modalTitle={'Not Available'}
+                                content={"Nickname Exists"}
+                                buttonConfirm={'OK'}
+                                isSuccess={true}
+                                clickClose={this.clickErrorClose}
+                                clickConfirm={this.clickErrorClose}
+                />
                 <div className='t-center mt-5 page-title'>My Account</div>
+                <button className='button-blue' id="toggle-button"
+                    onClick = {this.clicktoggle}
+                    >toggle</button>
                 <div className='d-flex mt-5 d-v-center'>
                     <div className='w-20'></div>
                     <div className='w-20'>ID</div>
@@ -95,6 +123,7 @@ MyAccount.propTypes={
     storedMyAccount:PropTypes.object,
     changeMyAccount:PropTypes.func,
     history:PropTypes.object,
+    onGetUser:PropTypes.func,
 }
 
 const mapStateToProps = state =>{
@@ -105,6 +134,7 @@ const mapStateToProps = state =>{
 const mapDispatchToProps = dispatch =>{
     return{
         changeMyAccount : (pkt) => dispatch(actionCreators.ChangeMyAccount(pkt)),
+        onGetUser: ()=>dispatch(actionCreators.getUserInfo()),
     };
 };
 export default connect(mapStateToProps,mapDispatchToProps)(withRouter(MyAccount));

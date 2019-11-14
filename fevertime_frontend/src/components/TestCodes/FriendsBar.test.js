@@ -30,6 +30,17 @@ jest.mock('../component/PopupMessage', () => {
     });
 });
 
+jest.mock('../component/PopUpModal', () => {
+    return jest.fn((props) => {
+      return (
+        <div className="spyFriendPopupModal">
+            <button id="spyNo" onClick={props.clickClose}/>
+            <button id="spyYes" onClick={props.clickConfirm}/>
+        </div>
+        );
+    });
+});
+
 const stubInitialUser = {
     uid:1,
     username: 'test',
@@ -100,8 +111,23 @@ describe('FriendsBar', () => {
         button.simulate('click')
         const wrapper2 = component.find("#delete-button")
         wrapper2.simulate('click')
+        component.find("#spyNo").simulate("click")
+        wrapper2.simulate('click')
+        component.find("#spyYes").simulate("click")
         expect(axios.delete).toHaveBeenCalledTimes(1);
     })
+    /*
+    it('should find friend data',()=>{
+        push=jest.fn((str)=>{})
+        const component = mount(friendsBar)
+        const FriendsBarInstance = component.find(FriendsBar).instance();
+        FriendsBarInstance.setState({friendlist: [{'firstword' : 'r', 'name': 'real', 'showdata':true}],
+                                    friendinglist: [{'firstword' : 'r', 'name': 'request'}]})
+        component.find("#real-tab").simulate('click')
+        component.find('#friend-button').simulate('click')
+        expect(history.push).toHaveBeenCalledTimes(1);
+    })
+    */
     it('should decline request',()=>{
         axios.delete = jest.fn(() => {
             return new Promise((resolve) => {

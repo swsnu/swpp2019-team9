@@ -80,12 +80,48 @@ describe('ActionCreators', () => {
                 resolve(result);
             })
         });
-
         store.dispatch(loginAction.getUserInfo()).then(() => {
-            expect(axios.get).toHaveBeenCalledTimes(1);
+            expect(axios.get).toHaveBeenCalledTimes(1);  
             done();
         });
     });
+
+    it('call history push ', (done) => {
+        axios.get = jest.fn(() => {
+            return new Promise((resolve) => {
+                const result = {
+                    status: 204,
+                    data: stubUserGet
+                };
+                resolve(result);
+            })
+        });
+        global.window = Object.create(window);
+        Object.defineProperty(window, 'location', {
+            value: {
+                pathname: 'a'
+            }
+        });
+        store.dispatch(loginAction.getUserInfo()).then(() => {
+            expect(axios.get).toHaveBeenCalledTimes(1);  
+            done();
+        });
+    });
+    it('get user not logged in2', (done) => {
+        axios.get = jest.fn(() => {
+            return new Promise((resolve) => {
+                const result = {
+                    status: 204,
+                };
+                resolve(result);
+            })
+        });
+        store.dispatch(loginAction.getUserInfo()).then(() => {
+            expect(axios.get).toHaveBeenCalledTimes(1);  
+            done();
+        });
+    });
+
     it('logout user', (done) => {
         axios.get = jest.fn(() => {
             return new Promise((resolve) => {
@@ -99,6 +135,23 @@ describe('ActionCreators', () => {
 
         store.dispatch(loginAction.logoutUser()).then(() => {
             expect(axios.get).toHaveBeenCalledTimes(1);
+            done();
+        });
+    });
+    
+    it('change user info', (done) => {
+        axios.put = jest.fn(() => {
+            return new Promise((resolve) => {
+                const result = {
+                    status: 200,
+                    data: stubUser
+                };
+                resolve(result);
+            })
+        });
+
+        store.dispatch(loginAction.ChangeMyAccount()).then(() => {
+            expect(axios.put).toHaveBeenCalledTimes(1);
             done();
         });
     });
