@@ -12,7 +12,7 @@ class PopupComment extends Component {
     }
     render() {
         return (
-            <Modal show={this.props.show} onHide={this.props.clickClose} className='PopupFilled'>
+            <Modal show={this.props.show} onHide={this.props.clickClose} className='PopupComment'>
                 <Modal.Header closeButton>
                     <Modal.Title>{this.props.modalTitle}</Modal.Title>
                 </Modal.Header>

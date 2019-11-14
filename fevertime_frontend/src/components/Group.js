@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import './Friends.css'
 import AddFriendMessagePopup from "./component/PopupMessage";
 import ModalPopup from "./component/PopUpModal";
-import FriendsBar from '../components/component/FriendsBar'
-import axios from 'axios'
+import FriendsBar from './component/FriendsBar'
 import { withRouter } from 'react-router';
 import {connect} from 'react-redux'
+import axios from 'axios'
 import {Modal, Button} from 'react-bootstrap'
 import CommentSection from "./component/CommentSection"
 class Group extends Component {
@@ -24,7 +24,6 @@ class Group extends Component {
             groupMemberList : [],
             friendlist : [],
             FriendNames : [],
-            MyInfo : this.props.Mynickname
         }
     }
     componentDidMount(){
@@ -45,7 +44,6 @@ class Group extends Component {
             .then(res=>{
                 let thing = res.data.map((value)=>{
                         return {'firstword' : value.nickname[0], 'name': value.nickname}})
-                console.log(thing)
                 this.setState({friendlist: thing, loadFriendSuccess : true})
             })
 
@@ -55,7 +53,7 @@ class Group extends Component {
         })
     }
     sendInviteFriend = () => () => {
-        if(this.state.FriendNames === []){
+        if(this.state.FriendNames.length === 0 ){
             this.setState({
                 showMemberPopup : false,
                 showInviteMessagePopup : true,
@@ -114,7 +112,10 @@ class Group extends Component {
     }
 
     clickfriendName = (name)=>{
-        let newlist = this.state.FriendNames.concat(name)
+        let newlist = this.state.FriendNames.filter(x=> x!==name)
+        if(newlist.length === this.state.FriendNames.length){
+            newlist= newlist.concat(name)
+        }
         this.setState({FriendNames : newlist})
     }
 
@@ -124,9 +125,8 @@ class Group extends Component {
                 <div className='d-flex mt-2' key={index}>
                     <div className='badge-custom t-center'>{value.firstword}</div>
                     {value.name}
-                    <input type="checkbox" className='friend-add-button' 
-                    onClick={()=>this.clickfriendName(value.name)}
-                    id='add-button'></input>
+                    <input type="checkbox" className='friend-add-button' id="friendcheckbox"
+                    onClick={()=>this.clickfriendName(value.name)}></input>
                 </div>
             );
             })
@@ -146,10 +146,10 @@ class Group extends Component {
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={this.clickClose()}>
+                <Button variant="secondary" id="closeAddMember" onClick={this.clickClose()}>
                 Cancel
                 </Button>
-                <Button variant="primary" onClick={this.sendInviteFriend()}>
+                <Button variant="primary" id="confirmAddMember" onClick={this.sendInviteFriend()}>
                 Confirm
                 </Button>
             </Modal.Footer>
@@ -176,15 +176,15 @@ class Group extends Component {
                                 clickConfirm={this.clickClose()}
                 />
 
-                <div className='w-80 mt-5'>
+                <div className='w-80 mt-5' id="group_body">
                     <div className='d-flex'>
                         <div className='w-50 page-title pl-5'>{this.state.groupName} Leaderboard</div>
                         <div className='w-10'></div>
                         <div className='w-20'>
-                            <button onClick={this.clickInviteFriend()} className='w-80 button-blue'>Invite friends</button>
+                            <button onClick={this.clickInviteFriend()} id="AddMemberButton" className='w-80 button-blue'>Invite friends</button>
                         </div>
                         <div className='w-20'>
-                            <button onClick={this.clickExitGroup()} className='w-80 button-red'>Exit group</button>
+                            <button onClick={this.clickExitGroup()} id="ExitGroupButton" className='w-80 button-red'>Exit group</button>
                         </div>
                     </div>
                     <div className='d-flex mt-5 pl-5'>
@@ -217,10 +217,5 @@ class Group extends Component {
         )
     }
 }
-const mapStateToProps = state =>{
-    return {
-        Mynickname : state.login.nickname
-    }
-}
 
-export default connect(mapStateToProps,null)(withRouter(Group));
+export default connect(null,null)(withRouter(Group));

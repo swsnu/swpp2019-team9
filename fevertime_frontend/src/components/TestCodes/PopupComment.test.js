@@ -5,14 +5,14 @@ import PopupComment from '../component/PopupComment';
 
 
 describe('PopupComment', () => {
-    let PopupComment;
+    let popupcomment;
     beforeEach(() => {
-        popupFilled = (
+        popupcomment = (
             <PopupComment/>
         );
     })
     it('should render', () => {
-        const component = mount(PopupComment);
+        const component = mount(popupcomment);
         expect(component.find('.PopupComment').length).toBeGreaterThan(1);
     });
 

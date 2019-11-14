@@ -36,13 +36,10 @@ jest.mock('../component/PopUpModal', () => {
     });
 });
 
-
-
-
 const stubInitialUser = {
     uid:1,
-    username: 'Gildong',
-    nickname:'Gildong',
+    username: 'Youngjae',
+    nickname:'Youngjae',
 }
 const mockStore = getMockStore(stubInitialUser,{});
 
@@ -128,11 +125,7 @@ describe("Comment Section",()=>{
         const newCommentSectionInstance = component.find(CommentSection.WrappedComponent).instance();
         newCommentSectionInstance.setState({commentsList : mockcomment})
 
-        expect(newCommentSectionInstance.state.commentsList.length).toBe(3)
-        expect(component.find("#comment_content").length).toBe(3)
         const edit_button = component.find("#edit_button")
-
-        expect(edit_button.length).toBe(1)
         edit_button.simulate("click")
         expect(component.find('.spyEditPopup').length).toBe(1);
         const edit_input = component.find("#spyContent")
