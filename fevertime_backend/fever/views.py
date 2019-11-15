@@ -1,29 +1,76 @@
 import json
 import base64
-import datetime
+from datetime import datetime,timedelta
 from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
 import requests
 from django.forms.models import model_to_dict
+import calendar
+from dateutil.relativedelta import relativedelta
 
 from .models import Fever_history, Fever_progress
 
 
-
 # 일단은 csrf_exempt 로 모두 임시로 사용
-# @csrf_exempt
-def fever_history(request):
 
-    if request.method == 'GET':
+# @csrf_exempt
+def fever_data_W(request):
+    if request.method == 'POST':
         try:
-            user_id = json.loads(request.body.decode())['user_id']
-            print(user_id)
-            fever_hist_list = [model_to_dict(hist) for hist in Fever_history.objects.filter(user_id=user_id)]
-            return JsonResponse({fever_hist_list})
+            data = json.loads(request.body.decode())
+            user_id = data['user_id']
+            selectTime = data['selectTime']
+            nowDay = datetime.today().weekday()
+            fever_data=[]
+            for i in range (0,7):
+                fever_data.append({'total_time':timedelta(),'fever_time':timedelta(),'days':""})
+                fever_data[0]['weekstart']=(datetime.today()+timedelta(days=selectTime*7-nowDay)).strftime("%Y/%m/%d")
+                fever_data[0]['weekend']=(datetime.today()+timedelta(days=selectTime*7+6-nowDay)).strftime("%Y/%m/%d")
+            
+            for hist in Fever_history.objects.filter(user_id=user_id):                
+                for i in range(0,7):
+                    if hist.end_time < datetime.combine(datetime.today()+timedelta(days=selectTime*7+7-i-nowDay), datetime.min.time()) and hist.end_time > datetime.combine(datetime.today()+timedelta(days=selectTime*7+6-i-nowDay), datetime.min.time()):
+                        fever_data[6-i]['total_time'] = fever_data[6-i]['total_time'] + hist.total_time
+                        fever_data[6-i]['fever_time'] = fever_data[6-i]['fever_time'] + hist.fever_time
+            for i in range(0,7):
+                fever_data[i]['total_time']=fever_data[i]['total_time'].total_seconds()
+                fever_data[i]['fever_time']=fever_data[i]['fever_time'].total_seconds()
+                fever_data[i]['days']=(datetime.today()+timedelta(days=selectTime*7+i-nowDay)).strftime("%m/%d")
+            return JsonResponse(fever_data,safe=False,status=200)
         except Fever_history.DoesNotExist:
             return HttpResponse(status=404)
-    elif request.method == 'POST':
-        req_data = json.loads(request.body.decode())
+
+# @csrf_exempt
+def fever_data_M(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body.decode())
+            user_id = data['user_id']
+            selectTime = datetime.today()+relativedelta(months=data['selectTime'])
+            fever_data=[]
+            LastDayofMonth=calendar.monthrange(selectTime.year,selectTime.month)[1]
+            for i in range (0,LastDayofMonth):
+                fever_data.append({'total_time':timedelta(),'fever_time':timedelta()})
+            fever_data[0]['year']=selectTime.year
+            fever_data[0]['month']=selectTime.month
+            for hist in Fever_history.objects.filter(user_id=user_id):                
+                for i in range(0,LastDayofMonth):
+                    currentday=datetime(selectTime.year,selectTime.month,i+1)
+                    nextday=datetime(selectTime.year,selectTime.month,i+1)+timedelta(days=1)
+                    if hist.end_time < nextday and hist.end_time > currentday:
+                        fever_data[i]['total_time'] = fever_data[i]['total_time'] + hist.total_time
+                        fever_data[i]['fever_time'] = fever_data[i]['fever_time'] + hist.fever_time
+            for i in range(0,LastDayofMonth):
+                fever_data[i]['total_time']=fever_data[i]['total_time'].total_seconds()
+                fever_data[i]['fever_time']=fever_data[i]['fever_time'].total_seconds()
+            return JsonResponse(fever_data,safe=False,status=200)
+        except Fever_history.DoesNotExist:
+            return HttpResponse(status=404)
+            
+# @csrf_exempt
+def fever_history(request):
+    if request.method == 'POST':
+        req_data = json.loads(request.body.decode())    
 
         newfever = Fever_history(category=req_data['category'],
                                  user=request.user,
