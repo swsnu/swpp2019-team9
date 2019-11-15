@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import CanvasJSReact from '../../assets/canvasjs.react';
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -88,6 +89,14 @@ class WeeklyChart extends Component {
             </div>
         );
     }
+}
+
+WeeklyChart.propTypes={
+    total_time:PropTypes.array,
+    fever_time:PropTypes.array,
+    days:PropTypes.array,
+    weekstart:PropTypes.string,
+    weekend:PropTypes.string,
 }
 
 export default WeeklyChart;

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import CanvasJSReact from '../../assets/canvasjs.react';
+import PropTypes from 'prop-types';
+
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-class MonthlyChart extends Component {
+class ColumnChart extends Component {
     constructor() {
         super();
         this.state={
@@ -22,12 +24,11 @@ class MonthlyChart extends Component {
         this.chart.render();
     }
     render() {
-        console.log(this.props.total_time)
         const options = {
             animationEnabled: true,
             exportEnabled: true,
             title: {
-                text: String(this.props.year)+'/'+String(this.props.month),
+                text: this.props.title,
                 fontFamily: "verdana"
             },
             axisY: {
@@ -46,23 +47,7 @@ class MonthlyChart extends Component {
                 cursor: "pointer",
                 itemclick: this.toggleDataSeries
             },
-            data: [
-               {
-                    type: "stackedColumn",
-                    name: "FeverTime",
-                    color: "red",
-                    showInLegend: false,
-                    yValueFormatString: "#,###.##h",
-                    dataPoints: this.props.fever_time.map((v,index)=>{return {label:String(index+1), y: v/3600 }}),
-                 },
-                {
-                    type: "stackedColumn",
-                    name: "NonFeverTime",
-                    color: "gray",
-                    showInLegend: false,
-                    yValueFormatString: "#,###.##h",
-                    dataPoints: this.props.total_time.map((v,index)=>{return {label:String(index+1), y: (v-this.props.fever_time[index])/3600 }}),
-                }]
+            data: this.props.data
         }
 
         return (
@@ -74,4 +59,9 @@ class MonthlyChart extends Component {
     }
 }
 
-export default MonthlyChart;
+ColumnChart.propTypes={
+    title:PropTypes.string,
+    Data:PropTypes.array,
+}
+
+export default ColumnChart;

@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import {connect} from 'react-redux'
-import WeeklyChart from "./Chart/WeeklyChart";
-import MonthlyChart from "./Chart/MonthlyChart";
+import ColumnChart from "./Chart/ColumnChart";
+
+const daysinweek = ["MON","TUE","WED","THU","FRI","SAT","SUN"]
+
+
 class MyData extends Component {
     constructor(props){
         super(props)
         this.state={
             selectTime : 0,
-            total_time : [],
-            fever_time : [],
-            days : [],
-            
-            year : 0,
-            month : 0,
 
-            weekstart : '',
-            weekend : '',
+            chartData : [],
+            chartTitle :'',
+
+            total_time : 0,
+            fever_time : 0,
 
             showModeD : false,
             showModeW : true,
@@ -25,7 +25,7 @@ class MyData extends Component {
     }
 
     componentDidMount(){
-        this.getFeverData_W()
+        this.getFeverData()
     }
 
     getFeverData = () => {
@@ -40,9 +40,9 @@ class MyData extends Component {
         }).then( res =>
             {
                 this.setState({
-                    total_time: res.data.map((value)=>{return value.total_time}),
-                    fever_time: res.data.map((value)=>{return value.fever_time}),
-                    days : res.data.map((value)=>{return value.days})
+                    total_time: res.data.total_time,
+                    fever_time: res.data.fever_time,
+                    selectedDay : res.data.selectedDay,
                 })
             })
     }
@@ -54,11 +54,27 @@ class MyData extends Component {
         }).then( res =>
             {
                 this.setState({
-                    total_time: res.data.map((value)=>{return value.total_time}),
-                    fever_time: res.data.map((value)=>{return value.fever_time}),
-                    days : res.data.map((value)=>{return value.days}),
-                    weekstart : res.data[0].weekstart,
-                    weekend : res.data[0].weekend,
+                    chartData : [
+                        {
+                             type: "stackedColumn",
+                             name: "FeverTime",
+                             color: "red",
+                             showInLegend: false,
+                             yValueFormatString: "#,###.##h",
+                             dataPoints: res.data.map((value,index)=>{
+                                 return {label: value.days+"("+daysinweek[index]+")", y:value.fever_time/3600}
+                                })
+                            },{
+                             type: "stackedColumn",
+                             name: "NonFeverTime",
+                             color: "gray",
+                             showInLegend: false,
+                             yValueFormatString: "#,###.##h",
+                             dataPoints: res.data.map((value,index)=>{
+                                return {label: value.days+"("+daysinweek[index]+")", y:(value.total_time-value.fever_time)/3600}
+                               })
+                            }],
+                    chartTitle : res.data[0].weekstart+"~"+res.data[0].weekend
                 })
             })
     }
@@ -70,10 +86,24 @@ class MyData extends Component {
         }).then( res =>
             {
                 this.setState({
-                    total_time: res.data.map((value)=>{return value.total_time}),
-                    fever_time: res.data.map((value)=>{return value.fever_time}),
-                    year : res.data[0].year,
-                    month : res.data[0].month
+                    chartData : [
+                        {
+                             type: "stackedColumn",
+                             name: "FeverTime",
+                             color: "red",
+                             showInLegend: false,
+                             yValueFormatString: "#,###.##h",
+                             dataPoints: res.data.map((value,index)=>{return {label:String(index+1), y: value.fever_time/3600 }}),
+                          },
+                         {
+                             type: "stackedColumn",
+                             name: "NonFeverTime",
+                             color: "gray",
+                             showInLegend: false,
+                             yValueFormatString: "#,###.##h",
+                             dataPoints: res.data.map((value,index)=>{return {label:String(index+1), y: (value.total_time-value.fever_time)/3600 }}),
+                         }],
+                    chartTitle : String(res.data[0].year)+"/"+String(res.data[0].month)
                 })
             })
     }
@@ -117,8 +147,6 @@ class MyData extends Component {
     }
 
     render() {        
-        console.log(this.state.days)
-
         return (
             <div className='form-container MyData'>
                 <div className='w-30  page-title mt-5'>My Data</div>
@@ -128,14 +156,19 @@ class MyData extends Component {
                     <div className='w-33' onClick = {this.clickMonthly} id ='daily-button'>Monthly</div>
                 </div>
                 
-                <div className='mt-5'>
-                    {(this.state.showModeD)?('')
-                    :(this.state.showModeW)?(
-                    <WeeklyChart total_time={this.state.total_time} fever_time={this.state.fever_time} days={this.state.days} weekstart={this.state.weekstart} weekend={this.state.weekend}></WeeklyChart>)
-                    :(<MonthlyChart total_time={this.state.total_time} fever_time={this.state.fever_time} year={this.state.year} month={this.state.month}></MonthlyChart>)}
+                <div >
+                    {(this.state.showModeD)?(''):(
+                        <div>
+                            <div className='mt-5'>
+                                <ColumnChart data={this.state.chartData} title={this.state.chartTitle}></ColumnChart>
+                            </div>
+                            <div className='mt-5 d-flex'>    
+                                <button className='w-30 button-blue' onClick = {this.clickLeft} id ='left-button'>Left</button>
+                                <div className= 'w-40'></div>
+                                <button className='w-30 button-blue' onClick = {this.clickRight} id ='right-button'>Right</button>
+                            </div>
+                        </div>)}
                 </div>
-                            <button className='w-30 button-blue' onClick = {this.clickLeft} id ='left-button'>Left</button>
-                            <button className='w-30 button-blue' onClick = {this.clickRight} id ='right-button'>Right</button>
             </div>
         )
     } 

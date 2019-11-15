@@ -14,6 +14,26 @@ from .models import Fever_history, Fever_progress
 # 일단은 csrf_exempt 로 모두 임시로 사용
 
 # @csrf_exempt
+def fever_data_D(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body.decode())
+            user_id = data['user_id']
+            selectTime = data['selectTime']
+            fever_data={'total_time':timedelta(),'fever_time':timedelta()}
+            fever_data['seletedDay']=(datetime.today()+timedelta(days=selectTime)).strftime("%Y/%m/%d")
+            
+            for hist in Fever_history.objects.filter(user_id=user_id):                
+                    if hist.end_time < datetime.combine(datetime.today()+timedelta(days=selectTime+1), datetime.min.time()) and hist.end_time > datetime.combine(datetime.today()+timedelta(days=selectTime), datetime.min.time()):
+                        fever_data['total_time'] = fever_data['total_time'] + hist.total_time
+                        fever_data['fever_time'] = fever_data['fever_time'] + hist.fever_time
+            fever_data['total_time']=fever_data['total_time'].total_seconds()
+            fever_data['fever_time']=fever_data['fever_time'].total_seconds()
+            return JsonResponse(fever_data,safe=False,status=200)
+        except Fever_history.DoesNotExist:
+            return HttpResponse(status=404)
+
+# @csrf_exempt
 def fever_data_W(request):
     if request.method == 'POST':
         try:
