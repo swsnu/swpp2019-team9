@@ -27,7 +27,7 @@ class Header extends Component {
                     <div><Link to='/feverstart'>Go Fever</Link></div>
                     {this.props.storedMyAccount.uid!==null &&this.props.storedMyAccount.username!==null && this.props.storedMyAccount.nickname!==null ? (
                         <div className='header-right-child'>
-                            <div><Link to='/mydata'>My Data</Link></div>
+                            <div><Link to={'/mydata/' + this.props.storedMyAccount.uid}>My Data</Link></div>
                             <div><Link to='/friends'>Friends</Link></div>
                             <div><Link to='/myaccount'>My Account</Link></div>
                             <div onClick={this.clickLogout} id='logout-button'>Logout</div>
