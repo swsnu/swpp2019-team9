@@ -8,6 +8,7 @@ from dateutil.relativedelta import relativedelta
 
 from .models import Fever_history, Fever_progress
 
+import requests
 
 def chop_microsec(delta):
     return delta - timedelta(microseconds=delta.microseconds)
