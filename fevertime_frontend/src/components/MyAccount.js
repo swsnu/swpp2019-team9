@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Popup from "./component/PopupMessage";
 import axios from 'axios';
 import * as actionCreators from "../store/actions/index"
+import Switch from 'react-switch'
 class MyAccount extends Component {
     state={
         nickname: this.props.storedMyAccount.nickname,
@@ -107,10 +108,8 @@ class MyAccount extends Component {
                 </div>
                 <div className='d-flex mt-3 d-v-center'>
                     <div className='w-20'></div>
-                    <div className='w-20'>Fever Info Disclosure</div>
-                    <button className='w-30 button-blue' id="toggle-button"
-                            onClick = {this.clicktoggle}
-                    >toggle</button>
+                    <div className='w-20'>Show Fever data</div>
+                    <Switch onChange={this.clicktoggle} checked={this.props.storedMyAccount.showdata} id='toggle-button'/>
                 </div>
                 <div className='t-center mt-5 d-flex'>
                     <div className='w-30'></div>

@@ -12,6 +12,7 @@ const stubLoginInitState= {
     uid:1,
     username:"asdf",
     nickname:"asdf",
+    showdata:true,
 };
 
 const mockStore = getMockStore(stubLoginInitState,{});
@@ -81,7 +82,7 @@ describe('MyAccount', () => {
             })
         });
         const component = mount(myaccount);
-        component.find("#toggle-button").simulate("click");
+        component.find("#toggle-button").at(1).simulate("change");
         expect(axios.get).toHaveBeenCalledTimes(1)
     }); 
 
