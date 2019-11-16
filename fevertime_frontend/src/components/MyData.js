@@ -53,40 +53,53 @@ class MyData extends Component {
             })
     }
 
+    setState_WM = (res,week) =>{
+        if(week){
+            var dataPointsF = res.data.map((value,index)=>{
+                return {label: value.days+"("+daysinweek[index]+")", y:value.fever_time/3600}
+            })
+            var dataPointsN = res.data.map((value,index)=>{
+                return {label: value.days+"("+daysinweek[index]+")", y:(value.total_time-value.fever_time)/3600}
+            })}
+        else{
+            var dataPointsF = res.data.map((value,index)=>{return {label:String(index+1), y: value.fever_time/3600 }
+            })
+            var dataPointsN = res.data.map((value,index)=>{return {label:String(index+1), y: (value.total_time-value.fever_time)/3600 }
+            })}
+
+        this.setState({
+            total_total_time: res.data[0].total_total_time,
+            total_fever_time: res.data[0].total_fever_time,
+            avg_total_time: res.data[0].avg_total_time,
+            avg_fever_time: res.data[0].avg_fever_time,
+            category_time: res.data[0].category_time,
+            chartData : [
+                {
+                     type: "stackedColumn",
+                     name: "FeverTime",
+                     color: "red",
+                     showInLegend: false,
+                     yValueFormatString: "#,##0.##h",
+                     dataPoints: dataPointsF
+                    },{
+                     type: "stackedColumn",
+                     name: "NonFeverTime",
+                     color: "gray",
+                     showInLegend: false,
+                     yValueFormatString: "#,##0.##h",
+                     dataPoints: dataPointsN
+                    }],
+            chartTitle : res.data[0].chartTitle
+        })
+    }
+
     getFeverData_W = () => {
         axios.post('/api/fever_data_W/',{
             user_id: this.props.match.params.user_id,
             selectTime: this.state.selectTime
         }).then( res =>
             {
-                this.setState({
-                    total_total_time: res.data[0].total_total_time,
-                    total_fever_time: res.data[0].total_fever_time,
-                    avg_total_time: res.data[0].avg_total_time,
-                    avg_fever_time: res.data[0].avg_fever_time,
-                    category_time: res.data[0].category_time,
-                    chartData : [
-                        {
-                             type: "stackedColumn",
-                             name: "FeverTime",
-                             color: "red",
-                             showInLegend: false,
-                             yValueFormatString: "#,##0.##h",
-                             dataPoints: res.data.map((value,index)=>{
-                                 return {label: value.days+"("+daysinweek[index]+")", y:value.fever_time/3600}
-                                })
-                            },{
-                             type: "stackedColumn",
-                             name: "NonFeverTime",
-                             color: "gray",
-                             showInLegend: false,
-                             yValueFormatString: "#,##0.##h",
-                             dataPoints: res.data.map((value,index)=>{
-                                return {label: value.days+"("+daysinweek[index]+")", y:(value.total_time-value.fever_time)/3600}
-                               })
-                            }],
-                    chartTitle : res.data[0].chartTitle
-                })
+                this.setState_WM(res,true)
             })
     }
 
@@ -96,31 +109,7 @@ class MyData extends Component {
             selectTime: this.state.selectTime
         }).then( res =>
             {
-                this.setState({
-                    total_total_time: res.data[0].total_total_time,
-                    total_fever_time: res.data[0].total_fever_time,
-                    avg_total_time: res.data[0].avg_total_time,
-                    avg_fever_time: res.data[0].avg_fever_time,
-                    category_time: res.data[0].category_time,
-                    chartData : [
-                        {
-                             type: "stackedColumn",
-                             name: "FeverTime",
-                             color: "red",
-                             showInLegend: false,
-                             yValueFormatString: "#,##0.##h",
-                             dataPoints: res.data.map((value,index)=>{return {label:String(index+1), y: value.fever_time/3600 }}),
-                          },
-                         {
-                             type: "stackedColumn",
-                             name: "NonFeverTime",
-                             color: "gray",
-                             showInLegend: false,
-                             yValueFormatString: "#,##0.##h",
-                             dataPoints: res.data.map((value,index)=>{return {label:String(index+1), y: (value.total_time-value.fever_time)/3600 }}),
-                         }],
-                    chartTitle : res.data[0].chartTitle
-                })
+                this.setState_WM(res,false)
             })
     }
 
