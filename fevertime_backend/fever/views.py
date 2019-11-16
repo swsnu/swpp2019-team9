@@ -1,8 +1,6 @@
 import json
 import base64
 import calendar
-import requests
-
 from datetime import datetime, timedelta
 from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
@@ -97,9 +95,9 @@ def fever_data_W(request):
                         timedelta(days=selectTime*7+6-i-nowDay), datetime.min.time())
                     if hist.end_time < nextday and hist.end_time > currentday:
                         fever_data[6-i]['total_time'] = fever_data[6 -
-                                                                i]['total_time'] + hist.total_time
+                            i]['total_time'] + hist.total_time
                         fever_data[6-i]['fever_time'] = fever_data[6 -
-                                                                i]['fever_time'] + hist.fever_time
+                            i]['fever_time'] + hist.fever_time
                         if hist.category == 'Study':
                             fever_data[0]['category_time'][0] = fever_data[0]['category_time'][0]+ \
                                 hist.total_time
