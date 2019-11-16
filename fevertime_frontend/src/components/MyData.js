@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux'
 import ColumnChart from "./Chart/ColumnChart";
-import PropTypes from 'prop-types';
 import PieChart from "./Chart/PieChart";
 
 const daysinweek = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
@@ -11,6 +10,7 @@ class MyData extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            user_id : 0,
             selectTime: 0,
 
             chartData: [],
@@ -31,7 +31,9 @@ class MyData extends Component {
     }
 
     componentDidMount() {
-        this.getFeverData()
+        let user_id=parseInt(window.location.href.split("/")[4],10)
+        this.setState({user_id : user_id}, () => { this.getFeverData() })
+        
     }
 
     getFeverData = () => {
@@ -41,7 +43,7 @@ class MyData extends Component {
     }
     getFeverData_D = () => {
         axios.post('/api/fever_data_D/', {
-            user_id: this.props.match.params.user_id,
+            user_id: this.state.user_id,
             selectTime: this.state.selectTime
         }).then(res => {
             this.setState({
@@ -101,7 +103,7 @@ class MyData extends Component {
 
     getFeverData_W = () => {
         axios.post('/api/fever_data_W/', {
-            user_id: this.props.match.params.user_id,
+            user_id: this.state.user_id,
             selectTime: this.state.selectTime
         }).then(res => {
             this.setState_WM(res, true)
@@ -110,7 +112,7 @@ class MyData extends Component {
 
     getFeverData_M = () => {
         axios.post('/api/fever_data_M/', {
-            user_id: this.props.match.params.user_id,
+            user_id: this.state.user_id,
             selectTime: this.state.selectTime
         }).then(res => {
             this.setState_WM(res, false)
@@ -157,12 +159,12 @@ class MyData extends Component {
 
     render() {
         return (
-            <div className='form-container MyData'>
+            <div className='form-container' id = 'mydata'>
                 <div className='w-30  page-title mt-5'>My Data</div>
                 <div className='d-flex mt-5 w-100 button-data'>
                     <div className='w-33' onClick={this.clickDaily} id='daily-button'>Daily</div>
-                    <div className='w-33' onClick={this.clickWeekly} id='daily-button'>Weekly</div>
-                    <div className='w-33' onClick={this.clickMonthly} id='daily-button'>Monthly</div>
+                    <div className='w-33' onClick={this.clickWeekly} id='weekly-button'>Weekly</div>
+                    <div className='w-33' onClick={this.clickMonthly} id='monthly-button'>Monthly</div>
                 </div>
                 <div className='mt-5 d-flex'>
                     <button className='w-30 button-blue' onClick={this.clickLeft} id='left-button'>Left</button>
@@ -203,14 +205,6 @@ class MyData extends Component {
             </div>
         )
     }
-}
-
-MyData.propTypes={
-    match: PropTypes.shape({
-        params: PropTypes.shape({
-        user_id: PropTypes.string
-        })
-    }),
 }
 
 export default connect(null, null)(MyData);

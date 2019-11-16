@@ -52,7 +52,7 @@ class App extends React.Component{
                     <Route path="/feverready" component={FeverReady}/>
                     <Route path="/fevermode" component={FeverMode}/>
                     <Route path="/feverend" component={FeverEnd}/>
-                    <Route path="/mydata/:user_id" component={MyData}/>
+                    <Route path="/mydata" component={MyData}/>
                     <Route path="/friends" component={Friends}/>
                     <Route path="/group" component={Group}/>
                 </ConnectedRouter>
