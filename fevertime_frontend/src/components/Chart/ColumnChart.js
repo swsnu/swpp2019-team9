@@ -61,7 +61,7 @@ class ColumnChart extends Component {
 
 ColumnChart.propTypes={
     title:PropTypes.string,
-    Data:PropTypes.array,
+    data:PropTypes.array,
 }
 
 export default ColumnChart;

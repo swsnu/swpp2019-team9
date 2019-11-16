@@ -202,5 +202,13 @@ class MyData extends Component {
     }
 }
 
+MyData.propTypes={
+    match: PropTypes.shape({
+        params: PropTypes.shape({
+        user_id: PropTypes.number
+        })
+    }),
+}
+
 export default connect(null, null)(MyData);
 
