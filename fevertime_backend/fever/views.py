@@ -5,10 +5,10 @@ from datetime import datetime, timedelta
 from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
 from dateutil.relativedelta import relativedelta
+import requests
 
 from .models import Fever_history, Fever_progress
 
-import requests
 
 def chop_microsec(delta):
     return delta - timedelta(microseconds=delta.microseconds)
