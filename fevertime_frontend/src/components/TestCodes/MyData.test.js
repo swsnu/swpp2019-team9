@@ -93,6 +93,12 @@ describe('MyData', () => {
         const month_button = component.find("#monthly-button")
         month_button.simulate("click")
         expect(axios.post).toHaveBeenCalledTimes(4);
+        const left_button = component.find("#left-button")
+        left_button.simulate("click")
+        expect(axios.post).toHaveBeenCalledTimes(5);
+        const right_button = component.find("#right-button")
+        right_button.simulate("click")
+        expect(axios.post).toHaveBeenCalledTimes(6);
 
         done()
     });
