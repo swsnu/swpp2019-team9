@@ -10,7 +10,8 @@ from dateutil.relativedelta import relativedelta
 
 from .models import Fever_history, Fever_progress
 
-
+def chop_microsec(delta):
+    return delta - timedelta(microseconds=delta.microseconds)
 # 일단은 csrf_exempt 로 모두 임시로 사용
 
 # @csrf_exempt
@@ -20,15 +21,25 @@ def fever_data_D(request):
             data = json.loads(request.body.decode())
             user_id = data['user_id']
             selectTime = data['selectTime']
-            fever_data={'total_time':timedelta(),'fever_time':timedelta()}
-            fever_data['seletedDay']=(datetime.today()+timedelta(days=selectTime)).strftime("%Y/%m/%d")
-            
+            fever_data={'total_total_time':timedelta(),'total_fever_time':timedelta(),'category_time':[timedelta(),timedelta(),timedelta(),timedelta()]}
+            selectedDay=datetime.today()+timedelta(days=selectTime)
+            fever_data['selectedDay']=selectedDay.strftime("%Y/%m/%d")+' ('+selectedDay.strftime('%a')+')'
             for hist in Fever_history.objects.filter(user_id=user_id):                
                     if hist.end_time < datetime.combine(datetime.today()+timedelta(days=selectTime+1), datetime.min.time()) and hist.end_time > datetime.combine(datetime.today()+timedelta(days=selectTime), datetime.min.time()):
-                        fever_data['total_time'] = fever_data['total_time'] + hist.total_time
-                        fever_data['fever_time'] = fever_data['fever_time'] + hist.fever_time
-            fever_data['total_time']=fever_data['total_time'].total_seconds()
-            fever_data['fever_time']=fever_data['fever_time'].total_seconds()
+                        if hist.category=='Study':
+                            fever_data['category_time'][0] = fever_data['category_time'][0] + hist.total_time
+                        elif hist.category=='Work':
+                            fever_data['category_time'][1] = fever_data['category_time'][1] + hist.total_time
+                        elif hist.category=='Read':
+                            fever_data['category_time'][2] = fever_data['category_time'][2] + hist.total_time
+                        else:#Etc.
+                            fever_data['category_time'][3] = fever_data['category_time'][3] + hist.total_time
+                        fever_data['total_total_time'] = fever_data['total_total_time'] + hist.total_time
+                        fever_data['total_fever_time'] = fever_data['total_fever_time'] + hist.fever_time
+            fever_data['total_total_time']=str(chop_microsec(fever_data['total_total_time']))
+            fever_data['total_fever_time']=str(chop_microsec(fever_data['total_fever_time']))
+            for i in range(0,4):
+                fever_data['category_time'][i]=fever_data['category_time'][i].total_seconds()
             return JsonResponse(fever_data,safe=False,status=200)
         except Fever_history.DoesNotExist:
             return HttpResponse(status=404)
@@ -44,18 +55,37 @@ def fever_data_W(request):
             fever_data=[]
             for i in range (0,7):
                 fever_data.append({'total_time':timedelta(),'fever_time':timedelta(),'days':""})
-                fever_data[0]['weekstart']=(datetime.today()+timedelta(days=selectTime*7-nowDay)).strftime("%Y/%m/%d")
-                fever_data[0]['weekend']=(datetime.today()+timedelta(days=selectTime*7+6-nowDay)).strftime("%Y/%m/%d")
-            
+            weekstart=(datetime.today()+timedelta(days=selectTime*7-nowDay)).strftime("%Y/%m/%d")
+            weekend=(datetime.today()+timedelta(days=selectTime*7+6-nowDay)).strftime("%Y/%m/%d")
+            fever_data[0]['chartTitle']=weekstart+"~"+weekend
+            fever_data[0]['total_total_time']=timedelta()
+            fever_data[0]['total_fever_time']=timedelta()
+            fever_data[0]['category_time']=[timedelta(),timedelta(),timedelta(),timedelta()]
             for hist in Fever_history.objects.filter(user_id=user_id):                
                 for i in range(0,7):
                     if hist.end_time < datetime.combine(datetime.today()+timedelta(days=selectTime*7+7-i-nowDay), datetime.min.time()) and hist.end_time > datetime.combine(datetime.today()+timedelta(days=selectTime*7+6-i-nowDay), datetime.min.time()):
                         fever_data[6-i]['total_time'] = fever_data[6-i]['total_time'] + hist.total_time
                         fever_data[6-i]['fever_time'] = fever_data[6-i]['fever_time'] + hist.fever_time
+                        if hist.category=='Study':
+                            fever_data[0]['category_time'][0] = fever_data[0]['category_time'][0] + hist.total_time
+                        elif hist.category=='Work':
+                            fever_data[0]['category_time'][1] = fever_data[0]['category_time'][1] + hist.total_time
+                        elif hist.category=='Read':
+                            fever_data[0]['category_time'][2] = fever_data[0]['category_time'][2] + hist.total_time
+                        else:#Etc.
+                            fever_data[0]['category_time'][3] = fever_data[0]['category_time'][3] + hist.total_time
+                        fever_data[0]['total_total_time'] = fever_data[0]['total_total_time'] + hist.total_time
+                        fever_data[0]['total_fever_time'] = fever_data[0]['total_fever_time'] + hist.fever_time
             for i in range(0,7):
                 fever_data[i]['total_time']=fever_data[i]['total_time'].total_seconds()
                 fever_data[i]['fever_time']=fever_data[i]['fever_time'].total_seconds()
                 fever_data[i]['days']=(datetime.today()+timedelta(days=selectTime*7+i-nowDay)).strftime("%m/%d")
+            fever_data[0]['avg_total_time']=str(chop_microsec(fever_data[0]['total_total_time']/7))
+            fever_data[0]['avg_fever_time']=str(chop_microsec(fever_data[0]['total_fever_time']/7))
+            fever_data[0]['total_total_time']=str(chop_microsec(fever_data[0]['total_total_time']))
+            fever_data[0]['total_fever_time']=str(chop_microsec(fever_data[0]['total_fever_time']))
+            for i in range(0,4):
+                fever_data[0]['category_time'][i]=fever_data[0]['category_time'][i].total_seconds()
             return JsonResponse(fever_data,safe=False,status=200)
         except Fever_history.DoesNotExist:
             return HttpResponse(status=404)
@@ -71,8 +101,10 @@ def fever_data_M(request):
             LastDayofMonth=calendar.monthrange(selectTime.year,selectTime.month)[1]
             for i in range (0,LastDayofMonth):
                 fever_data.append({'total_time':timedelta(),'fever_time':timedelta()})
-            fever_data[0]['year']=selectTime.year
-            fever_data[0]['month']=selectTime.month
+            fever_data[0]['chartTitle']=str(selectTime.year)+"/"+str(selectTime.month)
+            fever_data[0]['total_total_time']=timedelta()
+            fever_data[0]['total_fever_time']=timedelta()
+            fever_data[0]['category_time']=[timedelta(),timedelta(),timedelta(),timedelta()]
             for hist in Fever_history.objects.filter(user_id=user_id):                
                 for i in range(0,LastDayofMonth):
                     currentday=datetime(selectTime.year,selectTime.month,i+1)
@@ -80,9 +112,26 @@ def fever_data_M(request):
                     if hist.end_time < nextday and hist.end_time > currentday:
                         fever_data[i]['total_time'] = fever_data[i]['total_time'] + hist.total_time
                         fever_data[i]['fever_time'] = fever_data[i]['fever_time'] + hist.fever_time
+                        if hist.category=='Study':
+                            fever_data[0]['category_time'][0] = fever_data[0]['category_time'][0] + hist.total_time
+                        elif hist.category=='Work':
+                            fever_data[0]['category_time'][1] = fever_data[0]['category_time'][1] + hist.total_time
+                        elif hist.category=='Read':
+                            fever_data[0]['category_time'][2] = fever_data[0]['category_time'][2] + hist.total_time
+                        else:#Etc.
+                            fever_data[0]['category_time'][3] = fever_data[0]['category_time'][3] + hist.total_time
+                        fever_data[0]['total_total_time'] = fever_data[0]['total_total_time'] + hist.total_time
+                        fever_data[0]['total_fever_time'] = fever_data[0]['total_fever_time'] + hist.fever_time
             for i in range(0,LastDayofMonth):
                 fever_data[i]['total_time']=fever_data[i]['total_time'].total_seconds()
                 fever_data[i]['fever_time']=fever_data[i]['fever_time'].total_seconds()
+            fever_data[0]['avg_total_time']=str(chop_microsec(fever_data[0]['total_total_time']/LastDayofMonth))
+            fever_data[0]['avg_fever_time']=str(chop_microsec(fever_data[0]['total_fever_time']/LastDayofMonth))
+            fever_data[0]['total_total_time']=str(chop_microsec(fever_data[0]['total_total_time']))
+            fever_data[0]['total_fever_time']=str(chop_microsec(fever_data[0]['total_fever_time']))
+            
+            for i in range(0,4):
+                fever_data[0]['category_time'][i]=fever_data[0]['category_time'][i].total_seconds()
             return JsonResponse(fever_data,safe=False,status=200)
         except Fever_history.DoesNotExist:
             return HttpResponse(status=404)
@@ -285,7 +334,7 @@ def fever_exception(request):
                     fever_prog_list = Fever_progress.objects.filter(fever_history=fever)
                     # 가장 최근의 fever 의 start_time 값을 현재에서, fever_progress 가 불렸던 횟수 를 고려해
                     # 지금 이전의 시간으로 업데이트 한다.
-                    fever.start_time = timezone.now() - datetime.timedelta(
+                    fever.start_time = timezone.now() - timedelta(
                         seconds=len(fever_prog_list) * time_standard)
                     res_prog_time = len(fever_prog_list)
                     fever.save()
@@ -304,8 +353,8 @@ def fever_exception(request):
 
                 # 이때 모든 시간은 fever_progress 를 기준으로 한다.
                 fever.fever_count = fever_cnt
-                fever.total_time = datetime.timedelta(seconds=len(fever_prog_list) * time_standard)
-                fever.fever_time = datetime.timedelta(seconds=fever_cnt * time_standard)
+                fever.total_time = timedelta(seconds=len(fever_prog_list) * time_standard)
+                fever.fever_time = timedelta(seconds=fever_cnt * time_standard)
                 fever.save()
             if clickmode == 'confirm':
                 return JsonResponse({'hid': res_id,
