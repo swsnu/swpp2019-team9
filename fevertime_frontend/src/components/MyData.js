@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux'
 import ColumnChart from "./Chart/ColumnChart";
+import PropTypes from 'prop-types';
 import PieChart from "./Chart/PieChart";
 
 const daysinweek = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
@@ -53,19 +54,21 @@ class MyData extends Component {
     }
 
     setState_WM = (res, week) => {
+        var dataPointsF =''
+        var dataPointsN =''
         if (week) {
-            var dataPointsF = res.data.map((value, index) => {
+            dataPointsF = res.data.map((value, index) => {
                 return { label: value.days + "(" + daysinweek[index] + ")", y: value.fever_time / 3600 }
             })
-            var dataPointsN = res.data.map((value, index) => {
+            dataPointsN = res.data.map((value, index) => {
                 return { label: value.days + "(" + daysinweek[index] + ")", y: (value.total_time - value.fever_time) / 3600 }
             })
         }
         else {
-            var dataPointsF = res.data.map((value, index) => {
+            dataPointsF = res.data.map((value, index) => {
                 return { label: String(index + 1), y: value.fever_time / 3600 }
             })
-            var dataPointsN = res.data.map((value, index) => {
+            dataPointsN = res.data.map((value, index) => {
                 return { label: String(index + 1), y: (value.total_time - value.fever_time) / 3600 }
             })
         }
@@ -205,7 +208,7 @@ class MyData extends Component {
 MyData.propTypes={
     match: PropTypes.shape({
         params: PropTypes.shape({
-        user_id: PropTypes.number
+        user_id: PropTypes.string
         })
     }),
 }

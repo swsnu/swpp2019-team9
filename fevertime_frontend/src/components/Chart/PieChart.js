@@ -21,7 +21,6 @@ class PieChart extends Component {
 				yValueFormatString: "#,##0.00",
 				indexLabelFontSize: 16,
 				indexLabel: "{label} {y}h",
-				indexLabelPlacement: "inside",
 				dataPoints: [
 					{ y: this.props.category_time[0]/3600, color: 'red', label: "Study" },
 					{ y: this.props.category_time[1]/3600, color: 'green', label: "Work" },

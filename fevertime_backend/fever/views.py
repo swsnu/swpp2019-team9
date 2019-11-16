@@ -1,11 +1,11 @@
 import json
 import base64
+import calendar
+import requests
+
 from datetime import datetime, timedelta
 from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
-import requests
-from django.forms.models import model_to_dict
-import calendar
 from dateutil.relativedelta import relativedelta
 
 from .models import Fever_history, Fever_progress
@@ -30,10 +30,10 @@ def fever_data_D(request):
             fever_data['selectedDay'] = selectedDay.strftime("%Y/%m/%d") +\
                 ' ('+selectedDay.strftime('%a')+')'
             for hist in Fever_history.objects.filter(user_id=user_id):
-                currentday = datetime.combine(
-                        datetime.today() + timedelta(days=selectTime), datetime.min.time())
-                nextday=datetime.combine(
-                        datetime.today()+timedelta(days=selectTime+1), datetime.min.time())
+                currentday = datetime.combine(datetime.today() +\
+                     timedelta(days=selectTime), datetime.min.time())
+                nextday = datetime.combine(datetime.today()+\
+                    timedelta(days=selectTime+1), datetime.min.time())
                 if (hist.end_time < nextday and hist.end_time > currentday):
                     if hist.category == 'Study':
                         fever_data['category_time'][0] = \
@@ -91,26 +91,26 @@ def fever_data_W(request):
                 timedelta(), timedelta(), timedelta(), timedelta()]
             for hist in Fever_history.objects.filter(user_id=user_id):
                 for i in range(0, 7):
-                    nextday = datetime.combine(
-                        datetime.today()+timedelta(days=selectTime*7+7-i-nowDay), datetime.min.time())
-                    currentday = datetime.combine(
-                        datetime.today()+timedelta(days=selectTime*7+6-i-nowDay), datetime.min.time())
+                    nextday = datetime.combine(datetime.today()+\
+                        timedelta(days=selectTime*7+7-i-nowDay), datetime.min.time())
+                    currentday = datetime.combine(datetime.today()+\
+                        timedelta(days=selectTime*7+6-i-nowDay), datetime.min.time())
                     if hist.end_time < nextday and hist.end_time > currentday:
                         fever_data[6-i]['total_time'] = fever_data[6 -
-                                                                   i]['total_time'] + hist.total_time
+                                                                i]['total_time'] + hist.total_time
                         fever_data[6-i]['fever_time'] = fever_data[6 -
-                                                                   i]['fever_time'] + hist.fever_time
+                                                                i]['fever_time'] + hist.fever_time
                         if hist.category == 'Study':
-                            fever_data[0]['category_time'][0] = fever_data[0]['category_time'][0] + \
+                            fever_data[0]['category_time'][0] = fever_data[0]['category_time'][0]+ \
                                 hist.total_time
                         elif hist.category == 'Work':
-                            fever_data[0]['category_time'][1] = fever_data[0]['category_time'][1] + \
+                            fever_data[0]['category_time'][1] = fever_data[0]['category_time'][1]+ \
                                 hist.total_time
                         elif hist.category == 'Read':
-                            fever_data[0]['category_time'][2] = fever_data[0]['category_time'][2] + \
+                            fever_data[0]['category_time'][2] = fever_data[0]['category_time'][2]+ \
                                 hist.total_time
                         else:  # Etc.
-                            fever_data[0]['category_time'][3] = fever_data[0]['category_time'][3] + \
+                            fever_data[0]['category_time'][3] = fever_data[0]['category_time'][3]+ \
                                 hist.total_time
                         fever_data[0]['total_total_time'] = fever_data[0]['total_total_time'] + \
                             hist.total_time
@@ -170,16 +170,16 @@ def fever_data_M(request):
                         fever_data[i]['fever_time'] = fever_data[i]['fever_time'] + \
                             hist.fever_time
                         if hist.category == 'Study':
-                            fever_data[0]['category_time'][0] = fever_data[0]['category_time'][0] + \
+                            fever_data[0]['category_time'][0] = fever_data[0]['category_time'][0] +\
                                 hist.total_time
                         elif hist.category == 'Work':
-                            fever_data[0]['category_time'][1] = fever_data[0]['category_time'][1] + \
+                            fever_data[0]['category_time'][1] = fever_data[0]['category_time'][1] +\
                                 hist.total_time
                         elif hist.category == 'Read':
-                            fever_data[0]['category_time'][2] = fever_data[0]['category_time'][2] + \
+                            fever_data[0]['category_time'][2] = fever_data[0]['category_time'][2] +\
                                 hist.total_time
                         else:  # Etc.
-                            fever_data[0]['category_time'][3] = fever_data[0]['category_time'][3] + \
+                            fever_data[0]['category_time'][3] = fever_data[0]['category_time'][3] +\
                                 hist.total_time
                         fever_data[0]['total_total_time'] = fever_data[0]['total_total_time'] + \
                             hist.total_time
