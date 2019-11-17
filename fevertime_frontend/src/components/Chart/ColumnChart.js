@@ -28,7 +28,7 @@ class ColumnChart extends Component {
             animationEnabled: true,
             exportEnabled: true,
             title: {
-                text: this.props.title,
+                text: "",
                 fontFamily: "verdana"
             },
             axisY: {
@@ -60,7 +60,6 @@ class ColumnChart extends Component {
 }
 
 ColumnChart.propTypes={
-    title:PropTypes.string,
     data:PropTypes.array,
 }
 
