@@ -97,7 +97,7 @@ describe('MyData', () => {
         left_button.simulate("click")
         expect(axios.post).toHaveBeenCalledTimes(5);
         const right_button = component.find("#right-button")
-        right_button.simulate("click")
+        right   _button.simulate("click")
         expect(axios.post).toHaveBeenCalledTimes(6);
 
         done()

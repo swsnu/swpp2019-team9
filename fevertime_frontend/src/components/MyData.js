@@ -10,12 +10,12 @@ class MyData extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            user_id : 0,
+            user_id: 0,
             selectTime: 0,
 
             chartData: [],
             chartTitle: '',
-            selectedDay: '',
+            selectedDWM: '',
 
             total_total_time: '',
             total_fever_time: '',
@@ -27,13 +27,14 @@ class MyData extends Component {
             showModeD: false,
             showModeW: true,
             showModeM: false,
+            noData: true,
         }
     }
 
     componentDidMount() {
-        let user_id=parseInt(window.location.href.split("/")[4],10)
-        this.setState({user_id : user_id}, () => { this.getFeverData() })
-        
+        let user_id = parseInt(window.location.href.split("/")[4], 10)
+        this.setState({ user_id: user_id }, () => { this.getFeverData() })
+
     }
 
     getFeverData = () => {
@@ -50,14 +51,15 @@ class MyData extends Component {
                 total_total_time: res.data.total_total_time,
                 total_fever_time: res.data.total_fever_time,
                 category_time: res.data.category_time,
-                selectedDay: res.data.selectedDay,
+                selectedDWM: res.data.selectedDay,
+                noData: (res.data.total_fever_time ==='0:00:00'),
             })
         })
     }
 
     setState_WM = (res, week) => {
-        var dataPointsF =''
-        var dataPointsN =''
+        var dataPointsF = ''
+        var dataPointsN = ''
         if (week) {
             dataPointsF = res.data.map((value, index) => {
                 return { label: value.days + "(" + daysinweek[index] + ")", y: value.fever_time / 3600 }
@@ -97,7 +99,8 @@ class MyData extends Component {
                     yValueFormatString: "#,##0.##h",
                     dataPoints: dataPointsN
                 }],
-            chartTitle: res.data[0].chartTitle
+            selectedDWM: res.data[0].chartTitle,
+            noData: (res.data[0].total_fever_time ==='0:00:00'),
         })
     }
 
@@ -159,7 +162,7 @@ class MyData extends Component {
 
     render() {
         return (
-            <div className='form-container' id = 'mydata'>
+            <div className='form-container' id='mydata'>
                 <div className='w-30  page-title mt-5'>My Data</div>
                 <div className='d-flex mt-5 w-100 button-data'>
                     <div className='w-33' onClick={this.clickDaily} id='daily-button'>Daily</div>
@@ -171,37 +174,38 @@ class MyData extends Component {
                     <div className='w-40'></div>
                     <button className='w-30 button-blue' onClick={this.clickRight} id='right-button'>Right</button>
                 </div>
-                {(this.state.showModeD) ? (
-                    <div className='t-center mt-5 f-large'>{this.state.selectedDay}</div>
+                <div className='t-center mt-5 f-large'>{this.state.selectedDWM}</div>
+                {(this.state.noData) ? (
+                    <div className='t-center f-large mt-5'>No Records!</div>
                 ) : (
-                        <div className='mt-5'>
-                            <ColumnChart data={this.state.chartData} title={this.state.chartTitle} />
-                        </div>
-                    )}
-                <div className='mt-5 d-flex'>
-                    <div className='w-30 f-large mt-5'>Total Time</div>
-                    <div className='w-20 f-large mt-5'>{this.state.total_total_time}</div>
-                    <div className='w-30 f-large mt-5'>Fever Time</div>
-                    <div className='w-20 f-large mt-5'>{this.state.total_fever_time}</div>
-                </div>
+                        <div>
+                            <div>
+                                {(this.state.showModeD) ? ('') : (
+                                        <div className='mt-5'>
+                                            <ColumnChart data={this.state.chartData}/>
+                                        </div>
+                                    )}
+                            </div>
+                            <div>
+                                <div className='mt-5 d-flex'>
+                                    <div className='w-30 f-large mt-5'>Total Time</div>
+                                    <div className='w-20 f-large mt-5'>{this.state.total_total_time}</div>
+                                    <div className='w-30 f-large mt-5'>Fever Time</div>
+                                    <div className='w-20 f-large mt-5'>{this.state.total_fever_time}</div>
+                                </div>
 
-                {(this.state.showModeD) ? ('') : (
-                    <div className='d-flex'>
-                        <div className='w-30 f-large mt-5'> Avg Total Time </div>
-                        <div className='w-20 f-large mt-5'>{this.state.avg_total_time}</div>
-                        <div className='w-30 f-large mt-5'>Avg Fever Time</div>
-                        <div className='w-20 f-large mt-5'>{this.state.avg_fever_time}</div>
-                    </div>)}
-
-                <div className='mt-5'>
-                    <PieChart category_time={this.state.category_time} />
-                </div>
-                <div className='mt-5'> </div>
-
-
-
-
-
+                                {(this.state.showModeD) ? ('') : (
+                                    <div className='d-flex'>
+                                        <div className='w-30 f-large mt-5'> Avg Total Time </div>
+                                        <div className='w-20 f-large mt-5'>{this.state.avg_total_time}</div>
+                                        <div className='w-30 f-large mt-5'>Avg Fever Time</div>
+                                        <div className='w-20 f-large mt-5'>{this.state.avg_fever_time}</div>
+                                    </div>)}
+                                <div className='mt-5'>
+                                    <PieChart category_time={this.state.category_time} />
+                                </div>
+                            </div>
+                        </div>)}
             </div>
         )
     }
