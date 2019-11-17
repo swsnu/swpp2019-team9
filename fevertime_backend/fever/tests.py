@@ -13,6 +13,17 @@ class FeverTestCase(TestCase):
         #                                  nickname="youngjae2")
         # history1 = Fever_history(category='Study', user=user1, etcCategory='')
 
+    def test_fever_dataD(self):
+        client = Client(enforce_csrf_checks=False)
+        response = client.post('/api/user/signin/',
+                               json.dumps({'username': 'youngjae', 'password': 'youngjae'}),
+                               content_type='application/json')
+
+        response = client.post('/api/fever_data_D/', 
+                               json.dumps({'user_id': 1,
+                                           'selectTime': 0}),
+                               content_type='application/json')
+        self.assertEqual(response.status_code, 200)
 
 
     def test_fever_history(self):
