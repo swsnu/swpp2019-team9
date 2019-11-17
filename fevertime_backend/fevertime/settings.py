@@ -87,6 +87,14 @@ DATABASES = {
         #'OPTIONS': {
         #    'read_default_file': '/mysql.cnf',
         'ENGINE': 'django.db.backends.mysql', 
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
+        'TEST': {
+            'CHARSET': 'utf8mb4',
+            'COLLATION': 'utf8mb4_unicode_ci',
+        },
         'NAME': 'fevertime',
         'USER': 'user',
         'PASSWORD': 'fever1234',
