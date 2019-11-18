@@ -177,8 +177,8 @@ class FriendsBar extends Component {
                                     return (
                                         <div className='d-flex mt-2' key={index}>
                                             {value.showdata?
-                                            <div className='badge-custom t-center' id='friend-button' onClick={()=>this.clickFriend(value.id)}>{value.firstword}</div>:
-                                            <div className='badge-custom2 t-center'>{value.firstword}</div>}
+                                            <div className='badge-custom t-center hover-pointer' id='friend-button' onClick={()=>this.clickFriend(value.id)}>{value.firstword}</div>:
+                                            <div className='badge-custom2 t-center hover-not-allowed'>{value.firstword}</div>}
                                             {value.name}
                                             <button className='friend-delete-button' onClick={()=>this.clickDeleteReal(value.name)} id='delete-button'>Delete</button>
                                         </div>

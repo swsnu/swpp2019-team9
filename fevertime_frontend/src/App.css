@@ -405,3 +405,9 @@
   margin-right: auto;
   padding-top: 100px;
 }
+.hover-pointer:hover{
+  cursor: pointer;
+}
+.hover-not-allowed:hover{
+  cursor: not-allowed;
+}
