@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
 from dateutil.relativedelta import relativedelta
+from user.models import User
 import requests
 
 from .models import Fever_history, Fever_progress
@@ -444,3 +445,34 @@ def fever_exception(request):
         #     return HttpResponse(status=405)
     else:   # login 안한 유저일때 예외처리
         return HttpResponse(status=204)
+
+def fever_top_list(request):
+    if request.method == 'GET':
+        user_list = User.objects.exclude(nickname='')
+        response_list = [user_weekly_feverExtraction(user, 0) for user in user_list]
+        response_list.sort(key=lambda timeinfo: timeinfo["fever_time"], reverse=True)
+        res_dict = [response_list[0], response_list[1],response_list[2]]
+        for index, dictionary in enumerate(res_dict):
+            dictionary['rank'] = index+1
+        return JsonResponse(res_dict, status=200, safe=False)
+
+def user_weekly_feverExtraction(user, backstep):
+    Current_ISO_tuple = (datetime.now()-timedelta(weeks=backstep)).isocalendar()
+    total_fever_time = timedelta(microseconds=0)
+    for session in user.fever_history_user.all():
+        if session.click_end == "Y":
+            session_ISO_tuple = session.end_time.isocalendar()
+            if((session_ISO_tuple[0] == Current_ISO_tuple[0]) and
+               (session_ISO_tuple[1] == Current_ISO_tuple[1])):
+                total_fever_time += session.fever_time
+    tsec = total_fever_time.total_seconds()
+    hour = int(tsec//(60*60))
+    minute = int((tsec%3600)//60)
+    sec = int((tsec%60))
+    return_dict = {
+        "rank" : 0,
+        "firstword" : user.nickname[0],
+        "name" : user.nickname,
+        "fever_time" : "{:02d}:{:02d}:{:02d}".format(hour, minute, sec)
+    }
+    return return_dict
