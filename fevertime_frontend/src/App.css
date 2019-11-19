@@ -446,7 +446,9 @@
 .main-first-word{
     /*background-color: #;*/
     /*color: #F96915;*/
+    margin-top: 50px;
     margin-bottom: 100px;
+    border-top: 1px solid black;
 }
 .top3{
   height: 100px;
