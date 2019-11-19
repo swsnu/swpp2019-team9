@@ -6,9 +6,7 @@ import caro3 from '../assets/img/caro3.png'
 // import kakaologo from '../assets/img/kakaologo.png'
 // import msvision from '../assets/img/msvision.png'
 import {Carousel} from 'react-bootstrap'
-import {connect} from 'react-redux'
 // import * as feverActionCreators from '../store/actions/fever';
-import PropTypes from "prop-types";
 import axios from "axios";
 class Main extends Component {
     constructor (props)
@@ -112,19 +110,5 @@ class Main extends Component {
         )
     }
 }
-Main.propTypes={
-    onGetUser:PropTypes.func,
-    last_hid:PropTypes.number
-}
-const mapStateToProps = state => {
-    return {
-        last_hid:state.feverStart.last_hid
-    };
-}
-const mapDispatchToProps = dispatch => {
-    return {
-        // onGetUser: ()=>
-        //     dispatch(feverActionCreators.getUserInfo()),
-    }
-}
-export default connect(mapStateToProps,mapDispatchToProps)(Main);
+
+export default Main;
