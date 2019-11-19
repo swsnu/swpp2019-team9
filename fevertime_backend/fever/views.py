@@ -5,9 +5,9 @@ from datetime import datetime, timedelta
 from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
 from dateutil.relativedelta import relativedelta
-from user.models import User
 import requests
 
+from user.models import User
 from .models import Fever_history, Fever_progress
 
 
