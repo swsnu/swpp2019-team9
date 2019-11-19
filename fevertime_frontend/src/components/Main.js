@@ -9,18 +9,33 @@ import {Carousel} from 'react-bootstrap'
 import {connect} from 'react-redux'
 // import * as feverActionCreators from '../store/actions/fever';
 import PropTypes from "prop-types";
+import axios from "axios";
 class Main extends Component {
     constructor (props)
     {
         super(props);
         this.state = {
-            feverlist : [{name : 'abc', totalTime: '00:10'},
-                {name : 'def', totalTime: '00:20'}]
+            feverlist : [{name : 'abc', fever_time: '00:10'},
+                {name : 'def', fever_time: '00:20'}],
+            showTop3: false,
         }
+    }
+    componentDidMount(){
+        this.getTop3()
+    }
+    getTop3(){
+        axios.get("/api/fever_top_list/")
+            .then(res => {
+                this.setState({
+                    feverlist : res.data,
+                    showTop3 : true
+                })
+            })
     }
     render() {
         return (
             <div className='f-xlarge t-center Main'>
+                {this.state.showTop3 &&
                 <div className='top3'>
                     <div className='w-50'>Top 3 Fever</div>
                     <div className='w-50'>
@@ -34,7 +49,7 @@ class Main extends Component {
                                                 {value.name[0]}
                                             </div>
                                             <div className='rank-text'>{value.name}</div>
-                                            <div className='time-text'>{value.totalTime}</div>
+                                            <div className='time-text'>{value.fever_time}</div>
                                         </div>
                                     </Carousel.Item>
                                 )
@@ -43,6 +58,7 @@ class Main extends Component {
                         </Carousel>
                     </div>
                 </div>
+                }
                 <div className='d-flex carousel-wrapper'>
                     {/*<div className='w-10'></div>*/}
                     <div className='w-100'>
