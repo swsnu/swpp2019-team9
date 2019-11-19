@@ -10,11 +10,14 @@ from .models import Group
 def group(request):
     if request.method == 'GET':
         user_groups = request.user.user_groups.all()
-        response_dict = [{'gid':group.id,
-                          'groupname':group.group_name,
-                          'num':group.group_members.count(),
-                          'TopFever': group.group_members.all()[0].nickname
-                         } for group in user_groups]
+        response_dict = []
+        for group in user_groups:
+            if group.group_members.count():
+                response_dict.append({'gid':group.id,
+                                      'groupname':group.group_name,
+                                      'num':group.group_members.count(),
+                                      'TopFever': group.group_members.all()[0].nickname
+                                     })
         return JsonResponse(response_dict, safe=False)
 
     elif request.method == 'POST':
