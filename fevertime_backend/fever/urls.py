@@ -8,4 +8,5 @@ urlpatterns = [
     path('_history/', views.fever_history, name='fever_history'),
     path('_progress/', views.fever_progress, name='fever_progress'),
     path('_exception/', views.fever_exception, name='fever_exception'),
+    path('_top_list/', views.fever_top_list, name='fever_top_list'),
 ]
