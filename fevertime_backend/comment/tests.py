@@ -7,11 +7,11 @@ class CommentTestCase(TestCase):
     def setUp(self):
         self.preclient = Client()
         self.preclient.post('/api/user/signup/', json.dumps(
-            {'username': 'SY', "nickname":"SYLEE",'password': 'Lee'}),
+            {'username': 'SY', "nickname":"SYLEE",'password': 'Lee',"wrong":False}),
                             content_type='application/json')
         
         self.preclient.post('/api/user/signup/', json.dumps(
-            {'username': 'YB', "nickname":"YBLEE",'password': 'Lee'}),
+            {'username': 'YB', "nickname":"YBLEE",'password': 'Lee',"wrong":False}),
                             content_type='application/json')
 
         self.preclient.post("/api/user/signin/", json.dumps({

@@ -12,18 +12,18 @@ def signup(request):
             username = req_data['username']
             nickname = req_data['nickname']
             password = req_data['password']
-
-#            if(len(nickname)>64):
-#                return HttpResponseBadRequest()
-#           lets check this in frontend
+            wrong = req_data['wrong']
         except (KeyError, json.JSONDecodeError):
             return HttpResponseBadRequest()
-        if User.objects.filter(username=username).exists():
+
+        if User.objects.filter(username=username).exists(): #401 ID exist
             return HttpResponse(status=401)
-        if User.objects.filter(nickname=nickname).exists():
-            return HttpResponse(status=402) #what response?
-        User.objects.create_user(username = username, password = password, nickname=nickname)
-        return HttpResponse(status=201)
+        
+        if(not wrong):
+            User.objects.create_user(username = username, password = password, nickname=nickname)
+        else:
+            return HttpResponse(status=403) #all okay but wrong before
+        return HttpResponse(status=201) #lets gogo
     else:
         return HttpResponseNotAllowed(['POST'])
 
