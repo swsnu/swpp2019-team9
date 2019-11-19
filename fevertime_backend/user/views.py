@@ -19,7 +19,7 @@ def signup(request):
         if User.objects.filter(username=username).exists(): #401 ID exist
             return HttpResponse(status=401)
         
-        if(not wrong):
+        if not wrong:
             User.objects.create_user(username = username, password = password, nickname=nickname)
         else:
             return HttpResponse(status=403) #all okay but wrong before
