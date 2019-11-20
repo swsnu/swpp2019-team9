@@ -8,7 +8,12 @@ import { history } from '../../store/store';
 import {ConnectedRouter} from "connected-react-router";
 import axios from "axios"
 
-const mockStore = getMockStore({},{});
+const stubInitialUser = {
+    uid:0,
+    username: '',
+    nickname:'',
+}
+const mockStore = getMockStore(stubInitialUser,{});
 
 describe('Signup', () => {
     let signup;
@@ -61,15 +66,16 @@ describe('Signup', () => {
         done();
     }); 
     
-    it("should take check Invalid inputs no axios", (done) => {      
+    it("should take check Invalid inputs", () => {      
         axios.post = jest.fn(() => {
-            return new Promise((resolve,) => {
-              const result = {
-                status: 201,
-                data: {}
-              };
-              resolve(result);
-            })})
+            return new Promise((resolve,reject) => {
+                const result = {
+                    response: {status:401, data: {"ID" : "Empty ID", "nickname" : "Empty Nickname"}},
+                };
+                reject(result)
+                resolve()
+            })
+        });
         const component = mount(signup);
         const ID_input = component.find('#ID_input');
         const pw_input = component.find('#Password_input')
@@ -81,15 +87,19 @@ describe('Signup', () => {
         pwc_input.simulate('change', { target: { value: Password_C } });
 
         component.find("#Signup_button").simulate("click");
-        const newSignup = component.find(Signup).instance();
-        expect(newSignup.state.WrongInput).toEqual(["Empty ID","Empty Nickname","Empty Password","Wrong Password Confirm","Please Check","Please Check"]);
-        expect(axios.post).toHaveBeenCalledTimes(0);
-        done();
+        expect(axios.post).toHaveBeenCalledTimes(1);        
     });    
 
-    it("should take check axios 401", (done) => {      
-        jest.mock("axios")
-        axios.post.mockRejectedValue({response : {status : 401}})
+    it("should long nickname", (done) => {      
+        axios.post = jest.fn(() => {
+            return new Promise((resolve,reject) => {
+                const result = {
+                    response: {status:400,},
+                };
+                reject(result)
+                resolve()
+            })
+        });
         const component = mount(signup);
         const ID_input = component.find('#ID_input');
         ID_input.simulate('change', { target: { value: "asdf" } });
@@ -97,38 +107,8 @@ describe('Signup', () => {
         nickname_input.simulate('change', { target: { value: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" } });
 
         component.find("#Signup_button").simulate("click");
-        const newSignup = component.find(Signup).instance();
         expect(axios.post).toHaveBeenCalledTimes(1);
-        expect(newSignup.state.WrongInput).toEqual(["","Too long nickname","Empty Password","","Please Check","Please Check"]);
         done();
     });
-    
-    it("should take check axios 403", (done) => {      
-        axios.post = jest.fn(() => {
-            return new Promise((resolve,) => {
-              const result = {
-                status: 403,
-                data: {}
-              };
-              resolve(result);
-            })})
-        
-        const component = mount(signup);
-        const ID_input = component.find('#ID_input');
-        const pw_input = component.find('#Password_input')
-        const nickname_input = component.find('#Nickname_input')
-        const pwc_input = component.find('#Password_Confirm_input')
-        ID_input.simulate('change', { target: { value: "asdf" } });
-        pw_input.simulate('change', { target: { value: "" } });
-        nickname_input.simulate('change', { target: { value: "" } });
-        pwc_input.simulate('change', { target: { value: Password_C } });
-
-        component.find("#Signup_button").simulate("click");
-        const newSignup = component.find(Signup).instance();
-        expect(newSignup.state.WrongInput).toEqual(["","Empty Nickname","Empty Password","Wrong Password Confirm","Please Check","Please Check"]);
-        expect(axios.post).toHaveBeenCalledTimes(1);
-        done();
-    });    
-
 
 });

@@ -28,7 +28,7 @@ class UserTestCase(TestCase):
             "password" : "asdf",
             "wrong"    : True,    
         }),content_type="application/json")
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 401)
 
         response = client.post("/api/user/signup/", json.dumps({
             'username' : "asdf",
@@ -41,6 +41,22 @@ class UserTestCase(TestCase):
         response = client.post("/api/user/signup/", json.dumps({
             'username' : "asdf",
             "nickname" : "asdf",
+            "password" : "asdf",
+            "wrong"    : False,
+        }),content_type="application/json")
+        self.assertEqual(response.status_code, 401)
+
+        response = client.post("/api/user/signup/", json.dumps({
+            'username' : "asdf",
+            "nickname" : "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "password" : "asdf",
+            "wrong"    : False,
+        }),content_type="application/json")
+        self.assertEqual(response.status_code, 401)
+
+        response = client.post("/api/user/signup/", json.dumps({
+            'username' : "",
+            "nickname" : "",
             "password" : "asdf",
             "wrong"    : False,
         }),content_type="application/json")

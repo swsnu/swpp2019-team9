@@ -15,15 +15,29 @@ def signup(request):
             wrong = req_data['wrong']
         except (KeyError, json.JSONDecodeError):
             return HttpResponseBadRequest()
-
-        if User.objects.filter(username=username).exists(): #401 ID exist
-            return HttpResponse(status=401)
-        
-        if not wrong:
-            User.objects.create_user(username = username, password = password, nickname=nickname)
+        return_dict = {"ID" : "", "nickname" : ""}
+        if username == "":
+            wrong = True
+            return_dict["ID"] = "Empty ID" #empty nickname
         else:
-            return HttpResponse(status=403) #all okay but wrong before
-        return HttpResponse(status=201) #lets gogo
+            if User.objects.filter(username=username).exists(): #401 ID exist
+                wrong = True
+                return_dict["ID"] = "ID exists"
+        if nickname == "":
+            wrong = True
+            return_dict["nickname"] = "Empty Nickname" #empty nickname
+        else:
+            if len(nickname) >= 64:
+                wrong = True
+                return_dict["nickname"] = "Too long nickname"
+            elif User.objects.filter(nickname=nickname).exists(): #401 Nickname exist
+                wrong = True
+                return_dict["nickname"] = "nickname exists"
+        if not wrong: #all OKay then create user
+            User.objects.create_user(username=username, password=password, nickname=nickname)
+            return JsonResponse(return_dict, status=201) #lets gogo
+        return JsonResponse(return_dict, status=401) #lets gogo
+
     else:
         return HttpResponseNotAllowed(['POST'])
 
@@ -66,7 +80,7 @@ def user(request):
                   'username':request.user.username,
                   'nickname':request.user.nickname,
                   'showdata':request.user.showdata,
-                  }
+                 }
         return JsonResponse(res_dict,status=200)
     elif request.method =='PUT':
         if not request.user.is_authenticated:

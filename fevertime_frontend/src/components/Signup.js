@@ -21,16 +21,6 @@ class Signup extends Component {
         let LocalWrongInput = ["","","","","",""]
         let wrong = false;
 
-        if(this.state.Nickname === ""){
-            LocalWrongInput.splice(1,1, "Empty Nickname")
-            wrong = true
-        }
-
-        if(this.state.Nickname.length > 64){
-            LocalWrongInput.splice(1,1, "Too long nickname")
-            wrong = true
-        }
-
         if(this.state.Password === ""){
             LocalWrongInput.splice(2,1,"Empty Password")
             wrong = true
@@ -51,27 +41,22 @@ class Signup extends Component {
             wrong = true
         }
 
-        if(this.state.ID ===""){
-            LocalWrongInput.splice(0,1, "Empty ID")
-            wrong = true
-            return this.setState({WrongInput : LocalWrongInput})
-        }
-        else{ //ID not empty
-            this.setState({WrongInput : LocalWrongInput})
-            axios.post('/api/user/signup/', {
-                                            username : this.state.ID,
-                                            nickname : this.state.Nickname,
-                                            password : this.state.Password,
-                                            wrong : wrong,
-                                        },
-                                            )
-                                    .then(() => {this.props.history.push('/login')})
-                                    .catch((error) => {
-                                        if(error.response.status === 401){
-                                            LocalWrongInput[0]="ID exists"
-                                        }
-                                        this.setState({WrongInput : LocalWrongInput})})
-        }
+         //ID not empty
+        this.setState({WrongInput : LocalWrongInput})
+        axios.post('/api/user/signup/', {
+                                        username : this.state.ID,
+                                        nickname : this.state.Nickname,
+                                        password : this.state.Password,
+                                        wrong : wrong,
+                                    },
+                                        )
+                                .then(() => {this.props.history.push('/login')})
+                                .catch(error => {
+                                    if(error.response.status === 401){
+                                        LocalWrongInput[0]=error.response.data.ID;
+                                        LocalWrongInput[1]=error.response.data.nickname;
+                                    }
+                                    this.setState({WrongInput : LocalWrongInput})})
         
     }
 
