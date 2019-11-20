@@ -8,7 +8,7 @@ class UserTestCase(TestCase):
     def setUp(self):
         self.preclient = Client()
         self.preclient.post('/api/user/signup/', json.dumps(
-            {'username': 'SY', "nickname":"SYLEE",'password': 'Lee'}),
+            {'username': 'SY', "nickname":"SYLEE",'password': 'Lee',"wrong":False}),
                             content_type='application/json')
 
     def tearDown(self):
@@ -21,24 +21,47 @@ class UserTestCase(TestCase):
             "nickname" : "asdf"
         }),content_type="application/json")
         self.assertEqual(response.status_code, 400)
+
         response = client.post("/api/user/signup/", json.dumps({
             'username' : "asdf",
             "nickname" : "asdf",
-            "password" : "asdf"
-        }),content_type="application/json")
-        self.assertEqual(response.status_code, 201)
-        response = client.post("/api/user/signup/", json.dumps({
-            'username' : "asdf",
-            "nickname" : "asdf",
-            "password" : "asdf"
+            "password" : "asdf",
+            "wrong"    : True,    
         }),content_type="application/json")
         self.assertEqual(response.status_code, 401)
+
         response = client.post("/api/user/signup/", json.dumps({
-            'username' : "asd",
+            'username' : "asdf",
             "nickname" : "asdf",
-            "password" : "asdf"
+            "password" : "asdf",
+            "wrong"    : False,    
         }),content_type="application/json")
-        self.assertEqual(response.status_code, 402)
+        self.assertEqual(response.status_code, 201)
+
+        response = client.post("/api/user/signup/", json.dumps({
+            'username' : "asdf",
+            "nickname" : "asdf",
+            "password" : "asdf",
+            "wrong"    : False,
+        }),content_type="application/json")
+        self.assertEqual(response.status_code, 401)
+
+        response = client.post("/api/user/signup/", json.dumps({
+            'username' : "asdf",
+            "nickname" : "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "password" : "asdf",
+            "wrong"    : False,
+        }),content_type="application/json")
+        self.assertEqual(response.status_code, 401)
+
+        response = client.post("/api/user/signup/", json.dumps({
+            'username' : "",
+            "nickname" : "",
+            "password" : "asdf",
+            "wrong"    : False,
+        }),content_type="application/json")
+        self.assertEqual(response.status_code, 401)
+
         response = client.get("/api/user/signup/")
         self.assertEqual(response.status_code, 405)
 
