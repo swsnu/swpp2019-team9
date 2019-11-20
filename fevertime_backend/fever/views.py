@@ -371,7 +371,7 @@ def fever_progress(request):
             try:
                 if MSazure_face_response[0]["faceAttributes"]["emotion"]["happiness"] >=0.2 or MSazure_face_response[0]["faceAttributes"]["emotion"]["neutral"] <=0.8:
                     fever_yn = 'N'
-            except:
+            except (KeyError, IndexError):
                 pass
             ###########
             newfever_prog = Fever_progress(fever_yn=fever_yn,
