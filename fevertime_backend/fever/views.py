@@ -337,8 +337,20 @@ def fever_progress(request):
                 MSazure_url, headers=MSazure_headers, params=MSazure_params, data=image)
             response.raise_for_status()
             MSazure_response = response.json()
-            # print(MSazure_response["description"]["tags"])
-            # print(MSazure_response["objects"])
+
+            MSazure_url = "https://koreacentral.api.cognitive.microsoft.com/face/v1.0/detect"
+            MSazure_headers = {'Ocp-Apim-Subscription-Key': "ab6fb46e804f4be48422cdaafb65f4f1",
+                               'Content-Type': 'application/octet-stream'}
+            MSazure_params = {
+                'returnFaceId': 'true',
+                'returnFaceLandmarks': 'false',
+                'returnFaceAttributes': 'age,gender,smile,emotion,occlusion,blur,exposure,noise',
+            }
+            response = requests.post(
+                MSazure_url, headers=MSazure_headers, params=MSazure_params, data=image)
+            response.raise_for_status()
+            MSazure_face_response = response.json()
+
             fever_yn = 'N'
             phone_detect = False
             ##########
@@ -355,6 +367,12 @@ def fever_progress(request):
                     fever_yn = 'N'
                     phone_detect = True
                     break
+            # print(MSazure_face_response[0]["faceAttributes"]["emotion"])
+            try:
+                if MSazure_face_response[0]["faceAttributes"]["emotion"]["happiness"] >=0.2 or MSazure_face_response[0]["faceAttributes"]["emotion"]["neutral"] <=0.8:
+                    fever_yn = 'N'
+            except:
+                pass
             ###########
             newfever_prog = Fever_progress(fever_yn=fever_yn,
                                            user=request.user,
