@@ -97,7 +97,7 @@ class FeverStart extends Component {
                         <div className="w-10">
                         <label>
                             Study 
-                            <input className='ml-2' type="radio" value="Study"
+                            <input className='ml-2 friend-add-button' type="radio" value="Study"
                                         checked={this.state.selectedCategory === 'Study'}
                                         onChange={this.changeCategory} 
                                         id ='study-radio'/>
@@ -106,7 +106,7 @@ class FeverStart extends Component {
                         <div className="w-10">
                         <label>
                             Work
-                            <input className='ml-2' type="radio" value="Work"
+                            <input className='ml-2 friend-add-button' type="radio" value="Work"
                                         checked={this.state.selectedCategory === 'Work'} 
                                         onChange={this.changeCategory} 
                                         id ='work-radio'/>
@@ -115,7 +115,7 @@ class FeverStart extends Component {
                         <div className="w-10">
                         <label>
                             Read
-                            <input className='ml-2' type="radio" value="Read"
+                            <input className='ml-2 friend-add-button' type="radio" value="Read"
                                         checked={this.state.selectedCategory === 'Read'} 
                                         onChange={this.changeCategory} 
                                         id ='read-radio'/>
@@ -124,7 +124,7 @@ class FeverStart extends Component {
                         <div className="w-30">
                         <label className='d-flex'>
                             Etc.
-                            <input className='ml-2 etc-radio' type="radio" value="Etc."
+                            <input className='ml-2 friend-add-button etc-radio' type="radio" value="Etc."
                                         checked={this.state.selectedCategory === 'Etc.'} 
                                         onChange={this.changeCategory} 
                                         id ='etc-radio'/>
