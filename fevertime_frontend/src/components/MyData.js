@@ -5,8 +5,6 @@ import ColumnChart from "./Chart/ColumnChart";
 import PieChart from "./Chart/PieChart";
 import {Dropdown, DropdownButton} from 'react-bootstrap'
 
-const daysinweek = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
-
 class MyData extends Component {
     constructor(props) {
         super(props)

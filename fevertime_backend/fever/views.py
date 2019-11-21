@@ -126,7 +126,8 @@ def fever_data_W(request):
             for i in range(0, 7):
                 fever_data['mon_sun'][i]['t_time'] = \
                     fever_data['mon_sun'][i]['t_time'].total_seconds()
-                fever_data['mon_sun'][i]['f_time'] =fever_data['mon_sun'][i]['f_time'].total_seconds()
+                fever_data['mon_sun'][i]['f_time'] =\
+                    fever_data['mon_sun'][i]['f_time'].total_seconds()
                 fever_data['mon_sun'][i]['days'] = (weekstart+timedelta(days=i)).strftime("%m/%d")
             fever_data['avg_t_time'] = str(chop_microsec(fever_data['t_t_time']/7))
             fever_data['avg_f_time'] = str(chop_microsec(fever_data['t_f_time']/7))
