@@ -80,7 +80,7 @@ def fever_data_W(request):
         try:
             data = json.loads(request.body.decode())
             user_id = data['user_id']
-            selectTime = data['selectTime']
+            selectDate = datetime.strptime(data['selectDate'], "%a %b %d %Y %H:%M:%S %Z)
             selectCateg = data['selectCateg']
 
 

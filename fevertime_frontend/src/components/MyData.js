@@ -4,15 +4,15 @@ import { connect } from 'react-redux'
 import ColumnChart from "./Chart/ColumnChart";
 import PieChart from "./Chart/PieChart";
 import {Dropdown, DropdownButton} from 'react-bootstrap'
-
+import Calendar from 'react-calendar'
 class MyData extends Component {
     constructor(props) {
         super(props)
         this.state = {
             user_id: 0,
-            selectTime: 0,
             selectCateg: 0, //0:All, 1:Study, 2:Work, 3: Read, 4:Etc.
             showModeDWM: 1, //0:Daily, 1:Weekly, 2:Monthly
+            selectDate: new Date(),
 
             chartData: [],
             Title: '',
@@ -51,7 +51,7 @@ class MyData extends Component {
     getFeverData_D = () => {
         axios.post('/api/fever_data_D/', {
             user_id: this.state.user_id,
-            selectTime: this.state.selectTime
+            selectDate: this.state.selectDate
         }).then(res => {
             this.setState({
                 total_total_time: res.data.t_t_time,
@@ -66,7 +66,7 @@ class MyData extends Component {
     getFeverData_WM = (v) => {
         axios.post('/api/fever_data_'+v+'/', {
             user_id: this.state.user_id,
-            selectTime: this.state.selectTime,
+            selectDate: this.state.selectDate,
             selectCateg: this.state.selectCateg
         }).then(res => {
             this.setState({
@@ -97,22 +97,23 @@ class MyData extends Component {
         })
     }
 
+    onChangeCalendar = (date) => {
+        this.setState({ date })
+    }
+
     clickDaily = () => {
         this.setState({
             showModeDWM : 0,
-            selectTime: 0,
         }, () => { this.getFeverData() })
     }
     clickWeekly = () => {
         this.setState({
             showModeDWM : 1,
-            selectTime: 0,
         }, () => { this.getFeverData() })
     }
     clickMonthly = () => {
         this.setState({
             showModeDWM : 2,
-            selectTime: 0,
         }, () => { this.getFeverData() })
     }
 
@@ -155,6 +156,7 @@ class MyData extends Component {
     }
 
     render() {
+        console.log(this.state.selectDate)
         return (
             <div className='form-container' id='mydata'>
                 <div className='w-30  page-title mt-5'>My Data</div>
@@ -164,6 +166,10 @@ class MyData extends Component {
                     <div className='w-33' onClick={this.clickMonthly} id='monthly-button'>Monthly</div>
                 </div>
                 <div className='mt-5 d-flex'>
+                    <Calendar
+                        onChange={this.onChangeCalendar}
+                        value={this.state.selectDate}
+                    />
                     <button className='w-30 button-blue' onClick={this.clickLeft} id='left-button'>Left</button>
                     <div className='w-40'>
                         {(this.state.showModeDWM) ? (<div>
