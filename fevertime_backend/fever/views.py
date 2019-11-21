@@ -353,6 +353,7 @@ def fever_progress(request):
 
             fever_yn = 'N'
             phone_detect = False
+            smile_detect = False
             ##########
             # 1. 얼굴 인식이 되었으면, fever 했음으로 취급한다.
             if faceDetect:
@@ -371,6 +372,7 @@ def fever_progress(request):
             try:
                 if MSazure_face_response[0]["faceAttributes"]["emotion"]["happiness"] >=0.2 or MSazure_face_response[0]["faceAttributes"]["emotion"]["neutral"] <=0.8:
                     fever_yn = 'N'
+                    smile_detect = True
             except (KeyError, IndexError):
                 pass
             ###########
@@ -386,7 +388,8 @@ def fever_progress(request):
                                            roll=roll)
             newfever_prog.save()
             return JsonResponse({'face_detect': faceDetect,
-                                 'phone_detect': phone_detect}, status=200)
+                                 'phone_detect': phone_detect,
+                                 'smile_detect': smile_detect}, status=200)
         except requests.exceptions.HTTPError:
             return HttpResponse(status=400)
 
