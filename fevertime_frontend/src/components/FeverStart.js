@@ -51,13 +51,6 @@ class FeverStart extends Component {
         if(this.props.storedID==null) this.onAlarmMessage('Please login')
         else if(this.state.goalTime==='00:00') this.onAlarmMessage('Insert your goalTime')
         else if(this.state.selectedCategory==='') this.onAlarmMessage('Select the category')
-        else if(this.state.selectedCategory!=='Etc.'){
-                this.props.onStoreFeverStart(this.state.selectedCategory, this.state.goalTime, '')
-                this.props.history.push('/feverready')      
-        }
-        else if(this.state.etcCategory === ''){
-            this.onAlarmMessage('Insert your Etc. Category')
-        }
         else{
             this.props.onStoreFeverStart(this.state.selectedCategory, this.state.goalTime, this.state.etcCategory)
             this.props.history.push('/feverready')
@@ -127,13 +120,16 @@ class FeverStart extends Component {
                             <input className='ml-2 friend-add-button etc-radio' type="radio" value="Etc."
                                         checked={this.state.selectedCategory === 'Etc.'} 
                                         onChange={this.changeCategory} 
-                                        id ='etc-radio'/>
-                            <div className = "">
-                                {(this.state.selectedCategory === 'Etc.')?(
-                                    <input className='input-1'onChange = {this.changeEtcCategory} id ='etc-text'/>
-                                ):('')}</div>
+                                        id ='etc-radio'/> 
                         </label>
                         </div>
+                </div>
+                <div className='d-flex mt-5 d-v-center'>
+                    <div className='w-20'></div>
+                    <div className='w-10'>Tag</div>
+                    <div className='w-30 d-flex'>
+                        <input className='input-1' onChange={this.changeEtcCategory} id='etc-text' />
+                    </div>
                 </div>
 
                 <div className='d-flex d-ho-center mt-5'>
