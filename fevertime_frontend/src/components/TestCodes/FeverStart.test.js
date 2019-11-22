@@ -82,12 +82,6 @@ describe('FeverStart', () => {
         const newFeverStartInstance5 = component.find(FeverStart.WrappedComponent).instance();
         expect(newFeverStartInstance5.state.selectedCategory).toEqual('Etc.');
 
-        component.find("#start-button").simulate('click')
-        const newFeverStartInstance7 = component.find(FeverStart.WrappedComponent).instance();
-        expect(newFeverStartInstance7.state.showAlarmMessage).toEqual(true);
-        component.find("#spyExit").simulate('click')
-        expect(component.find('.FeverStart').length).toBe(1);
-
         component.find("#etc-text").simulate('change',{target:{value:selectedETC}})
         const newFeverStartInstance6 = component.find(FeverStart.WrappedComponent).instance();
         expect(newFeverStartInstance6.state.etcCategory).toEqual(selectedETC);
