@@ -76,11 +76,11 @@ class GroupMemberTestCase(TestCase):
         self.assertEqual(res.status_code, 404)
 
         response = self.preclient.post('/api/fever_history/',
-                               json.dumps({'category': 'Study', 'etcCategory': '',
-                                           'goalTime': '02:00'}),
-                               content_type='application/json')
+                                       json.dumps({'category': 'Study', 'etcCategory': '',
+                                                   'goalTime': '02:00'}),
+                                       content_type='application/json')
         response = self.preclient.put('/api/fever_history/', json.dumps({'id': '1'}),
-                              content_type='application/json')
+                                      content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
         res = self.preclient.get('/api/group/group_members/1/')

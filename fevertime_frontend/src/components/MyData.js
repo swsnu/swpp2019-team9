@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import ColumnChart from "./Chart/ColumnChart";
 import PieChart from "./Chart/PieChart";
 import {Dropdown, DropdownButton} from 'react-bootstrap'
+import PropTypes from 'prop-types';
 
 class MyData extends Component {
     constructor(props) {
@@ -217,6 +218,10 @@ class MyData extends Component {
             </div>
         )
     }
+}
+
+MyData.propTypes={
+    history:PropTypes.object,
 }
 
 export default connect(null, null)(MyData);
