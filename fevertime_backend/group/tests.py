@@ -105,6 +105,10 @@ class GroupMemberTestCase(TestCase):
         res = self.preclient.put('/api/group/group_members/1/', json.dumps(
             {"nickname":["YBLEE"]}), content_type='application/json')
         self.assertEqual(res.status_code, 405)
+
+        response = self.preclient.get("/api/user/social/2/")
+        self.assertEqual(response.status_code, 204)             #social test for group
+
     
     def test_deleteMembers(self):
         res = self.preclient.delete('/api/group/group_members/1/')
