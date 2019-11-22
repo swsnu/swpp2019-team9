@@ -92,7 +92,7 @@ describe('MyData', () => {
                 resolve()
             })
         });
-        const component = mount(mydata);
+        mount(mydata);
         expect(spyhistoryPush).toHaveBeenCalledTimes(1);
         done()
     });
