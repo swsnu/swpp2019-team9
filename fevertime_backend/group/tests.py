@@ -1,8 +1,7 @@
 import json
-from datetime import datetime, timedelta
+from datetime import timedelta
 from django.test import TestCase, Client
 from user.models import User
-from group.models import Group
 from fever.models import Fever_history
 # Create your tests here.
 
