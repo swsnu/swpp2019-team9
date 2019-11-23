@@ -80,7 +80,7 @@ def group_add(request,group_id=0):
     else:
         return HttpResponseNotAllowed(['GET'])
 
-def leaderboard(request, group_id=0, week_delta=0):
+def leaderboard(request, group_id=0, week_delta=0, fever_tag=""):
     try:
         group_instance = Group.objects.get(id=group_id)
     except Group.DoesNotExist:
@@ -101,7 +101,7 @@ def leaderboard(request, group_id=0, week_delta=0):
         response_list.sort(key=lambda timeinfo: timeinfo["fever_time"], reverse=True)
         for index, dictionary in enumerate(response_list):
             dictionary['rank'] = index+1
-        return JsonResponse({"leaderboard" : response_list, "time":range_display},
+        return JsonResponse({"leaderboard" : response_list, "time":range_display, "tag" : fever_tag},
                             safe=False, status=200)
     else:
         return HttpResponseNotAllowed(['GET'])
