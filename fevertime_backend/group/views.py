@@ -1,10 +1,9 @@
 import json
-from datetime import datetime, timedelta
+from datetime import timedelta
 from django.http import HttpResponse, HttpResponseNotAllowed, \
                         JsonResponse, HttpResponseForbidden, \
                         HttpResponseBadRequest
 from user.models import User
-from .models import Group
 
 # Create your views here.
 def group(request):
