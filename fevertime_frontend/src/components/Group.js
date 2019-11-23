@@ -25,18 +25,23 @@ class Group extends Component {
             groupMemberList : [],
             friendlist : [],
             FriendNames : [],
+            leaderboard_week : "",
+            week_delta : 0,
         }
     }
     componentDidMount(){
         let group_id=parseInt(window.location.href.split("/")[4],10)
         this.setState({group_id : group_id})
-        this.getLeaderboard(group_id)
+        this.getLeaderboard(group_id,0, " ")
     }
 
-    getLeaderboard=(group_id)=>{
-        axios.get("/api/group/group_members/"+group_id+"/")
+    getLeaderboard=(group_id, week_delta, fever_tag)=>{
+        axios.get("/api/group/leaderboard/"+group_id+"/"+week_delta+"/"+fever_tag+"/")
         .then(res => {
-            this.setState({groupMemberList : res.data})
+            this.setState({
+                groupMemberList : res.data.leaderboard,
+                leaderboard_week : res.data.time,
+            })
         })
     }
 
@@ -76,6 +81,7 @@ class Group extends Component {
                     AddFriendMessageContent : 'Successfully Invited',
                     FriendNames : [],
                     })
+                    this.getLeaderboard(this.state.group_id, this.state.week_delta, "")
                 })
                 .catch(error=>{
                     if(error.response.status===404 || error.response.status===400)
@@ -118,6 +124,36 @@ class Group extends Component {
             newlist= newlist.concat(name)
         }
         this.setState({FriendNames : newlist})
+    }
+
+    clickPrevMonth =()=>()=>{
+        this.getLeaderboard(this.state.group_id,this.state.week_delta+4, "")
+        this.setState({week_delta : this.state.week_delta+4})
+        
+    }
+
+    clickPostMonth =()=>()=>{
+        if(this.state.week_delta -4 >=0){
+            this.getLeaderboard(this.state.group_id,this.state.week_delta-4, "")
+            this.setState({week_delta : this.state.week_delta-4})
+        }
+        else if (this.state.week_delta != 0){
+            this.getLeaderboard(this.state.group_id,0, "")
+            this.setState({week_delta : 0})
+        }
+        
+    }
+
+    clickPrevWeek =()=>()=>{
+        this.getLeaderboard(this.state.group_id,this.state.week_delta+1, "")
+        this.setState({week_delta : this.state.week_delta+1})
+    }
+
+    clickPostWeek =()=>()=>{
+        if(this.state.week_delta -1 >=0){
+            this.getLeaderboard(this.state.group_id,this.state.week_delta-1, "")
+            this.setState({week_delta : this.state.week_delta-1})
+        }
     }
 
     render() {
@@ -188,14 +224,33 @@ class Group extends Component {
                             <button onClick={this.clickExitGroup()} id="ExitGroupButton" className='w-80 button-red'>Exit group</button>
                         </div>
                     </div>
-                    <div className='d-flex mt-5 pl-5'>
+                    <div className='d-flex mt-2 pl-5 d-v-center d-ho-center'>                        
+                        <div className='d-flex leaderboard-nav'>
+                            <button className='nav-button'
+                            onClick={this.clickPrevMonth()}
+                            > {"<<"} </button>
+                            <button className='nav-button'
+                            onClick={this.clickPrevWeek()}
+                            > {"<"} </button>
+                        </div>
+                        <div className="w-80 t-center">{this.state.leaderboard_week}</div>
+                        <div className='d-flex leaderboard-nav'>
+                            <button className='nav-button'
+                            onClick={this.clickPostWeek()}
+                            >></button>
+                            <button className='nav-button'
+                            onClick={this.clickPostMonth()}
+                            >>></button>
+                        </div>
+                    </div>
+                    <div className='mt-2 d-flex pl-5'>                        
                         <div className='w-100 d-flex title-list'>
                             <div className='w-20'>Rank</div>
                             <div className='w-30'>Name</div>
                             <div className='w-50'>Fever Time</div>
                         </div>
                     </div>
-                    <div className='pl-5 mb-5'>
+                    <div className='mt-2 pl-5 mb-5'>
                         <div>
                             {this.state.groupMemberList.map((value,index) => {
                                 return (

@@ -4,6 +4,12 @@
 .d-v-center{
   align-items: center;
 }
+.d-v-right{
+  align-items: right;
+}
+.d-v-left{
+  align-items: left;
+}
 .d-ho-center{
   justify-content: center;
 }
