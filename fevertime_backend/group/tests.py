@@ -1,6 +1,9 @@
 import json
+from datetime import datetime, timedelta
 from django.test import TestCase, Client
 from user.models import User
+from group.models import Group
+from fever.models import Fever_history
 # Create your tests here.
 
 class GroupTestCase(TestCase):
@@ -56,18 +59,49 @@ class GroupMemberTestCase(TestCase):
         self.preclient.post('/api/group/',
                             json.dumps({'groupname':'test2'}),
                             content_type='application/json')
+        Fever_history.objects.create(
+            category="study",
+            user_id=1,
+            etcCategory="All",
+            goalTime="02:20",
+            total_time=timedelta(seconds=70266267),
+            fever_time=timedelta(seconds=70266267),
+            fever_rate=1.0,
+            fever_count=1,
+            click_end='Y',)
+        Fever_history.objects.create(
+            category="study",
+            user_id=1,
+            etcCategory="All",
+            goalTime="02:20",
+            total_time=timedelta(seconds=70266267),
+            fever_time=timedelta(seconds=70266267),
+            fever_rate=1.0,
+            fever_count=1,
+            click_end='N',)
+
 
     def tearDown(self):
         pass
 
-    def test_getMembers(self):
-        res = self.preclient.get('/api/group/group_members/4/')
+    def test_leaderboard(self):
+        res = self.preclient.get('/api/group/leaderboard/4/0/All/')
         self.assertEqual(res.status_code, 404)
 
-        res = self.preclient.get('/api/group/group_members/1/')
+        res = self.preclient.delete('/api/group/leaderboard/1/0/All/')
+        self.assertEqual(res.status_code, 405)
+
+        res = self.preclient.get('/api/group/leaderboard/1/0/All/')
+        self.assertEqual(res.status_code, 200)
+
+        res = self.preclient.get('/api/group/leaderboard/1/5/All/')
         self.assertEqual(res.status_code, 200)
 
     def test_postMembers(self):
+        res = self.preclient.post('/api/group/group_members/5/', json.dumps(
+            {"nickname":"YBLEE"}), content_type='application/json')
+        self.assertEqual(res.status_code, 404)
+
         self.preclient.post('/api/group/group_members/2/', json.dumps(
             {"nickname":"YBLEE"}), content_type='application/json')
 

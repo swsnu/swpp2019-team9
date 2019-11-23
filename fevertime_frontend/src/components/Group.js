@@ -246,25 +246,25 @@ class Group extends Component {
                             onChange={(event => this.setState({
                                 search_input: event.target.value}))}                            
                         />
-                        <button className=''
+                        <button className='' id="search_button"
                             onClick={this.tagSearch()}
                             >Search</button>
                     </div>
                     <div className='d-flex mt-2 pl-5 d-v-center d-ho-center'>                        
                         <div className='d-flex leaderboard-nav'>
-                            <button className='nav-button'
+                            <button className='nav-button' id="prev_month"
                             onClick={this.clickPrevMonth()}
                             > {"<<"} </button>
-                            <button className='nav-button'
+                            <button className='nav-button' id="prev_week"
                             onClick={this.clickPrevWeek()}
                             > {"<"} </button>
                         </div>
                             <div className="w-80 t-center">{this.state.fever_tag}:{this.state.leaderboard_week}</div>
                         <div className='d-flex leaderboard-nav'>
-                            <button className='nav-button'
+                            <button className='nav-button' id="next_week"
                             onClick={this.clickPostWeek()}
                             >></button>
-                            <button className='nav-button'
+                            <button className='nav-button' id="next_month"
                             onClick={this.clickPostMonth()}
                             >>></button>
                         </div>
