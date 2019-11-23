@@ -101,7 +101,8 @@ def leaderboard(request, group_id=0, week_delta=0, fever_tag=""):
         response_list.sort(key=lambda timeinfo: timeinfo["fever_time"], reverse=True)
         for index, dictionary in enumerate(response_list):
             dictionary['rank'] = index+1
-        return JsonResponse({"leaderboard" : response_list, "time":range_display, "tag" : fever_tag},
+        return JsonResponse({"leaderboard" : response_list,
+                             "time":range_display, "tag" : fever_tag},
                             safe=False, status=200)
     else:
         return HttpResponseNotAllowed(['GET'])
