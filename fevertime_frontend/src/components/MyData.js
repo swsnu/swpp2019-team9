@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import ColumnChart from "./Chart/ColumnChart";
 import PieChart from "./Chart/PieChart";
 import {Dropdown, DropdownButton} from 'react-bootstrap'
+import PropTypes from 'prop-types';
 
 class MyData extends Component {
     constructor(props) {
@@ -44,9 +45,14 @@ class MyData extends Component {
     }
 
     getFeverData = () => {
-        if (this.state.showModeDWM===0) this.getFeverData_D()
-        else if (this.state.showModeDWM===1) this.getFeverData_WM('W')
-        else this.getFeverData_WM('M')
+        axios.get('/api/user/social/'+this.state.user_id+'/')
+            .then(()=>{})
+            .catch(()=>{
+                this.props.history.goBack()
+            })
+            if (this.state.showModeDWM===0) this.getFeverData_D()
+            else if (this.state.showModeDWM===1) this.getFeverData_WM('W')
+            else this.getFeverData_WM('M')
     }
     getFeverData_D = () => {
         axios.post('/api/fever_data_D/', {
@@ -212,6 +218,10 @@ class MyData extends Component {
             </div>
         )
     }
+}
+
+MyData.propTypes={
+    history:PropTypes.object,
 }
 
 export default connect(null, null)(MyData);

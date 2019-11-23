@@ -117,3 +117,26 @@ def social(request):
         return HttpResponse(status=200)
     else: 
         return HttpResponseNotAllowed(['PUT'])     #405
+
+def social_specific(request,user_id):
+    if request.method =='GET':
+        if not User.objects.filter(id=user_id).exists():
+            return HttpResponse(status=401)
+
+        if user_id == request.user.id:
+            return HttpResponse(status=204)
+
+        user_friends = request.user.user_friend2.all()
+        for friend in user_friends:
+            if user_id == friend.friend1.id and friend.friend1.showdata:
+                return HttpResponse(status=204)
+
+        user_groups = request.user.user_groups.all()
+        for group in user_groups:
+            for member in group.group_members.all():
+                if user_id == member.id and member.showdata:
+                    return HttpResponse(status=204)
+
+        return HttpResponse(status=401)
+    else: 
+        return HttpResponseNotAllowed(['GET'])     #405
