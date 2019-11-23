@@ -263,10 +263,10 @@ class Group extends Component {
                         <div className='d-flex leaderboard-nav'>
                             <button className='nav-button' id="next_week"
                             onClick={this.clickPostWeek()}
-                            >></button>
+                            >&gt;</button>
                             <button className='nav-button' id="next_month"
                             onClick={this.clickPostMonth()}
-                            >>></button>
+                            >&gt;&gt;</button>
                         </div>
                     </div>
                     <div className='mt-2 d-flex pl-5'>                        

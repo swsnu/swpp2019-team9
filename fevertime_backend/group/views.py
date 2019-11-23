@@ -80,7 +80,7 @@ def group_add(request,group_id=0):
     else:
         return HttpResponseNotAllowed(['GET'])
 
-def leaderboard(request, group_id=0, week_delta=0, fever_tag=""):
+def leaderboard(request, group_id=0, week_delta=0):
     try:
         group_instance = Group.objects.get(id=group_id)
     except Group.DoesNotExist:
@@ -96,7 +96,7 @@ def leaderboard(request, group_id=0, week_delta=0, fever_tag=""):
         range_display = "{} ~ {}".format(monday.strftime("%Y/%m/%d"), sunday.strftime("%Y/%m/%d"))
 
         group_members = group_instance.group_members.all()
-        response_list = [user_weekly_feverExtraction(user, Search_ISO_tuple, fever_tag)
+        response_list = [user_weekly_feverExtraction(user, Search_ISO_tuple)
                          for user in group_members]
         response_list.sort(key=lambda timeinfo: timeinfo["fever_time"], reverse=True)
         for index, dictionary in enumerate(response_list):
@@ -108,7 +108,7 @@ def leaderboard(request, group_id=0, week_delta=0, fever_tag=""):
 
 
 
-def user_weekly_feverExtraction(user, Search_ISO_tuple, fever_tag):
+def user_weekly_feverExtraction(user, Search_ISO_tuple):
     return_dict = {
         "id" : user.id,
         "rank" : 0,
