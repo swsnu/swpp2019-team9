@@ -110,6 +110,7 @@ def leaderboard(request, group_id=0, week_delta=0, fever_tag=""):
 
 def user_weekly_feverExtraction(user, Search_ISO_tuple, fever_tag):
     return_dict = {
+        "id" : user.id,
         "rank" : 0,
         "firstword" : user.nickname[0],
         "name" : user.nickname,
@@ -121,8 +122,7 @@ def user_weekly_feverExtraction(user, Search_ISO_tuple, fever_tag):
         if session.click_end == "Y":
             session_ISO_tuple = session.end_time.isocalendar()
             if((session_ISO_tuple[0] == Search_ISO_tuple[0]) and
-               (session_ISO_tuple[1] == Search_ISO_tuple[1]) and
-               (session.etcCategory == fever_tag)):
+               (session_ISO_tuple[1] == Search_ISO_tuple[1])):
                 total_fever_time += session.fever_time
     tsec = total_fever_time.total_seconds()
     hour = int(tsec//(60*60))
