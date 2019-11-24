@@ -27,7 +27,7 @@ class FeverTestCase(TestCase):
 
         response = client.post('/api/fever_data_D/', 
                                json.dumps({'user_id': 1,
-                                           'selectTime': 0}),
+                                           'selectDate': "Fri Nov 22 2019 00:00:00 GMT+0900 (한국 표준시)"}),
                                content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
