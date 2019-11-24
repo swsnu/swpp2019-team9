@@ -1,6 +1,6 @@
 import json
 from django.test import TestCase,Client
-
+from user.models import User
 # Create your tests here.
 class UserTestCase(TestCase):
     preclient = None
@@ -168,3 +168,29 @@ class UserTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         response = self.preclient.get("/api/user/social/")
         self.assertEqual(response.status_code, 405)
+
+
+    def test_social_specific(self):
+        User.objects.create_user(username="test",
+                                 password="test",
+                                 nickname="test")
+
+        response = self.preclient.post("/api/user/signin/", json.dumps({
+            'username' : "SY",
+            "password" : "Lee"
+        }),content_type="application/json")
+        self.assertEqual(response.status_code, 200)
+
+        response = self.preclient.put("/api/user/social/1/")
+        self.assertEqual(response.status_code, 405)
+
+        response = self.preclient.get("/api/user/social/1000/")
+        self.assertEqual(response.status_code, 401)
+
+        response = self.preclient.get("/api/user/social/1/")
+        self.assertEqual(response.status_code, 204)
+
+        response = self.preclient.get("/api/user/social/2/")
+        self.assertEqual(response.status_code, 401)
+
+        #others in friend, group test
