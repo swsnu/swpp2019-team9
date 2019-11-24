@@ -41,7 +41,7 @@ class Friends extends Component {
         })
     }
     clickAddGroupConfirm = () => () => {
-        if(this.state.groupName.length <=32){
+        if(this.state.groupName.length <=32 && this.state.groupName.length > 0){
             axios.post('/api/group/',{'groupname':this.state.groupName})
                 .then(()=>{
                     this.setState({
@@ -72,7 +72,7 @@ class Friends extends Component {
                 showAddGroupMessagePopup : true,
                 addGroupSuccess : false,
                 AddGroupMessageTitle : 'Failed to create group',
-                AddGroupMessageContent : 'Name is too long',
+                AddGroupMessageContent : 'Invalid Name',
                 groupName : '',
             })
         }

@@ -20,6 +20,14 @@ class GroupTestCase(TestCase):
                                json.dumps({'username': 'grouptest', 'password': 'grouptest'}),
                                content_type='application/json')
 
+        response = client.post('/api/fever_history/',
+                               json.dumps({'category': 'Study', 'etcCategory': '',
+                                           'goalTime': '02:00'}),
+                               content_type='application/json')
+        response = client.put('/api/fever_history/', json.dumps({'id': '1'}),
+                              content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+
         response = client.get('/api/group/')
         self.assertEqual(response.status_code, 200)
 
@@ -32,6 +40,9 @@ class GroupTestCase(TestCase):
                                json.dumps({'groupname':'test'}),
                                content_type='application/json')
         self.assertEqual(response.status_code, 403)
+
+        response = client.get('/api/group/')
+        self.assertEqual(response.status_code, 200)
 
         response = client.delete('/api/group/')
         self.assertEqual(response.status_code, 405)
@@ -94,6 +105,7 @@ class GroupMemberTestCase(TestCase):
         self.assertEqual(res.status_code, 200)
 
         res = self.preclient.get('/api/group/leaderboard/1/5/All/')
+
         self.assertEqual(res.status_code, 200)
 
     def test_postMembers(self):
@@ -119,6 +131,10 @@ class GroupMemberTestCase(TestCase):
         res = self.preclient.put('/api/group/group_members/1/', json.dumps(
             {"nickname":["YBLEE"]}), content_type='application/json')
         self.assertEqual(res.status_code, 405)
+
+        response = self.preclient.get("/api/user/social/2/")
+        self.assertEqual(response.status_code, 204)             #social test for group
+
     
     def test_deleteMembers(self):
         res = self.preclient.delete('/api/group/group_members/1/')

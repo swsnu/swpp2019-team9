@@ -3,8 +3,8 @@ import axios from 'axios';
 import { connect } from 'react-redux'
 import ColumnChart from "./Chart/ColumnChart";
 import PieChart from "./Chart/PieChart";
-
-const daysinweek = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
+import {Dropdown, DropdownButton} from 'react-bootstrap'
+import PropTypes from 'prop-types';
 
 class MyData extends Component {
     constructor(props) {
@@ -12,9 +12,11 @@ class MyData extends Component {
         this.state = {
             user_id: 0,
             selectTime: 0,
+            selectCateg: 0, //0:All, 1:Study, 2:Work, 3: Read, 4:Etc.
+            showModeDWM: 1, //0:Daily, 1:Weekly, 2:Monthly
 
             chartData: [],
-            chartTitle: '',
+            Title: '',
             selectedDWM: '',
 
             total_total_time: '',
@@ -24,9 +26,6 @@ class MyData extends Component {
 
             category_time: [],
 
-            showModeD: false,
-            showModeW: true,
-            showModeM: false,
             noData: true,
         }
     }
@@ -37,10 +36,23 @@ class MyData extends Component {
 
     }
 
+    categFunc = (selectCateg) => {
+        if (selectCateg===0)return 'All'
+        else if (selectCateg===1)return 'Study'
+        else if (selectCateg===2)return 'Work'
+        else if (selectCateg===3)return 'Read'
+        else return 'Etc.'
+    }
+
     getFeverData = () => {
-        if (this.state.showModeD) this.getFeverData_D()
-        else if (this.state.showModeW) this.getFeverData_W()
-        else this.getFeverData_M()
+        axios.get('/api/user/social/'+this.state.user_id+'/')
+            .then(()=>{})
+            .catch(()=>{
+                this.props.history.goBack()
+            })
+            if (this.state.showModeDWM===0) this.getFeverData_D()
+            else if (this.state.showModeDWM===1) this.getFeverData_WM('W')
+            else this.getFeverData_WM('M')
     }
     getFeverData_D = () => {
         axios.post('/api/fever_data_D/', {
@@ -48,103 +60,91 @@ class MyData extends Component {
             selectTime: this.state.selectTime
         }).then(res => {
             this.setState({
-                total_total_time: res.data.total_total_time,
-                total_fever_time: res.data.total_fever_time,
-                category_time: res.data.category_time,
-                selectedDWM: res.data.selectedDay,
-                noData: (res.data.total_fever_time ==='0:00:00'),
+                total_total_time: res.data.t_t_time,
+                total_fever_time: res.data.t_f_time,
+                category_time: res.data.categ_time,
+                selectedDWM: res.data.selectedDWM,
+                noData: (res.data.t_t_time ==='0:00:00'),
             })
         })
     }
 
-    setState_WM = (res, week) => {
-        var dataPointsF = ''
-        var dataPointsN = ''
-        if (week) {
-            dataPointsF = res.data.map((value, index) => {
-                return { label: value.days + "(" + daysinweek[index] + ")", y: value.fever_time / 3600 }
-            })
-            dataPointsN = res.data.map((value, index) => {
-                return { label: value.days + "(" + daysinweek[index] + ")", y: (value.total_time - value.fever_time) / 3600 }
-            })
-        }
-        else {
-            dataPointsF = res.data.map((value, index) => {
-                return { label: String(index + 1), y: value.fever_time / 3600 }
-            })
-            dataPointsN = res.data.map((value, index) => {
-                return { label: String(index + 1), y: (value.total_time - value.fever_time) / 3600 }
-            })
-        }
-
-        this.setState({
-            total_total_time: res.data[0].total_total_time,
-            total_fever_time: res.data[0].total_fever_time,
-            avg_total_time: res.data[0].avg_total_time,
-            avg_fever_time: res.data[0].avg_fever_time,
-            category_time: res.data[0].category_time,
-            chartData: [
-                {
-                    type: "stackedColumn",
-                    name: "FeverTime",
-                    color: "red",
-                    showInLegend: false,
-                    yValueFormatString: "#,##0.##h",
-                    dataPoints: dataPointsF
-                }, {
-                    type: "stackedColumn",
-                    name: "NonFeverTime",
-                    color: "gray",
-                    showInLegend: false,
-                    yValueFormatString: "#,##0.##h",
-                    dataPoints: dataPointsN
-                }],
-            selectedDWM: res.data[0].chartTitle,
-            noData: (res.data[0].total_fever_time ==='0:00:00'),
-        })
-    }
-
-    getFeverData_W = () => {
-        axios.post('/api/fever_data_W/', {
+    getFeverData_WM = (v) => {
+        axios.post('/api/fever_data_'+v+'/', {
             user_id: this.state.user_id,
-            selectTime: this.state.selectTime
+            selectTime: this.state.selectTime,
+            selectCateg: this.state.selectCateg
         }).then(res => {
-            this.setState_WM(res, true)
-        })
-    }
-
-    getFeverData_M = () => {
-        axios.post('/api/fever_data_M/', {
-            user_id: this.state.user_id,
-            selectTime: this.state.selectTime
-        }).then(res => {
-            this.setState_WM(res, false)
+            this.setState({
+                total_total_time: res.data.t_t_time,
+                total_fever_time: res.data.t_f_time,
+                avg_total_time: res.data.avg_t_time,
+                avg_fever_time: res.data.avg_f_time,
+                category_time: res.data.categ_time,
+                chartData: [
+                    {
+                        type: "stackedColumn",
+                        name: "FeverTime",
+                        color: "red",
+                        showInLegend: false,
+                        yValueFormatString: "#,##0.##h",
+                        dataPoints: res.data.dataPointsF
+                    }, {
+                        type: "stackedColumn",
+                        name: "NonFeverTime",
+                        color: "gray",
+                        showInLegend: false,
+                        yValueFormatString: "#,##0.##h",
+                        dataPoints: res.data.dataPointsN
+                    }],
+                selectedDWM: res.data.selectedDWM,
+                noData: (res.data.t_t_time ==='0:00:00'),
+            })
         })
     }
 
     clickDaily = () => {
         this.setState({
-            showModeD: true,
-            showModeW: false,
-            showModeM: false,
+            showModeDWM : 0,
             selectTime: 0,
         }, () => { this.getFeverData() })
     }
-
     clickWeekly = () => {
         this.setState({
-            showModeD: false,
-            showModeW: true,
-            showModeM: false,
+            showModeDWM : 1,
             selectTime: 0,
         }, () => { this.getFeverData() })
     }
     clickMonthly = () => {
         this.setState({
-            showModeD: false,
-            showModeW: false,
-            showModeM: true,
+            showModeDWM : 2,
             selectTime: 0,
+        }, () => { this.getFeverData() })
+    }
+
+    clickAll = () => {
+        this.setState({
+            selectCateg: 0
+        }, () => { this.getFeverData() })
+    }
+    clickStudy = () => {
+        this.setState({
+            selectCateg: 1
+        }, () => { this.getFeverData() })
+    }
+    clickWork = () => {
+        this.setState({
+            selectCateg: 2
+        }, () => { this.getFeverData() })
+    }
+    clickRead = () => {
+        this.setState({
+            selectCateg: 3
+        }, () => { this.getFeverData() })
+    }
+    clickEtc = () => {
+        this.setState({
+            selectCateg: 4
         }, () => { this.getFeverData() })
     }
 
@@ -171,7 +171,17 @@ class MyData extends Component {
                 </div>
                 <div className='mt-5 d-flex'>
                     <button className='w-30 button-blue' onClick={this.clickLeft} id='left-button'>Left</button>
-                    <div className='w-40'></div>
+                    <div className='w-40'>
+                        {(this.state.showModeDWM) ? (<div>
+                            <DropdownButton className='t-center' id="dropdown-basic-button" title={"Category: " + this.categFunc(this.state.selectCateg)}>
+                                <Dropdown.Item onClick={this.clickAll}>All</Dropdown.Item>
+                                <Dropdown.Item onClick={this.clickStudy}>Study</Dropdown.Item>
+                                <Dropdown.Item onClick={this.clickWork}>Work</Dropdown.Item>
+                                <Dropdown.Item onClick={this.clickRead}>Read</Dropdown.Item>
+                                <Dropdown.Item onClick={this.clickEtc}>Etc.</Dropdown.Item>
+                            </DropdownButton>
+                        </div>) : ('')}
+                    </div>
                     <button className='w-30 button-blue' onClick={this.clickRight} id='right-button'>Right</button>
                 </div>
                 <div className='t-center mt-5 f-large'>{this.state.selectedDWM}</div>
@@ -179,13 +189,12 @@ class MyData extends Component {
                     <div className='t-center f-large mt-5'>No Records!</div>
                 ) : (
                         <div>
-                            <div>
-                                {(this.state.showModeD) ? ('') : (
-                                        <div className='mt-5'>
-                                            <ColumnChart data={this.state.chartData}/>
-                                        </div>
-                                    )}
-                            </div>
+                            <div>{(this.state.showModeDWM === 0) ? ('') : (
+                                <div className='mt-5'>
+                                    <ColumnChart data={this.state.chartData} />
+                                </div>
+                            )}</div>
+
                             <div>
                                 <div className='mt-5 d-flex'>
                                     <div className='w-30 f-large mt-5'>Total Time</div>
@@ -194,7 +203,7 @@ class MyData extends Component {
                                     <div className='w-20 f-large mt-5'>{this.state.total_fever_time}</div>
                                 </div>
 
-                                {(this.state.showModeD) ? ('') : (
+                                {(this.state.showModeDWM===0) ? ('') : (
                                     <div className='d-flex'>
                                         <div className='w-30 f-large mt-5'> Avg Total Time </div>
                                         <div className='w-20 f-large mt-5'>{this.state.avg_total_time}</div>
@@ -209,6 +218,10 @@ class MyData extends Component {
             </div>
         )
     }
+}
+
+MyData.propTypes={
+    history:PropTypes.object,
 }
 
 export default connect(null, null)(MyData);

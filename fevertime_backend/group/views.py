@@ -16,7 +16,7 @@ def group(request):
                 response_dict.append({'gid':group_object.id,
                                       'groupname':group_object.group_name,
                                       'num':group_object.group_members.count(),
-                                      'TopFever': group_object.group_members.all()[0].nickname
+                                      'TopFever': top_fever(group_object),
                                      })
         return JsonResponse(response_dict, safe=False)
 
@@ -131,3 +131,23 @@ def user_weekly_feverExtraction(user, Search_ISO_tuple):
     sec = int((tsec%60))
     return_dict["fever_time"] = "{:02d}:{:02d}:{:02d}".format(hour, minute, sec)
     return return_dict
+        
+def top_fever(group_object):
+    users=group_object.group_members.all()
+    user_dict = [user_rawtime(user) for user in users]
+    time_list = [user['time'] for user in user_dict]
+    top_user_index = time_list.index(max(time_list))
+    top_user = user_dict[top_user_index]['nickname']
+    return top_user
+
+def user_rawtime(user):
+    Current_ISO_tuple = (datetime.now()-timedelta(weeks=0)).isocalendar()
+    total_fever_time = timedelta(microseconds=0)
+    for session in user.fever_history_user.all():
+        if session.click_end == "Y":
+            session_ISO_tuple = session.end_time.isocalendar()
+            if((session_ISO_tuple[0] == Current_ISO_tuple[0]) and
+               (session_ISO_tuple[1] == Current_ISO_tuple[1])):
+                total_fever_time += session.fever_time
+    tsec = total_fever_time.total_seconds()
+    return {'nickname':user.nickname, 'time':tsec}
