@@ -42,17 +42,17 @@ def fever_data_D(request):
         try:
             data = json.loads(request.body.decode())
             user_id = data['user_id']
-            selectTime = data['selectTime']
+            selectDay = datetime.strptime(data['selectDate'],\
+                 "%a %b %d %Y %H:%M:%S %Z%z (한국 표준시)")
+
             fever_data = {'t_t_time': timedelta(), 't_f_time': timedelta(),
                           'categ_time': [timedelta(), timedelta(), timedelta(), timedelta()]}
-            selectedDay = datetime.today()+timedelta(days=selectTime)
-            fever_data['selectedDWM'] = selectedDay.strftime("%Y/%m/%d") +\
-                ' ('+selectedDay.strftime('%a')+')'
+            fever_data['selectedDWM'] = selectDay.strftime("%Y/%m/%d") +\
+                ' ('+selectDay.strftime('%a')+')'
+            fever_data['log']=[]
             for hist in Fever_history.objects.filter(user_id=user_id):
-                currentday = datetime.combine(datetime.today() +\
-                     timedelta(days=selectTime), datetime.min.time())
-                nextday = datetime.combine(datetime.today()+\
-                    timedelta(days=selectTime+1), datetime.min.time())
+                currentday = datetime.combine(selectDay, datetime.min.time())
+                nextday = datetime.combine(selectDay+timedelta(days=1), datetime.min.time())
                 if (hist.end_time < nextday and hist.end_time > currentday):
                     if hist.category == 'Study':
                         fever_data['categ_time'][0] = fever_data['categ_time'][0] + hist.total_time
@@ -64,6 +64,12 @@ def fever_data_D(request):
                         fever_data['categ_time'][3] = fever_data['categ_time'][3] + hist.total_time
                     fever_data['t_t_time'] = fever_data['t_t_time'] + hist.total_time
                     fever_data['t_f_time'] = fever_data['t_f_time'] + hist.fever_time
+                    if hist.click_end=='Y':
+                        fever_data['log'].append({'category':hist.category, 'tag':hist.etcCategory,\
+                        'start_time':hist.start_time.strftime("%Y-%m-%d %H:%M"),'t_time':\
+                        str(chop_microsec(hist.total_time)),'f_time':str(chop_microsec(\
+                        hist.fever_time)),'f_rate':hist.fever_rate,'goalTime':hist.goalTime})
+
             fever_data['t_t_time'] = str(chop_microsec(fever_data['t_t_time']))
             fever_data['t_f_time'] = str(chop_microsec(fever_data['t_f_time']))
             for i in range(0, 4):
@@ -80,14 +86,14 @@ def fever_data_W(request):
         try:
             data = json.loads(request.body.decode())
             user_id = data['user_id']
-            selectDate = datetime.strptime(data['selectDate'], "%a %b %d %Y %H:%M:%S %Z)
+            selectDate = datetime.strptime(data['selectDate'],\
+                 "%a %b %d %Y %H:%M:%S %Z%z (한국 표준시)")
             selectCateg = data['selectCateg']
 
-
             fever_data = {}
-            nowDay = datetime.today().weekday()
-            weekstart = datetime.today()+timedelta(days=selectTime*7-nowDay)
-            weekend = datetime.today()+timedelta(days=selectTime *7+6-nowDay)
+            nowDay = selectDate.weekday()
+            weekstart = selectDate+timedelta(days=-nowDay)
+            weekend = selectDate+timedelta(days=6-nowDay)
             fever_data['selectedDWM'] = weekstart.strftime("%Y/%m/%d")+"~"+\
                 weekend.strftime("%Y/%m/%d")
             fever_data['t_t_time'] = timedelta()
@@ -149,28 +155,30 @@ def fever_data_W(request):
 # @csrf_exempt
 
 
+
 def fever_data_M(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body.decode())
             user_id = data['user_id']
-            selectTime = datetime.today()+relativedelta(months=data['selectTime'])
+            selectDate = datetime.strptime(data['selectDate'],\
+                "%a %b %d %Y %H:%M:%S %Z%z (한국 표준시)")
             selectCateg = data['selectCateg']
 
             fever_data = {}
-            fever_data['selectedDWM'] = str(selectTime.year)+"/"+str(selectTime.month)
+            fever_data['selectedDWM'] = str(selectDate.year)+"/"+str(selectDate.month)
             fever_data['t_t_time'] = timedelta()
             fever_data['t_f_time'] = timedelta()
             fever_data['categ_time'] = [timedelta(), timedelta(), timedelta(), timedelta()]
             fever_data['dates']=[]
-            LastDayofMonth = calendar.monthrange(selectTime.year, selectTime.month)[1]
+            LastDayofMonth = calendar.monthrange(selectDate.year, selectDate.month)[1]
             for i in range(0, LastDayofMonth):
                 fever_data['dates'].append({'t_time': timedelta(), 'f_time': timedelta()})
             
             for hist in Fever_history.objects.filter(user_id=user_id):
                 for i in range(0, LastDayofMonth):
-                    nextday = datetime(selectTime.year, selectTime.month, i+1)+timedelta(days=1)
-                    currentday = datetime(selectTime.year, selectTime.month, i+1)
+                    nextday = datetime(selectDate.year, selectDate.month, i+1)+timedelta(days=1)
+                    currentday = datetime(selectDate.year, selectDate.month, i+1)
                     if hist.end_time < nextday and hist.end_time > currentday:
                         if categFunc(selectCateg,hist.category):
                             fever_data['dates'][i]['t_time'] = fever_data['dates'][i]['t_time']+\
