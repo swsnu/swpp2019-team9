@@ -199,7 +199,6 @@ class MyData extends Component {
                                         </div>
                                     </div>
                                     <div className='pl-5'>
-                                        {(true) ?
                                             <div>
                                                 {this.state.log.map((value, index) => {
                                                     return (
@@ -215,7 +214,6 @@ class MyData extends Component {
                                                     );
                                                 })}
                                             </div>
-                                            : <div>please refresh</div>}
                                     </div>
                                 </div>
                             ) : (

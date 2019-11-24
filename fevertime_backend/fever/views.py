@@ -4,7 +4,6 @@ import calendar
 from datetime import datetime, timedelta
 from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
-from dateutil.relativedelta import relativedelta
 import requests
 
 from user.models import User
@@ -68,7 +67,7 @@ def fever_data_D(request):
                         fever_data['log'].append({'category':hist.category, 'tag':hist.etcCategory,\
                         'start_time':hist.start_time.strftime("%Y-%m-%d %H:%M"),'t_time':\
                         str(chop_microsec(hist.total_time)),'f_time':str(chop_microsec(\
-                        hist.fever_time)),'f_rate':hist.fever_rate,'goalTime':hist.goalTime})
+                            hist.fever_time)),'f_rate':hist.fever_rate,'goalTime':hist.goalTime})
 
             fever_data['t_t_time'] = str(chop_microsec(fever_data['t_t_time']))
             fever_data['t_f_time'] = str(chop_microsec(fever_data['t_f_time']))
