@@ -4,6 +4,12 @@
 .d-v-center{
   align-items: center;
 }
+.d-v-right{
+  align-items: right;
+}
+.d-v-left{
+  align-items: left;
+}
 .d-ho-center{
   justify-content: center;
 }
@@ -138,6 +144,9 @@
 
 
 /* Width */
+.w-5{
+  width: 5%;
+}
 .w-10{
   width: 10%;
 }
@@ -158,6 +167,9 @@
 }
 .w-50{
   width: 50%;
+}
+.w-55{
+  width: 55%;
 }
 .w-60{
   width: 60%;

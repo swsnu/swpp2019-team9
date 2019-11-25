@@ -50,7 +50,11 @@ class FeverStart extends Component {
         
         if(this.props.storedID==null) this.onAlarmMessage('Please login')
         else if(this.state.goalTime==='00:00') this.onAlarmMessage('Insert your goalTime')
-        else if(this.state.selectedCategory==='') this.onAlarmMessage('Select the category')    
+        else if(this.state.selectedCategory==='') this.onAlarmMessage('Select the category')
+        else if(this.state.etcCategory===''){
+            this.props.onStoreFeverStart(this.state.selectedCategory, this.state.goalTime, "All")
+            this.props.history.push('/feverready')
+        }
         else{
             this.props.onStoreFeverStart(this.state.selectedCategory, this.state.goalTime, this.state.etcCategory)
             this.props.history.push('/feverready')
@@ -62,6 +66,7 @@ class FeverStart extends Component {
 
 
     render() {
+
         return (
             <div className='FeverStart'>
                 <AlarmMessageModal show={this.state.showAlarmMessage}
