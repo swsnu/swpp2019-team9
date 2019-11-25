@@ -28,6 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# real server 에서
+# DEBUG = False
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1', '52.141.23.75', 'fevertime.shop']
+
 
 # Application definition
 
