@@ -214,7 +214,7 @@ class MyData extends Component {
                                                             <div className='w-15'>{value.start_time}</div>
                                                             <div className='w-15'>{value.t_time}</div>
                                                             <div className='w-15'>{value.f_time}</div>
-                                                            <div className='w-15'>{value.f_rate}</div>
+                                                            <div className='w-15'>{value.f_rate}%</div>
                                                             <div className='w-15'>{value.goalTime}</div>
                                                         </div>
                                                     );
