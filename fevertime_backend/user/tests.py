@@ -1,6 +1,6 @@
 import json
 from django.test import TestCase,Client
-
+from user.models import User
 # Create your tests here.
 class UserTestCase(TestCase):
     preclient = None
@@ -8,7 +8,7 @@ class UserTestCase(TestCase):
     def setUp(self):
         self.preclient = Client()
         self.preclient.post('/api/user/signup/', json.dumps(
-            {'username': 'SY', "nickname":"SYLEE",'password': 'Lee'}),
+            {'username': 'SY', "nickname":"SYLEE",'password': 'Lee',"wrong":False}),
                             content_type='application/json')
 
     def tearDown(self):
@@ -21,24 +21,47 @@ class UserTestCase(TestCase):
             "nickname" : "asdf"
         }),content_type="application/json")
         self.assertEqual(response.status_code, 400)
+
         response = client.post("/api/user/signup/", json.dumps({
             'username' : "asdf",
             "nickname" : "asdf",
-            "password" : "asdf"
-        }),content_type="application/json")
-        self.assertEqual(response.status_code, 201)
-        response = client.post("/api/user/signup/", json.dumps({
-            'username' : "asdf",
-            "nickname" : "asdf",
-            "password" : "asdf"
+            "password" : "asdf",
+            "wrong"    : True,    
         }),content_type="application/json")
         self.assertEqual(response.status_code, 401)
+
         response = client.post("/api/user/signup/", json.dumps({
-            'username' : "asd",
+            'username' : "asdf",
             "nickname" : "asdf",
-            "password" : "asdf"
+            "password" : "asdf",
+            "wrong"    : False,    
         }),content_type="application/json")
-        self.assertEqual(response.status_code, 402)
+        self.assertEqual(response.status_code, 201)
+
+        response = client.post("/api/user/signup/", json.dumps({
+            'username' : "asdf",
+            "nickname" : "asdf",
+            "password" : "asdf",
+            "wrong"    : False,
+        }),content_type="application/json")
+        self.assertEqual(response.status_code, 401)
+
+        response = client.post("/api/user/signup/", json.dumps({
+            'username' : "asdf",
+            "nickname" : "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "password" : "asdf",
+            "wrong"    : False,
+        }),content_type="application/json")
+        self.assertEqual(response.status_code, 401)
+
+        response = client.post("/api/user/signup/", json.dumps({
+            'username' : "",
+            "nickname" : "",
+            "password" : "asdf",
+            "wrong"    : False,
+        }),content_type="application/json")
+        self.assertEqual(response.status_code, 401)
+
         response = client.get("/api/user/signup/")
         self.assertEqual(response.status_code, 405)
 
@@ -145,3 +168,29 @@ class UserTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         response = self.preclient.get("/api/user/social/")
         self.assertEqual(response.status_code, 405)
+
+
+    def test_social_specific(self):
+        User.objects.create_user(username="test",
+                                 password="test",
+                                 nickname="test")
+
+        response = self.preclient.post("/api/user/signin/", json.dumps({
+            'username' : "SY",
+            "password" : "Lee"
+        }),content_type="application/json")
+        self.assertEqual(response.status_code, 200)
+
+        response = self.preclient.put("/api/user/social/1/")
+        self.assertEqual(response.status_code, 405)
+
+        response = self.preclient.get("/api/user/social/1000/")
+        self.assertEqual(response.status_code, 401)
+
+        response = self.preclient.get("/api/user/social/1/")
+        self.assertEqual(response.status_code, 204)
+
+        response = self.preclient.get("/api/user/social/2/")
+        self.assertEqual(response.status_code, 401)
+
+        #others in friend, group test

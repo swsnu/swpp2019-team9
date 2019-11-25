@@ -143,4 +143,6 @@ class FriendTestCase(TestCase):
                                json.dumps({'nickname':'test'}),
                                content_type='application/json')
         self.assertEqual(response.status_code, 201)
-        
+
+        response = client.get("/api/user/social/1/")
+        self.assertEqual(response.status_code, 204)                 #social test for friend

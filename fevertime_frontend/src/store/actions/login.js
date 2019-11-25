@@ -67,8 +67,12 @@ export const getUserInfo = (user) => {
     return dispatch => {
         return axios.get('/api/user/',user)
             .then(res => {
-                if(res.status===200)
+                if(res.status===200){
                     dispatch(getUserInfo_(res.data));
+                    if(window.location.pathname === '/login')
+                        dispatch(push('/'));
+                }
+                    
                 else if(res.status===204){
                     dispatch(getUserInfo_({id:null,username:null,nickname:null,showdata: null,}))
                     if(window.location.pathname !== '/signup' &&
@@ -76,7 +80,7 @@ export const getUserInfo = (user) => {
                        window.location.pathname !== '/feverstart' &&
                        window.location.pathname !== '/'){  
                         dispatch(push('/login'));
-                       }
+                    }
                 }
             })
     };

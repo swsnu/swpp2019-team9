@@ -107,6 +107,29 @@ describe('ActionCreators', () => {
             done();
         });
     });
+
+    it('call history push2 ', (done) => {
+        axios.get = jest.fn(() => {
+            return new Promise((resolve) => {
+                const result = {
+                    status: 200,
+                    data: stubUser
+                };
+                resolve(result);
+            })
+        });
+        global.window = Object.create(window);
+        Object.defineProperty(window, 'location', {
+            value: {
+                pathname: '/login'
+            }
+        });
+        store.dispatch(loginAction.getUserInfo()).then(() => {
+            expect(axios.get).toHaveBeenCalledTimes(1);  
+            done();
+        });
+    });
+
     it('get user not logged in2', (done) => {
         axios.get = jest.fn(() => {
             return new Promise((resolve) => {

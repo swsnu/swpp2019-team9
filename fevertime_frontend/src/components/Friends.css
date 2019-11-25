@@ -96,3 +96,12 @@
 .group-body{
     overflow: scroll; /* showing scrollbars */
 }
+.leaderboard-nav{
+    display: flex;
+    height: 40px;
+    font-size: 20px;
+}
+.nav-button{
+    background-color: #f2f3f6;
+    border:1px solid #f2f3f6;
+}

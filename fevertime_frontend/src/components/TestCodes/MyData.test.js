@@ -46,10 +46,7 @@ describe('MyData', () => {
         axios.get = jest.fn(() => {
             return new Promise((resolve) => {
                 const result = {
-                    status: 200,
-                    data: [
-                        
-                    ]
+                    status: 204,
                 };
                 resolve(result);
             })
@@ -80,7 +77,26 @@ describe('MyData', () => {
         expect(component.find('#mydata').length).toBe(1);
         done()
     });
-
+/*
+    it('should go back', (done) => {
+        let spyhistoryPush;
+        spyhistoryPush = jest.spyOn(history, 'goBack')
+        .mockImplementation(() => { return {}; });
+        axios.get = jest.fn(() => {
+            return new Promise((resolve,reject) => {
+                const result = {
+                    response: {status:401},
+                    data: null
+                };
+                reject(result)
+                resolve()
+            })
+        });
+        mount(mydata);
+        expect(spyhistoryPush).toHaveBeenCalledTimes(1);
+        done()
+    });
+*/
     it('should select chart', (done) => {
         const component = mount(mydata);
 
@@ -92,13 +108,6 @@ describe('MyData', () => {
         expect(axios.post).toHaveBeenCalledTimes(3);
         const month_button = component.find("#monthly-button")
         month_button.simulate("click")
-        expect(axios.post).toHaveBeenCalledTimes(4);
-        const left_button = component.find("#left-button")
-        left_button.simulate("click")
-        expect(axios.post).toHaveBeenCalledTimes(5);
-        const right_button = component.find("#right-button")
-        right_button.simulate("click")
-        expect(axios.post).toHaveBeenCalledTimes(6);
 
         done()
     });

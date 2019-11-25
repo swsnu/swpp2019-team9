@@ -12,18 +12,32 @@ def signup(request):
             username = req_data['username']
             nickname = req_data['nickname']
             password = req_data['password']
-
-#            if(len(nickname)>64):
-#                return HttpResponseBadRequest()
-#           lets check this in frontend
+            wrong = req_data['wrong']
         except (KeyError, json.JSONDecodeError):
             return HttpResponseBadRequest()
-        if User.objects.filter(username=username).exists():
-            return HttpResponse(status=401)
-        if User.objects.filter(nickname=nickname).exists():
-            return HttpResponse(status=402) #what response?
-        User.objects.create_user(username = username, password = password, nickname=nickname)
-        return HttpResponse(status=201)
+        return_dict = {"ID" : "", "nickname" : ""}
+        if username == "":
+            wrong = True
+            return_dict["ID"] = "Empty ID" #empty nickname
+        else:
+            if User.objects.filter(username=username).exists(): #401 ID exist
+                wrong = True
+                return_dict["ID"] = "ID exists"
+        if nickname == "":
+            wrong = True
+            return_dict["nickname"] = "Empty Nickname" #empty nickname
+        else:
+            if len(nickname) >= 64:
+                wrong = True
+                return_dict["nickname"] = "Too long nickname"
+            elif User.objects.filter(nickname=nickname).exists(): #401 Nickname exist
+                wrong = True
+                return_dict["nickname"] = "nickname exists"
+        if not wrong: #all OKay then create user
+            User.objects.create_user(username=username, password=password, nickname=nickname)
+            return JsonResponse(return_dict, status=201) #lets gogo
+        return JsonResponse(return_dict, status=401) #lets gogo
+
     else:
         return HttpResponseNotAllowed(['POST'])
 
@@ -66,7 +80,7 @@ def user(request):
                   'username':request.user.username,
                   'nickname':request.user.nickname,
                   'showdata':request.user.showdata,
-                  }
+                 }
         return JsonResponse(res_dict,status=200)
     elif request.method =='PUT':
         if not request.user.is_authenticated:
@@ -103,3 +117,26 @@ def social(request):
         return HttpResponse(status=200)
     else: 
         return HttpResponseNotAllowed(['PUT'])     #405
+
+def social_specific(request,user_id):
+    if request.method =='GET':
+        if not User.objects.filter(id=user_id).exists():
+            return HttpResponse(status=401)
+
+        if user_id == request.user.id:
+            return HttpResponse(status=204)
+
+        user_friends = request.user.user_friend2.all()
+        for friend in user_friends:
+            if user_id == friend.friend1.id and friend.friend1.showdata:
+                return HttpResponse(status=204)
+
+        user_groups = request.user.user_groups.all()
+        for group in user_groups:
+            for member in group.group_members.all():
+                if user_id == member.id and member.showdata:
+                    return HttpResponse(status=204)
+
+        return HttpResponse(status=401)
+    else: 
+        return HttpResponseNotAllowed(['GET'])     #405

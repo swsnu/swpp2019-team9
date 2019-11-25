@@ -41,7 +41,7 @@ class FeverEnd extends Component {
                     <div className='d-flex mt-5'>
                         <div className='w-20'></div>
                         <div className='w-40 f-large'>Avg Fever rate </div>
-                        <div className='w-20 f-xlarge '> {this.state.fever_rate}%</div>
+                        <div className='w-20 f-xlarge '> {this.state.fever_rate*100}%</div>
                     </div>
                 </div>
                 <div className='d-flex d-ho-center'>
