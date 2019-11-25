@@ -2,6 +2,8 @@ import json
 from json import JSONDecodeError
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest,JsonResponse
 from django.contrib.auth import authenticate, login, logout
+from django.views.decorators.csrf import ensure_csrf_cookie
+
 from .models import User
 # Create your views here.
 
@@ -41,6 +43,7 @@ def signup(request):
     else:
         return HttpResponseNotAllowed(['POST'])
 
+@ensure_csrf_cookie
 def signin(request):
     if request.method =='POST':
         try:
@@ -140,3 +143,10 @@ def social_specific(request,user_id):
         return HttpResponse(status=401)
     else: 
         return HttpResponseNotAllowed(['GET'])     #405
+
+@ensure_csrf_cookie
+def token(request):
+    if request.method == 'GET':
+        return HttpResponse(status=204)
+    # else:
+    #     return HttpResponse(status=405)
