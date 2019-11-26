@@ -67,7 +67,8 @@ def fever_data_D(request):
                         fever_data['log'].append({'category':hist.category, 'tag':hist.etcCategory,\
                         'start_time':hist.start_time.strftime("%Y-%m-%d %H:%M"),'t_time':\
                         str(chop_microsec(hist.total_time)),'f_time':str(chop_microsec(\
-                            hist.fever_time)),'f_rate':int(hist.fever_rate*100),'goalTime':hist.goalTime})
+                            hist.fever_time)),'f_rate':int(hist.fever_rate*100),\
+                                'goalTime':hist.goalTime})
 
             fever_data['t_t_time'] = str(chop_microsec(fever_data['t_t_time']))
             fever_data['t_f_time'] = str(chop_microsec(fever_data['t_f_time']))
