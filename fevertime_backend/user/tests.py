@@ -10,8 +10,8 @@ class UserTestCase(TestCase):
     def setUp(self):
         self.preclient = Client()
         self.preclient.post('/api/user/signup/', json.dumps(
-            {'username': 'SY', "nickname": "SYLEE", 'password': 'Lee', "wrong": False}),
-            content_type='application/json')
+            {'username': 'SY', "nickname": "SYLEE", 'password': 'Lee', "wrong": False}),\
+                content_type='application/json')
 
     def tearDown(self):
         pass
@@ -205,8 +205,8 @@ class UserTestCase(TestCase):
 
         response = client.post('/api/user/signup/', json.dumps(
             {'username': 'youngjae', "nickname": "youngjae", 'password': 'youngjae', "wrong": False,
-             }),
-            content_type='application/json')
+             }),\
+                 content_type='application/json')
         # Request without csrf token returns 403 response
         self.assertEqual(response.status_code, 403)
 
@@ -216,6 +216,6 @@ class UserTestCase(TestCase):
 
         response = client.post('/api/user/signup/', json.dumps(
             {'username': 'youngjae', "nickname": "youngjae", 'password': 'youngjae', "wrong": False,
-             }),
-            content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+             }),\
+                 content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
         self.assertEqual(response.status_code, 201)  # Pass csrf protection
