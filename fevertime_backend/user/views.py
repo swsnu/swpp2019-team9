@@ -148,5 +148,5 @@ def social_specific(request,user_id):
 def token(request):
     if request.method == 'GET':
         return HttpResponse(status=204)
-    # else:
-    #     return HttpResponse(status=405)
+# else:
+#     return HttpResponse(status=405)
