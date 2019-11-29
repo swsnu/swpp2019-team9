@@ -3,6 +3,9 @@ import '../App.css'
 import caro1 from '../assets/img/caro1.png'
 import caro2 from '../assets/img/caro2.png'
 import caro3 from '../assets/img/caro3.png'
+import top1 from '../assets/img/top1.png'
+import top2 from '../assets/img/top2.png'
+import top3 from '../assets/img/top3.png'
 // import kakaologo from '../assets/img/kakaologo.png'
 // import msvision from '../assets/img/msvision.png'
 import {Carousel} from 'react-bootstrap'
@@ -31,6 +34,7 @@ class Main extends Component {
             })
     }
     render() {
+
         return (
             <div className='f-xlarge t-center Main'>
                 {this.state.showTop3 &&
@@ -42,7 +46,18 @@ class Main extends Component {
                                 return(
                                     <Carousel.Item key={index}>
                                         <div className='d-flex d-ho-center d-v-center'>
-                                            <div className='mr-5'>{index+1}</div>
+                                            <div className='top_medal mr-3'>
+                                                {index+1 === 1 &&(
+                                                    <div><img src={top1} alt="top1 medal" /></div>
+                                                )}
+                                                {index+1 === 2 &&(
+                                                    <div><img src={top2} alt="top2 medal"/></div>
+                                                )}
+                                                {index+1 === 3 &&(
+                                                    <div><img src={top3} alt="top3 medal"/></div>
+                                                )}
+                                            </div>
+
                                             <div className='badge-custom-main t-center hover-pointer mr-3' id='friend-button'>
                                                 {value.name[0]}
                                             </div>
@@ -52,7 +67,6 @@ class Main extends Component {
                                     </Carousel.Item>
                                 )
                             })}
-
                         </Carousel>
                     </div>
                 </div>
@@ -90,9 +104,6 @@ class Main extends Component {
                     <div className='pt-5'>Let yourself focus.</div>
                     <div className='pb-5'>Take record of your concentrated Time</div>
                 </div>
-                {/*<div>*/}
-                    {/*<div>Total ranking</div>*/}
-                {/*</div>*/}
                 {/*<div className='footer-wrapper'>*/}
                     {/*/!*<div className='footer-line'></div>*!/*/}
                     {/*<div className='d-flex'>*/}
