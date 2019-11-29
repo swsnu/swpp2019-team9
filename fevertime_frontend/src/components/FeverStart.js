@@ -4,6 +4,7 @@ import * as Types from '../store/actions/actionTypes'
 import TimeField from 'react-simple-timefield';
 import AlarmMessageModal from "./component/PopupMessage";
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 
 class FeverStart extends Component {
     constructor(props) {
@@ -47,7 +48,7 @@ class FeverStart extends Component {
     }
 
     startFever = () => {
-        
+
         if(this.props.storedID==null) this.onAlarmMessage('Please login')
         else if(this.state.goalTime==='00:00') this.onAlarmMessage('Insert your goalTime')
         else if(this.state.selectedCategory==='') this.onAlarmMessage('Select the category')
@@ -59,9 +60,9 @@ class FeverStart extends Component {
             this.props.onStoreFeverStart(this.state.selectedCategory, this.state.goalTime, this.state.etcCategory)
             this.props.history.push('/feverready')
         }
-            
-        
-        
+
+
+
     }
 
 
@@ -96,8 +97,9 @@ class FeverStart extends Component {
                         <label>
                             Study 
                             <input className='ml-2 friend-add-button' type="radio" value="Study"
+
                                         checked={this.state.selectedCategory === 'Study'}
-                                        onChange={this.changeCategory} 
+                                        onChange={this.changeCategory}
                                         id ='study-radio'/>
                         </label>
                         </div>
@@ -165,4 +167,4 @@ const mapDispatchToProps = dispatch => {
                 goalTime:goalTime, etcCategory:etcCategory})
     };
 };
-export default connect(mapStateToProps,mapDispatchToProps)(FeverStart);
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(FeverStart));
