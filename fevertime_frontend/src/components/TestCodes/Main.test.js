@@ -34,8 +34,9 @@ describe('Main', () => {
             return new Promise((resolve) => {
                 const result = {
                     status: 200,
-                    data: [{name : 'abc', fever_time: '00:10'},
-                        {name : 'def', fever_time: '00:20'}
+                    data: [{name : 'abc', fever_time: '00:30'},
+                        {name : 'def', fever_time: '00:20'},
+                        {name : 'hij', fever_time: '00:10'}
                     ]
                 };
                 resolve(result);
