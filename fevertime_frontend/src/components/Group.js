@@ -10,6 +10,8 @@ import axios from 'axios'
 import {Modal, Button} from 'react-bootstrap'
 import CommentSection from "./component/CommentSection"
 import PropTypes from 'prop-types';
+import Autocomplete from 'react-autocomplete';
+
 class Group extends Component {
     constructor (props)
     {
@@ -30,6 +32,7 @@ class Group extends Component {
             week_delta : 0,
             fever_tag : "All",
             search_input : "",
+            autocomplete_tag : [{label : "All"}]
         }
     }
     componentDidMount(){
@@ -44,6 +47,7 @@ class Group extends Component {
             this.setState({
                 groupMemberList : res.data.leaderboard,
                 leaderboard_week : res.data.time,
+                autocomplete_tag : res.data.autotag,
             })
         })
     }
@@ -96,7 +100,6 @@ class Group extends Component {
                             AddFriendMessageContent : 'Invalid nickname',
                             FriendNames : [],
                         })
-
             })
         }
     }
@@ -241,10 +244,19 @@ class Group extends Component {
                     </div>
                     <div className='d-flex mt-3 d-v-center'>
                         <div className='w-5'></div>
-                        <input className='w-20 input-1'
-                                id="Tag_input"
-                            onChange={(event => this.setState({
-                                search_input: event.target.value}))}                            
+                        <Autocomplete 
+                        className='w-20 input-1'
+                        id="Tag_input"
+                        getItemValue={(item) => item.label}
+                        items={this.state.autocomplete_tag}
+                        renderItem={(item, isHighlighted) =>
+                          <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+                            {item.label}
+                          </div>
+                        }
+                        value={this.state.search_input}
+                        onChange={(e) => this.setState({search_input : e.target.value})}
+                        onSelect={(val) => this.setState({search_input : val})}
                         />
                         <button className='' id="search_button"
                             onClick={this.tagSearch()}

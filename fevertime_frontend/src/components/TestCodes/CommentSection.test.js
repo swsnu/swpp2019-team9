@@ -7,11 +7,6 @@ import axios from 'axios';
 import { history } from '../../store/store';
 import {ConnectedRouter} from "connected-react-router";
 
-let mockcomment = [
-    {id:1, content : "I'm best fever", firstword : 'Y', name : 'Youngjae', reg_date : '2019-01-21 11:00'},
-    {id:2, content : "I was so sick..", firstword : 'G', name : 'Gildong', reg_date : '2019-02-01 11:00'},
-    {id:3, content : "Let's eat some dinner...", firstword : 'Y', name : 'Youngjae', reg_date : '2019-10-21 23:08'},
-]
 
 jest.mock('../component/PopupComment', () => {
     return jest.fn(props => {
@@ -45,6 +40,18 @@ const mockStore = getMockStore(stubInitialUser,{});
 
 describe("Comment Section",()=>{
     let commentSection;
+    let getstub = [
+        {id:1, content : "I'm best fever", firstword : 'Y', name : 'Youngjae', reg_date : '2019-01-21 11:00'},
+        {id:2, content : "I was so sick..", firstword : 'G', name : 'Gildong', reg_date : '2019-02-01 11:00'},
+        {id:3, content : "Let's eat some dinner...", firstword : 'Y', name : 'Youngjae', reg_date : '2019-10-21 23:08'},
+    ];
+    let singlestub = {
+        "id" : 4,
+        "content" : "dummy",
+        "firstword" : "G",
+        "name" : "Gildong",
+        "reg_date" : "2015-12-12 13:02"
+    }
     beforeEach(() => {
         commentSection = (
             <Provider store={mockStore}>
@@ -58,11 +65,7 @@ describe("Comment Section",()=>{
             return new Promise((resolve) => {
                 const result = {
                     status: 200,
-                    data: [
-                        {id:1, content : "I'm best fever", firstword : 'Y', name : 'Youngjae', reg_date : '2019-01-21 11:00'},
-                        {id:2, content : "I was so sick..", firstword : 'G', name : 'Gildong', reg_date : '2019-02-01 11:00'},
-                        {id:3, content : "Let's eat some dinner...", firstword : 'Y', name : 'Youngjae', reg_date : '2019-10-21 23:08'},
-                    ]
+                    data: getstub
                 };
                 resolve(result);
             })
@@ -79,19 +82,12 @@ describe("Comment Section",()=>{
 
     it("should create new comment",(done)=>{
         axios.post = jest.fn(() => {
-            return new Promise((resolve,reject) => {
+            return new Promise((resolve) => {
                 const result = {
                     status: 201,
-                    data: {
-                        "id" : 4,
-                        "content" : "dummy",
-                        "firstword" : "G",
-                        "name" : "Gildong",
-                        "reg_date" : "2015-12-12 13:02"
-                    }
+                    data: singlestub
                 };
                 resolve(result);
-                reject({status:400})
             })
         });
         const component = mount(commentSection)
@@ -103,37 +99,58 @@ describe("Comment Section",()=>{
         done();
     })
 
-    it("should show edit popup",(done)=>{
+    it("should show edit popup and confirm",()=>{
         axios.put = jest.fn(() => {
-            return new Promise((resolve,reject) => {
+            return new Promise((resolve) => {
                 const result = {
                     status: 200,
-                    data: {
-                        "id" : 4,
-                        "content" : "edit dummy",
-                        "firstword" : "G",
-                        "name" : "Gildong",
-                        "reg_date" : "2015-12-12 13:02"
-                    }
+                    data: singlestub
                 };
                 resolve(result);
-                reject({status:400})
             })
         });
         
         const component = mount(commentSection)
-        const newCommentSectionInstance = component.find(CommentSection.WrappedComponent).instance();
-        newCommentSectionInstance.setState({commentsList : mockcomment})
-
-        /*
-        const edit_button = component.find("#edit_button")
-        edit_button.simulate("click")
+        const newInstance = component.find(CommentSection.WrappedComponent).instance();
+        newInstance.setState({commentsList : getstub,
+            showEditCommentPopup : true, EditingComment : singlestub, WorkingID : 1
+        })
+        
         expect(component.find('.spyEditPopup').length).toBe(1);
         const edit_input = component.find("#spyContent")
         edit_input.simulate("change", {target : {value : "Edited Comment"}})
-        expect(axios.put).toHaveBeenCalledTimes(1);
-        expect(component.find('.spyEditPopup').length).toBe(0);
-        */
-        done();
-    })  
+        component.find("#spyConfirm").simulate("click")
+        expect(axios.put).toHaveBeenCalledTimes(1);        
+    })
+    
+    it("should show delete popup and confirm",()=>{
+        axios.delete = jest.fn(() => {
+            return new Promise((resolve) => {
+                const result = {
+                    status: 200,
+                };
+                resolve(result);
+            })
+        });
+        
+        const component = mount(commentSection)
+        const newInstance = component.find(CommentSection.WrappedComponent).instance();
+        newInstance.setState({commentsList : getstub,
+            showDeleteCommentPopup : true, WorkingID : 1
+        })
+        
+        expect(component.find('.spyDeletePopup').length).toBe(1);
+        component.find("#spyOK").simulate("click")
+        expect(axios.delete).toHaveBeenCalledTimes(1);        
+    })
+    
+    it("should show delete popup and close",()=>{
+        const component = mount(commentSection)
+        const newInstance = component.find(CommentSection.WrappedComponent).instance();
+        newInstance.setState({commentsList : getstub,
+            showDeleteCommentPopup : true, WorkingID : 1
+        })
+        expect(component.find('.spyDeletePopup').length).toBe(1);
+        component.find("#spyExit").simulate("click")
+    }) 
 })

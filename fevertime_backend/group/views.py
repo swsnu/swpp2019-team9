@@ -87,6 +87,8 @@ def leaderboard(request, group_id=0, week_delta=0, fever_tag=""):
         return HttpResponse(status=404)
 
     if request.method == 'GET':
+        autoset = {"All"}
+        autolist = []
         current_datetime = datetime.now()
 
         Search_datetime = current_datetime-timedelta(weeks=week_delta)
@@ -96,20 +98,26 @@ def leaderboard(request, group_id=0, week_delta=0, fever_tag=""):
         range_display = "{} ~ {}".format(monday.strftime("%Y/%m/%d"), sunday.strftime("%Y/%m/%d"))
 
         group_members = group_instance.group_members.all()
-        response_list = [user_weekly_feverExtraction(user, Search_ISO_tuple)
+        response_list = [user_weekly_feverExtraction(user, Search_ISO_tuple, fever_tag, autoset)
                          for user in group_members]
         response_list.sort(key=lambda timeinfo: timeinfo["fever_time"], reverse=True)
         for index, dictionary in enumerate(response_list):
             dictionary['rank'] = index+1
+        
+        for tag in autoset:
+            autolist.append({"label" : tag})
+        autolist.sort(key=lambda k: k["label"])
+        
         return JsonResponse({"leaderboard" : response_list,
-                             "time":range_display, "tag" : fever_tag},
+                             "time":range_display,
+                             "autotag" : autolist},
                             safe=False, status=200)
     else:
         return HttpResponseNotAllowed(['GET'])
 
 
 
-def user_weekly_feverExtraction(user, Search_ISO_tuple):
+def user_weekly_feverExtraction(user, Search_ISO_tuple, fever_tag, autoset):
     return_dict = {
         "id" : user.id,
         "rank" : 0,
@@ -124,7 +132,12 @@ def user_weekly_feverExtraction(user, Search_ISO_tuple):
             session_ISO_tuple = session.end_time.isocalendar()
             if((session_ISO_tuple[0] == Search_ISO_tuple[0]) and
                (session_ISO_tuple[1] == Search_ISO_tuple[1])):
-                total_fever_time += session.fever_time
+                autoset.add(session.etcCategory)
+                if fever_tag == "All":
+                    total_fever_time += session.fever_time
+                elif session.etcCategory == fever_tag:
+                    total_fever_time += session.fever_time
+                
     tsec = total_fever_time.total_seconds()
     hour = int(tsec//(60*60))
     minute = int((tsec%3600)//60)
