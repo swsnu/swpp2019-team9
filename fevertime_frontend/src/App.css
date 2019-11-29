@@ -468,3 +468,8 @@
 .time-text{
   font-size: 30px;
 }
+
+.top_medal > div >img{
+  width: 150px;
+  height: 150px;
+}
