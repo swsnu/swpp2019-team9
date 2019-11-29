@@ -4,6 +4,7 @@ import * as Types from '../store/actions/actionTypes'
 import TimeField from 'react-simple-timefield';
 import AlarmMessageModal from "./component/PopupMessage";
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 
 class FeverStart extends Component {
     constructor(props) {
@@ -47,13 +48,13 @@ class FeverStart extends Component {
     }
 
     startFever = () => {
-        
+
         if(this.props.storedID==null) this.onAlarmMessage('Please login')
         else if(this.state.goalTime==='00:00') this.onAlarmMessage('Insert your goalTime')
         else if(this.state.selectedCategory==='') this.onAlarmMessage('Select the category')
         else if(this.state.selectedCategory!=='Etc.'){
                 this.props.onStoreFeverStart(this.state.selectedCategory, this.state.goalTime, '')
-                this.props.history.push('/feverready')      
+                this.props.history.push('/feverready')
         }
         else if(this.state.etcCategory === ''){
             this.onAlarmMessage('Insert your Etc. Category')
@@ -62,9 +63,9 @@ class FeverStart extends Component {
             this.props.onStoreFeverStart(this.state.selectedCategory, this.state.goalTime, this.state.etcCategory)
             this.props.history.push('/feverready')
         }
-            
-        
-        
+
+
+
     }
 
 
@@ -96,10 +97,10 @@ class FeverStart extends Component {
                     <div className='w-10'>Category</div>
                         <div className="w-10">
                         <label>
-                            Study 
+                            Study
                             <input className='ml-2' type="radio" value="Study"
                                         checked={this.state.selectedCategory === 'Study'}
-                                        onChange={this.changeCategory} 
+                                        onChange={this.changeCategory}
                                         id ='study-radio'/>
                         </label>
                         </div>
@@ -107,8 +108,8 @@ class FeverStart extends Component {
                         <label>
                             Work
                             <input className='ml-2' type="radio" value="Work"
-                                        checked={this.state.selectedCategory === 'Work'} 
-                                        onChange={this.changeCategory} 
+                                        checked={this.state.selectedCategory === 'Work'}
+                                        onChange={this.changeCategory}
                                         id ='work-radio'/>
                         </label>
                         </div>
@@ -116,8 +117,8 @@ class FeverStart extends Component {
                         <label>
                             Read
                             <input className='ml-2' type="radio" value="Read"
-                                        checked={this.state.selectedCategory === 'Read'} 
-                                        onChange={this.changeCategory} 
+                                        checked={this.state.selectedCategory === 'Read'}
+                                        onChange={this.changeCategory}
                                         id ='read-radio'/>
                         </label>
                         </div>
@@ -125,8 +126,8 @@ class FeverStart extends Component {
                         <label className='d-flex'>
                             Etc.
                             <input className='ml-2 etc-radio' type="radio" value="Etc."
-                                        checked={this.state.selectedCategory === 'Etc.'} 
-                                        onChange={this.changeCategory} 
+                                        checked={this.state.selectedCategory === 'Etc.'}
+                                        onChange={this.changeCategory}
                                         id ='etc-radio'/>
                             <div className = "">
                                 {(this.state.selectedCategory === 'Etc.')?(
@@ -164,4 +165,4 @@ const mapDispatchToProps = dispatch => {
                 goalTime:goalTime, etcCategory:etcCategory})
     };
 };
-export default connect(mapStateToProps,mapDispatchToProps)(FeverStart);
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(FeverStart));
