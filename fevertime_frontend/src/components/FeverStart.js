@@ -52,12 +52,9 @@ class FeverStart extends Component {
         if(this.props.storedID==null) this.onAlarmMessage('Please login')
         else if(this.state.goalTime==='00:00') this.onAlarmMessage('Insert your goalTime')
         else if(this.state.selectedCategory==='') this.onAlarmMessage('Select the category')
-        else if(this.state.selectedCategory!=='Etc.'){
-                this.props.onStoreFeverStart(this.state.selectedCategory, this.state.goalTime, '')
-                this.props.history.push('/feverready')
-        }
-        else if(this.state.etcCategory === ''){
-            this.onAlarmMessage('Insert your Etc. Category')
+        else if(this.state.etcCategory===''){
+            this.props.onStoreFeverStart(this.state.selectedCategory, this.state.goalTime, "All")
+            this.props.history.push('/feverready')
         }
         else{
             this.props.onStoreFeverStart(this.state.selectedCategory, this.state.goalTime, this.state.etcCategory)
@@ -70,6 +67,7 @@ class FeverStart extends Component {
 
 
     render() {
+
         return (
             <div className='FeverStart'>
                 <AlarmMessageModal show={this.state.showAlarmMessage}
@@ -97,8 +95,9 @@ class FeverStart extends Component {
                     <div className='w-10'>Category</div>
                         <div className="w-10">
                         <label>
-                            Study
-                            <input className='ml-2' type="radio" value="Study"
+                            Study 
+                            <input className='ml-2 friend-add-button' type="radio" value="Study"
+
                                         checked={this.state.selectedCategory === 'Study'}
                                         onChange={this.changeCategory}
                                         id ='study-radio'/>
@@ -107,34 +106,37 @@ class FeverStart extends Component {
                         <div className="w-10">
                         <label>
                             Work
-                            <input className='ml-2' type="radio" value="Work"
-                                        checked={this.state.selectedCategory === 'Work'}
-                                        onChange={this.changeCategory}
+                            <input className='ml-2 friend-add-button' type="radio" value="Work"
+                                        checked={this.state.selectedCategory === 'Work'} 
+                                        onChange={this.changeCategory} 
                                         id ='work-radio'/>
                         </label>
                         </div>
                         <div className="w-10">
                         <label>
                             Read
-                            <input className='ml-2' type="radio" value="Read"
-                                        checked={this.state.selectedCategory === 'Read'}
-                                        onChange={this.changeCategory}
+                            <input className='ml-2 friend-add-button' type="radio" value="Read"
+                                        checked={this.state.selectedCategory === 'Read'} 
+                                        onChange={this.changeCategory} 
                                         id ='read-radio'/>
                         </label>
                         </div>
                         <div className="w-30">
                         <label className='d-flex'>
                             Etc.
-                            <input className='ml-2 etc-radio' type="radio" value="Etc."
-                                        checked={this.state.selectedCategory === 'Etc.'}
-                                        onChange={this.changeCategory}
-                                        id ='etc-radio'/>
-                            <div className = "">
-                                {(this.state.selectedCategory === 'Etc.')?(
-                                    <input className='input-1'onChange = {this.changeEtcCategory} id ='etc-text'/>
-                                ):('')}</div>
+                            <input className='ml-2 friend-add-button etc-radio' type="radio" value="Etc."
+                                        checked={this.state.selectedCategory === 'Etc.'} 
+                                        onChange={this.changeCategory} 
+                                        id ='etc-radio'/> 
                         </label>
                         </div>
+                </div>
+                <div className='d-flex mt-5 d-v-center'>
+                    <div className='w-20'></div>
+                    <div className='w-10'>Tag</div>
+                    <div className='w-30 d-flex'>
+                        <input className='input-1' onChange={this.changeEtcCategory} id='etc-text' />
+                    </div>
                 </div>
 
                 <div className='d-flex d-ho-center mt-5'>

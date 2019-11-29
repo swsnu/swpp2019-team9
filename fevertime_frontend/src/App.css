@@ -4,6 +4,12 @@
 .d-v-center{
   align-items: center;
 }
+.d-v-right{
+  align-items: right;
+}
+.d-v-left{
+  align-items: left;
+}
 .d-ho-center{
   justify-content: center;
 }
@@ -112,7 +118,21 @@
   font-size: 30px;
 
 }
-
+/*terms of use*/
+.terms_of_use{
+  position: relative;
+  overflow-x: auto;
+  overflow-y: auto;
+  margin-left: 150px;
+  margin-right: 150px;
+  margin-bottom: 10px;
+  height: 100px;
+  padding: 12px;
+  border: 1px solid #dadada;
+  background : #fff;
+  box-sizing: border-box;
+  width: 500px;
+}
 
 /*position*/
 .p-relative{
@@ -124,6 +144,9 @@
 
 
 /* Width */
+.w-5{
+  width: 5%;
+}
 .w-10{
   width: 10%;
 }
@@ -145,6 +168,9 @@
 .w-50{
   width: 50%;
 }
+.w-55{
+  width: 55%;
+}
 .w-60{
   width: 60%;
 }
@@ -158,6 +184,9 @@
 }
 .w-100{
   width: 100%;
+}
+.w-15{
+  width: 15%;
 }
 /*input*/
 .input-1{

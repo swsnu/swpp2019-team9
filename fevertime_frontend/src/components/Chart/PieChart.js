@@ -22,10 +22,10 @@ class PieChart extends Component {
 				indexLabelFontSize: 16,
 				indexLabel: "{label} {y}h",
 				dataPoints: [
-					{ y: this.props.category_time[0]/3600, color: 'red', label: "Study" },
-					{ y: this.props.category_time[1]/3600, color: 'green', label: "Work" },
-					{ y: this.props.category_time[2]/3600, color: 'blue', label: "Read" },
-					{ y: this.props.category_time[3]/3600, color: 'gray', label: "Etc." },
+					{ y: this.props.category_time[0]/3600, color: '#02bbca', label: "Study" },
+					{ y: this.props.category_time[1]/3600, color: '#f2d352', label: "Work" },
+					{ y: this.props.category_time[2]/3600, color: '#175a9e', label: "Read" },
+					{ y: this.props.category_time[3]/3600, color: '#f2f2f2', label: "Etc." },
 				].filter(data => data.y>0)
 			}]
 		}
