@@ -24,7 +24,7 @@ def signup(request):
             wrong = True
             return_dict["ID"] = "Empty ID" #empty nickname
         else:
-            if re.fullmatch("[\x20-\x7E]+", username) == None:
+            if re.fullmatch("[\x20-\x7E]+", username) is None:
                 wrong = True
                 return_dict["ID"] = "ASCII from 36-126"
             elif User.objects.filter(username=username).exists(): #401 ID exist

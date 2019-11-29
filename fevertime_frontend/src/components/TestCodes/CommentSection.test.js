@@ -7,11 +7,6 @@ import axios from 'axios';
 import { history } from '../../store/store';
 import {ConnectedRouter} from "connected-react-router";
 
-let mockcomment = [
-    {id:1, content : "I'm best fever", firstword : 'Y', name : 'Youngjae', reg_date : '2019-01-21 11:00'},
-    {id:2, content : "I was so sick..", firstword : 'G', name : 'Gildong', reg_date : '2019-02-01 11:00'},
-    {id:3, content : "Let's eat some dinner...", firstword : 'Y', name : 'Youngjae', reg_date : '2019-10-21 23:08'},
-]
 
 jest.mock('../component/PopupComment', () => {
     return jest.fn(props => {
@@ -66,7 +61,7 @@ describe("Comment Section",()=>{
             </Provider>
         );
         
-        axios.get = jest.fn((url) => {
+        axios.get = jest.fn(() => {
             return new Promise((resolve) => {
                 const result = {
                     status: 200,
@@ -83,7 +78,6 @@ describe("Comment Section",()=>{
         const component = mount(commentSection);
         expect(component.find('#CommentSection').length).toBe(1);
         expect(axios.get).toHaveBeenCalledTimes(1);
-        const newInstance = component.find(CommentSection.WrappedComponent).instance();
     })
 
     it("should create new comment",(done)=>{

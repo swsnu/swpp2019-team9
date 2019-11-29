@@ -32,7 +32,7 @@ class Group extends Component {
             week_delta : 0,
             fever_tag : "All",
             search_input : "",
-            autocomplete_tag : []
+            autocomplete_tag : [{label : "All"}]
         }
     }
     componentDidMount(){
@@ -100,7 +100,6 @@ class Group extends Component {
                             AddFriendMessageContent : 'Invalid nickname',
                             FriendNames : [],
                         })
-
             })
         }
     }
