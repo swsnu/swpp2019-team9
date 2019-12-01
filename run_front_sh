@@ -1,0 +1,4 @@
+# run frontend server
+cd fevertime_frontend
+yarn start
+cd ..
