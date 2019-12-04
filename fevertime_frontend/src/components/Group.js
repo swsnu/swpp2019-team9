@@ -55,12 +55,12 @@ class Group extends Component {
 
     checkinfo=(group_id)=>{
         axios.get("/api/group/social/"+group_id+"/")
-        .then(res =>{
+        .then(() =>{
             this.getLeaderboard(group_id, 0, "All")
             this.setState({authorized : true})
         })
         .catch(
-            err => {
+            () => {
                 this.props.history.push("/friends")
             }
         )

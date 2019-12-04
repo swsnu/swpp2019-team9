@@ -278,7 +278,6 @@ describe("Group",()=>{
             
         })
 
-        const component = mount(group);
         expect(spyhistoryPush).toHaveBeenCalledTimes(0);
                 
     })
