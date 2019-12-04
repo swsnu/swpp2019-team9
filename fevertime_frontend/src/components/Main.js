@@ -58,7 +58,7 @@ class Main extends Component {
                                                 )}
                                             </div>
 
-                                            <div className='badge-custom-main t-center hover-pointer mr-3' id='friend-button'>
+                                            <div className='badge-custom-main t-center  mr-3' id='friend-button'>
                                                 {value.name[0]}
                                             </div>
                                             <div className='rank-text'>{value.name}</div>

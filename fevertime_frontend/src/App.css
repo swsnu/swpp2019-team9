@@ -162,6 +162,9 @@
 .w-33{
   width: 33%;
 }
+.w-35{
+  width: 35%;
+}
 .w-40{
   width: 40%;
 }
@@ -501,4 +504,9 @@
 .top_medal > div >img{
   width: 150px;
   height: 150px;
+}
+
+.word-break{
+  word-break: break-all;
+  overflow: hidden;
 }
