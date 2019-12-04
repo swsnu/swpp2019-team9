@@ -47,13 +47,14 @@ class MyData extends Component {
 
     getFeverData = () => {
         axios.get('/api/user/social/'+this.state.user_id+'/')
-            .then(()=>{})
+            .then(()=>{
+                if (this.state.showModeDWM===0) this.getFeverData_D()
+                else if (this.state.showModeDWM===1) this.getFeverData_WM('W')
+                else this.getFeverData_WM('M')
+            })
             .catch(()=>{
                 this.props.history.goBack()
             })
-            if (this.state.showModeDWM===0) this.getFeverData_D()
-            else if (this.state.showModeDWM===1) this.getFeverData_WM('W')
-            else this.getFeverData_WM('M')
     }
     getFeverData_D = () => {
         axios.post('/api/fever_data_D/', {
