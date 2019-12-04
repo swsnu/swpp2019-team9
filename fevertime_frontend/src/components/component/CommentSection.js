@@ -6,7 +6,7 @@ import axios from 'axios'
 import { withRouter } from 'react-router';
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types';
-import MaterialIcon, {colorPalette} from 'material-icons-react';
+import MaterialIcon from 'material-icons-react';
 class CommentSection extends Component {
     constructor (props)
     {
@@ -153,20 +153,24 @@ class CommentSection extends Component {
                                     <div className='w-35 word-break' id="comment_content">{value.content}</div>
                                     <div className='w-20'>{value.reg_date}</div>
                                     <div className='d-flex w-20'>
-                                        <MaterialIcon icon="edit" size={30}
-                                                      onClick={() => this.clickEditComment(index)}
-                                                      disabled={this.CommentOwner(value.name)}
-                                                      hidden={this.CommentOwner(value.name)}
-                                        />
+                                        <div className='hover-pointer'>
+                                            <MaterialIcon icon="edit" size={30}
+                                                          onClick={() => this.clickEditComment(index)}
+                                                          disabled={this.CommentOwner(value.name)}
+                                                          hidden={this.CommentOwner(value.name)}
+                                            />
+                                        </div>
                                         {/*<button className='w-50 button-blue'*/}
                                             {/*id="edit_button"*/}
                                         {/*>Edit</button>*/}
-                                        <MaterialIcon icon="delete" size={30}
-                                                      id="delete_button"
-                                                      onClick={() => this.clickDeleteComment(value.id)}
-                                                      disabled={this.CommentOwner(value.name)}
-                                                      hidden={ this.CommentOwner(value.name)}
-                                                      />
+                                        <div className='hover-pointer'>
+                                            <MaterialIcon icon="delete" size={30}
+                                                          id="delete_button"
+                                                          onClick={() => this.clickDeleteComment(value.id)}
+                                                          disabled={this.CommentOwner(value.name)}
+                                                          hidden={ this.CommentOwner(value.name)}
+                                                          />
+                                        </div>
                                         {/*<button className='w-50 button-red'*/}
                                             {/**/}
                                         {/*>Delete</button>*/}
