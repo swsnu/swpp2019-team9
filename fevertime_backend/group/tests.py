@@ -140,6 +140,26 @@ class GroupMemberTestCase(TestCase):
         res = self.preclient.delete('/api/group/group_members/1/')
         self.assertEqual(res.status_code, 200)
 
+    def test_checkgroup(self):
+        res = self.preclient.get('/api/group/social/1/')
+        self.assertEqual(res.status_code, 204)
+
+        res = self.preclient.get('/api/group/social/5/')
+        self.assertEqual(res.status_code, 404)
+
+        res = self.preclient.delete('/api/group/social/5/')
+        self.assertEqual(res.status_code, 405)
+
+        self.preclient.get('/api/user/signout/')
+
+        self.preclient.post("/api/user/signin/", json.dumps({
+            'username' : "YB",
+            "password" : "Lee"
+        }),content_type="application/json")
+
+        res = self.preclient.get('/api/group/social/1/')
+        self.assertEqual(res.status_code, 401)
+
     def test_groupadd(self):
         self.preclient.post('/api/friend/request/',
                             json.dumps({'nickname':'YBLEE'}),

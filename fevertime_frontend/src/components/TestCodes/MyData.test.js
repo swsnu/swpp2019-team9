@@ -99,13 +99,12 @@ describe('MyData', () => {
 */
     it('should select chart', (done) => {
         const component = mount(mydata);
-
         const day_button = component.find("#daily-button")
         day_button.simulate("click")
-        expect(axios.post).toHaveBeenCalledTimes(2);
+        expect(axios.get).toHaveBeenCalledTimes(2);
         const week_button = component.find("#weekly-button")
         week_button.simulate("click")
-        expect(axios.post).toHaveBeenCalledTimes(3);
+        expect(axios.get).toHaveBeenCalledTimes(3);
         const month_button = component.find("#monthly-button")
         month_button.simulate("click")
 
