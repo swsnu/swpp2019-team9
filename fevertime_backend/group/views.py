@@ -173,7 +173,7 @@ def check_group(request,group_id):
             return HttpResponse(status=404)
 
         for member in group_instance.group_members.all():
-            if(request.user == member):
+            if request.user == member:
                 return HttpResponse(status=204)
 
         return HttpResponse(status=401)

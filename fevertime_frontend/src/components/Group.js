@@ -61,7 +61,6 @@ class Group extends Component {
         })
         .catch(
             err => {
-                console.log("not allowed")
                 this.props.history.push("/friends")
             }
         )
@@ -329,7 +328,7 @@ class Group extends Component {
 }
 Group.propTypes={
     history:PropTypes.object,
-    user_id:PropTypes.object
+    user_id:PropTypes.number
 }
 const mapStateToProps = state => {
     return {

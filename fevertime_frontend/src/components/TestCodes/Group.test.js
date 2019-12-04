@@ -256,6 +256,33 @@ describe("Group",()=>{
         
     })
 
+    it("should check group reject", ()=>{
+        axios.get = jest.fn((url) => {
+            if(url.indexOf("leaderboard") <0){
+                return new Promise((resolve, reject) => {
+                    const result = {
+                        status: 401,
+                    };
+                    reject(result);
+                })
+            }
+            else{
+                return new Promise((resolve) => {
+                    const result = {
+                        status: 200,
+                        data: leaderboard
+                    };
+                    resolve(result);
+                })
+            }
+            
+        })
+
+        const component = mount(group);
+        expect(spyhistoryPush).toHaveBeenCalledTimes(0);
+                
+    })
+
     it("should change range", ()=>{
         const component = mount(group);
         const newGroupInstance = component.find(Group.WrappedComponent).instance();
