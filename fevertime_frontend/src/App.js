@@ -50,10 +50,10 @@ class App extends React.Component{
                     <Route exact path="/myaccount" component={MyAccount}/>
                     <Route exact path="/feverstart" component={FeverStart}/>
                     <Route exact path="/feverready" component={FeverReady}/>
-                    <Route path="/fevermode" component={FeverMode}/>
-                    <Route path="/feverend" component={FeverEnd}/>
+                    <Route exact path="/fevermode" component={FeverMode}/>
+                    <Route exact path="/feverend" component={FeverEnd}/>
                     <Route exact path="/mydata/:id" component={MyData}/>
-                    <Route path="/friends" component={Friends}/>
+                    <Route exact path="/friends" component={Friends}/>
                     <Route exact path="/group/:id" component={Group}/>
                     <Redirect exact from="*" to='/' />
                 </ConnectedRouter>
