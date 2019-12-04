@@ -7,4 +7,5 @@ urlpatterns = [
     path('leaderboard/<int:group_id>/<int:week_delta>/<str:fever_tag>/',
          views.leaderboard, name='leaderboard'),
     path('group_add/<int:group_id>/', views.group_add, name='group_add'),
+    path('social/<int:group_id>/', views.check_group, name='group_add'),
 ]
