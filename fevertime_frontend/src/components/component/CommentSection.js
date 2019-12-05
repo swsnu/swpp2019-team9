@@ -152,12 +152,11 @@ class CommentSection extends Component {
                                     </div>
                                     <div className='w-35 word-break' id="comment_content">{value.content}</div>
                                     <div className='w-20'>{value.reg_date}</div>
-                                    <div className='d-flex w-20'>
+                                    {!this.CommentOwner(value.name) ?
+                                        <div className='d-flex w-20'>
                                         <div className='hover-pointer'>
                                             <MaterialIcon icon="edit" size={30}
-                                                          onClick={() => this.clickEditComment(index)}
-                                                          disabled={this.CommentOwner(value.name)}
-                                                          hidden={this.CommentOwner(value.name)}
+                                                onClick={() => this.clickEditComment(index)}
                                             />
                                         </div>
                                         {/*<button className='w-50 button-blue'*/}
@@ -165,16 +164,15 @@ class CommentSection extends Component {
                                         {/*>Edit</button>*/}
                                         <div className='hover-pointer'>
                                             <MaterialIcon icon="delete" size={30}
-                                                          id="delete_button"
-                                                          onClick={() => this.clickDeleteComment(value.id)}
-                                                          disabled={this.CommentOwner(value.name)}
-                                                          hidden={ this.CommentOwner(value.name)}
-                                                          />
+                                                id="delete_button"
+                                                onClick={() => this.clickDeleteComment(this.state.commentsList[index].id)}
+                                            />
                                         </div>
                                         {/*<button className='w-50 button-red'*/}
                                             {/**/}
                                         {/*>Delete</button>*/}
-                                    </div>
+                                    </div> : null    
+                                    }
 
                                 </div>
                             );
