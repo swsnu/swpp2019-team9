@@ -41,7 +41,7 @@ class Main extends Component {
                 <div className='top3'>
                     <div className='w-50'>Top 3 Fever</div>
                     <div className='w-50'>
-                        <Carousel controls={false} indicators={false}>
+                        <Carousel >
                             {this.state.feverlist.map((value,index)=>{
                                 return(
                                     <Carousel.Item key={index}>
@@ -71,10 +71,14 @@ class Main extends Component {
                     </div>
                 </div>
                 }
+                <div className='main-first-word'>
+                    <div className='pt-5'>Let yourself focus.</div>
+                    <div className='pb-5'>Take record of your concentrated Time</div>
+                </div>
                 <div className='d-flex carousel-wrapper'>
                     {/*<div className='w-10'></div>*/}
                     <div className='w-100'>
-                        <Carousel>
+                        <Carousel controls={false} indicators={false}>
                             <Carousel.Item>
                                 <img
                                     className="d-block w-100"
@@ -98,11 +102,6 @@ class Main extends Component {
                             </Carousel.Item>
                         </Carousel>
                     </div>
-                </div>
-
-                <div className='main-first-word'>
-                    <div className='pt-5'>Let yourself focus.</div>
-                    <div className='pb-5'>Take record of your concentrated Time</div>
                 </div>
                 {/*<div className='footer-wrapper'>*/}
                     {/*/!*<div className='footer-line'></div>*!/*/}

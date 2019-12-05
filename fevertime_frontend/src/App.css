@@ -460,31 +460,35 @@
   cursor: not-allowed;
 }
 .carousel-wrapper{
-    /*background-color: #FDDAA6;*/
+  margin: 100px;
+  border: 1px solid black;
+
+  /*background-color: black;*/
+  /*background-color: #FDDAA6;*/
 
 }
 .footer-wrapper{
-    /*margin-top: 48px;*/
-    background-color: #AEAEAF;
-    color: white;
+  /*margin-top: 48px;*/
+  background-color: #AEAEAF;
+  color: white;
 }
 .was-used{
-    font-size: 30px;
+  font-size: 30px;
 }
 .footer-line{
-    height: 24px;
-    border-bottom: 1px solid white;
+  height: 24px;
+  border-bottom: 1px solid white;
 }
 .footer-msazure{
-    border-left: 1px solid white;
-    /*border-right: 1px solid white;*/
+  border-left: 1px solid white;
+  /*border-right: 1px solid white;*/
 }
 .main-first-word{
-    /*background-color: #;*/
-    /*color: #F96915;*/
-    margin-top: 50px;
-    margin-bottom: 100px;
-    border-top: 1px solid black;
+  /*background-color: #;*/
+  /*color: #F96915;*/
+  margin-top: 50px;
+  margin-bottom: 100px;
+  /*border-top: 1px solid black;*/
 }
 .top3{
   height: 100px;
