@@ -319,7 +319,7 @@ class Group extends Component {
                             })}
                         </div>
                     </div>
-                    {this.state.authorized} ? <CommentSection/> : {}
+                    {(this.state.authorized) ? <CommentSection/> : null} 
                 </div>
                 <FriendsBar history={this.props.history}/>
             </div>

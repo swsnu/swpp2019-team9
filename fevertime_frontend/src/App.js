@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect} from 'react-router-dom'
+import { Route, Redirect, Switch} from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router';
 import Login from './components/Login'
 import Signup from './components/Signup'
@@ -44,18 +44,20 @@ class App extends React.Component{
                 />
                 <ConnectedRouter history={this.props.history}>
                     <Header></Header>
-                    <Route exact path="/" component={Main}/>
-                    <Route exact path="/login" component={Login}/>
-                    <Route exact path="/signup" component={Signup}/>
-                    <Route exact path="/myaccount" component={MyAccount}/>
-                    <Route exact path="/feverstart" component={FeverStart}/>
-                    <Route exact path="/feverready" component={FeverReady}/>
-                    <Route exact path="/fevermode" component={FeverMode}/>
-                    <Route exact path="/feverend" component={FeverEnd}/>
-                    <Route exact path="/mydata/:id" component={MyData}/>
-                    <Route exact path="/friends" component={Friends}/>
-                    <Route exact path="/group/:id" component={Group}/>
-                    <Redirect exact from="*" to='/' />
+                    <Switch>
+                        <Route exact path="/" component={Main}/>
+                        <Route exact path="/login" component={Login}/>
+                        <Route exact path="/signup" component={Signup}/>
+                        <Route exact path="/myaccount" component={MyAccount}/>
+                        <Route exact path="/feverstart" component={FeverStart}/>
+                        <Route exact path="/feverready" component={FeverReady}/>
+                        <Route exact path="/fevermode" component={FeverMode}/>
+                        <Route exact path="/feverend" component={FeverEnd}/>
+                        <Route exact path="/mydata/:id" component={MyData}/>
+                        <Route exact path="/friends" component={Friends}/>
+                        <Route exact path="/group/:id" component={Group}/>
+                        <Redirect from="*" to='/' />
+                    </Switch>
                 </ConnectedRouter>
             </div>
         );
