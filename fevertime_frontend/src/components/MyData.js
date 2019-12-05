@@ -157,9 +157,18 @@ class MyData extends Component {
             <div className='form-container' id='mydata'>
                 <div className='w-30  page-title mt-5'>My Data</div>
                 <div className='d-flex mt-5 w-100 button-data'>
-                    <div className='w-33' onClick={this.clickDaily} id='daily-button'>Daily</div>
-                    <div className='w-33' onClick={this.clickWeekly} id='weekly-button'>Weekly</div>
-                    <div className='w-33' onClick={this.clickMonthly} id='monthly-button'>Monthly</div>
+                    {this.state.showModeDWM===0
+                        ?<div className='w-33 clicked-button' onClick={this.clickDaily} id='daily-button'>Daily</div>
+                        :<div className='w-33' onClick={this.clickDaily} id='daily-button'>Daily</div>
+                    }
+                    {this.state.showModeDWM===1
+                        ?<div className='w-33 clicked-button' onClick={this.clickWeekly} id='weekly-button'>Weekly</div>
+                        :<div className='w-33' onClick={this.clickWeekly} id='weekly-button'>Weekly</div>
+                    }
+                    {this.state.showModeDWM===2
+                        ?<div className='w-33 clicked-button' onClick={this.clickMonthly} id='monthly-button'>Monthly</div>
+                        :<div className='w-33' onClick={this.clickMonthly} id='monthly-button'>Monthly</div>
+                    }
                 </div>
                 <div className='mt-5 mb-5 d-flex'>
                     <div className='w-10'></div>
@@ -168,6 +177,7 @@ class MyData extends Component {
                             className='w-100'
                             onChange={this.onChangeCalendar}
                             value={this.state.selectDate}
+                            locale={"en-US"}
                         />
                     </div>
                 </div>
