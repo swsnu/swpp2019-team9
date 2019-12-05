@@ -1,0 +1,1209 @@
+[
+{
+    "model": "fever.fever_history",
+    "pk": 1,
+    "fields": {
+        "user": 5,
+        "category": "Study",
+        "etcCategory": "All",
+        "goalTime": "02:00",
+        "start_time": "2019-11-26T02:31:04.729",
+        "end_time": "2019-11-26T02:32:08.485",
+        "total_time": "00:01:03.755199",
+        "fever_time": "00:01:03.755199",
+        "fever_rate": 1.0,
+        "fever_count": 1,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 2,
+    "fields": {
+        "user": 5,
+        "category": "Study",
+        "etcCategory": "swpp",
+        "goalTime": "02:00",
+        "start_time": "2019-11-27T15:46:29.492",
+        "end_time": "2019-11-27T16:14:13.131",
+        "total_time": "00:27:43.639370",
+        "fever_time": "00:25:40.406824",
+        "fever_rate": 0.9259259259259259,
+        "fever_count": 25,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 3,
+    "fields": {
+        "user": 6,
+        "category": "Study",
+        "etcCategory": "All",
+        "goalTime": "02:00",
+        "start_time": "2019-11-27T15:45:27.098",
+        "end_time": "2019-11-27T15:52:27.882",
+        "total_time": "00:07:00.783614",
+        "fever_time": "00:07:00.783614",
+        "fever_rate": 1.0,
+        "fever_count": 7,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 4,
+    "fields": {
+        "user": 7,
+        "category": "Work",
+        "etcCategory": "meeting",
+        "goalTime": "00:30",
+        "start_time": "2019-11-27T15:48:54.037",
+        "end_time": "2019-11-27T15:57:27.385",
+        "total_time": "00:08:33.347862",
+        "fever_time": "00:08:33.347862",
+        "fever_rate": 1.0,
+        "fever_count": 8,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 5,
+    "fields": {
+        "user": 6,
+        "category": "Work",
+        "etcCategory": "All",
+        "goalTime": "02:00",
+        "start_time": "2019-11-27T16:03:20.078",
+        "end_time": "2019-11-27T16:04:26.270",
+        "total_time": "00:00:00",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 6,
+    "fields": {
+        "user": 6,
+        "category": "Work",
+        "etcCategory": "All",
+        "goalTime": "02:00",
+        "start_time": "2019-11-27T16:05:46.896",
+        "end_time": "2019-12-03T20:38:52.193",
+        "total_time": "00:00:00",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 7,
+    "fields": {
+        "user": 5,
+        "category": "Study",
+        "etcCategory": "All",
+        "goalTime": "02:00",
+        "start_time": "2019-11-27T16:14:42.122",
+        "end_time": "2019-11-27T16:29:35.205",
+        "total_time": "00:14:53.083102",
+        "fever_time": "00:12:45.499802",
+        "fever_rate": 0.8571428571428571,
+        "fever_count": 12,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 8,
+    "fields": {
+        "user": 7,
+        "category": "Etc.",
+        "etcCategory": "All",
+        "goalTime": "00:20",
+        "start_time": "2019-11-27T16:21:10.701",
+        "end_time": "2019-11-27T16:21:11.981",
+        "total_time": "00:00:01.279950",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 9,
+    "fields": {
+        "user": 5,
+        "category": "Study",
+        "etcCategory": "swpp",
+        "goalTime": "02:00",
+        "start_time": "2019-11-27T16:31:18.516",
+        "end_time": "2019-11-27T16:31:21.640",
+        "total_time": "00:00:03.123607",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 10,
+    "fields": {
+        "user": 9,
+        "category": "Work",
+        "etcCategory": "#Termproject",
+        "goalTime": "01:00",
+        "start_time": "2019-11-27T18:42:15.332",
+        "end_time": "2019-11-27T18:44:23.157",
+        "total_time": "00:02:07.824835",
+        "fever_time": "00:01:03.912418",
+        "fever_rate": 0.5,
+        "fever_count": 1,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 11,
+    "fields": {
+        "user": 7,
+        "category": "Study",
+        "etcCategory": "swpp",
+        "goalTime": "02:00",
+        "start_time": "2019-11-27T18:49:20.517",
+        "end_time": "2019-11-27T19:19:42.924",
+        "total_time": "00:30:22.407606",
+        "fever_time": "00:28:16.724323",
+        "fever_rate": 0.9310344827586207,
+        "fever_count": 27,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 12,
+    "fields": {
+        "user": 7,
+        "category": "Study",
+        "etcCategory": "swpp",
+        "goalTime": "00:30",
+        "start_time": "2019-11-27T19:20:43.279",
+        "end_time": "2019-11-27T19:44:14.308",
+        "total_time": "00:23:31.029316",
+        "fever_time": "00:18:24.283813",
+        "fever_rate": 0.782608695652174,
+        "fever_count": 18,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 13,
+    "fields": {
+        "user": 10,
+        "category": "Study",
+        "etcCategory": "#study",
+        "goalTime": "00:01",
+        "start_time": "2019-11-29T01:07:51.010",
+        "end_time": "2019-11-29T01:07:51.010",
+        "total_time": "00:00:00",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "N"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 14,
+    "fields": {
+        "user": 10,
+        "category": "Study",
+        "etcCategory": "#study",
+        "goalTime": "00:01",
+        "start_time": "2019-11-29T01:08:19.320",
+        "end_time": "2019-11-29T01:08:30.992",
+        "total_time": "00:00:11.671701",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 15,
+    "fields": {
+        "user": 10,
+        "category": "Study",
+        "etcCategory": "#study",
+        "goalTime": "00:01",
+        "start_time": "2019-11-29T01:08:58.192",
+        "end_time": "2019-11-29T01:11:09.667",
+        "total_time": "00:02:11.474629",
+        "fever_time": "00:02:11.474629",
+        "fever_rate": 1.0,
+        "fever_count": 2,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 16,
+    "fields": {
+        "user": 5,
+        "category": "Work",
+        "etcCategory": "All",
+        "goalTime": "02:00",
+        "start_time": "2019-11-29T17:36:27.101",
+        "end_time": "2019-11-29T17:36:31.939",
+        "total_time": "00:00:04.838364",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 17,
+    "fields": {
+        "user": 5,
+        "category": "Study",
+        "etcCategory": "swpp",
+        "goalTime": "02:00",
+        "start_time": "2019-12-01T20:52:40.205",
+        "end_time": "2019-12-01T20:54:16.438",
+        "total_time": "00:01:36.233359",
+        "fever_time": "00:01:36.233359",
+        "fever_rate": 1.0,
+        "fever_count": 1,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 18,
+    "fields": {
+        "user": 5,
+        "category": "Study",
+        "etcCategory": "swpp",
+        "goalTime": "02:00",
+        "start_time": "2019-12-01T20:57:19.982",
+        "end_time": "2019-12-01T20:58:58.826",
+        "total_time": "00:01:38.843600",
+        "fever_time": "00:01:38.843600",
+        "fever_rate": 1.0,
+        "fever_count": 1,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 19,
+    "fields": {
+        "user": 7,
+        "category": "Study",
+        "etcCategory": "All",
+        "goalTime": "00:20",
+        "start_time": "2019-12-02T15:55:09.820",
+        "end_time": "2019-12-02T15:55:35.998",
+        "total_time": "00:00:26.178554",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 20,
+    "fields": {
+        "user": 7,
+        "category": "Study",
+        "etcCategory": "All",
+        "goalTime": "00:20",
+        "start_time": "2019-12-02T15:55:53.522",
+        "end_time": "2019-12-02T15:56:02.992",
+        "total_time": "00:00:09.470254",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 21,
+    "fields": {
+        "user": 7,
+        "category": "Study",
+        "etcCategory": "All",
+        "goalTime": "00:20",
+        "start_time": "2019-12-02T15:55:54.969",
+        "end_time": "2019-12-02T15:56:04.767",
+        "total_time": "00:00:09.797987",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 22,
+    "fields": {
+        "user": 7,
+        "category": "Study",
+        "etcCategory": "swpp",
+        "goalTime": "02:00",
+        "start_time": "2019-12-02T15:57:34.174",
+        "end_time": "2019-12-04T16:47:22.657",
+        "total_time": "00:01:00",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 23,
+    "fields": {
+        "user": 5,
+        "category": "Study",
+        "etcCategory": "swpp",
+        "goalTime": "02:00",
+        "start_time": "2019-12-02T16:03:43.789",
+        "end_time": "2019-12-02T16:04:03.123",
+        "total_time": "00:00:19.334205",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 24,
+    "fields": {
+        "user": 5,
+        "category": "Study",
+        "etcCategory": "swpp",
+        "goalTime": "02:00",
+        "start_time": "2019-12-04T18:52:58.587",
+        "end_time": "2019-12-04T18:56:59.448",
+        "total_time": "00:04:00.860906",
+        "fever_time": "00:04:00.860906",
+        "fever_rate": 1.0,
+        "fever_count": 4,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 25,
+    "fields": {
+        "user": 12,
+        "category": "Study",
+        "etcCategory": "Presentation",
+        "goalTime": "00:10",
+        "start_time": "2019-12-04T19:04:14.713",
+        "end_time": "2019-12-04T19:07:28.003",
+        "total_time": "00:03:13.289461",
+        "fever_time": "00:01:04.429820",
+        "fever_rate": 0.3333333333333333,
+        "fever_count": 1,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 26,
+    "fields": {
+        "user": 11,
+        "category": "Study",
+        "etcCategory": "swpp",
+        "goalTime": "02:00",
+        "start_time": "2019-12-05T16:20:41.951",
+        "end_time": "2019-12-05T16:23:21.327",
+        "total_time": "00:02:39.375746",
+        "fever_time": "00:02:39.375746",
+        "fever_rate": 1.0,
+        "fever_count": 2,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 27,
+    "fields": {
+        "user": 13,
+        "category": "Study",
+        "etcCategory": "\uc5f4\uacf5\ubaa8\ub4dc",
+        "goalTime": "23:23",
+        "start_time": "2019-12-05T18:50:12.065",
+        "end_time": "2019-12-05T18:50:53.523",
+        "total_time": "00:00:41.458604",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 28,
+    "fields": {
+        "user": 14,
+        "category": "Study",
+        "etcCategory": "asdf",
+        "goalTime": "00:10",
+        "start_time": "2019-12-05T18:50:29.319",
+        "end_time": "2019-12-05T18:50:53.855",
+        "total_time": "00:00:24.535972",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 29,
+    "fields": {
+        "user": 15,
+        "category": "Study",
+        "etcCategory": "All",
+        "goalTime": "11:00",
+        "start_time": "2019-12-05T18:50:31.176",
+        "end_time": "2019-12-05T18:50:54.909",
+        "total_time": "00:00:23.733523",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 30,
+    "fields": {
+        "user": 17,
+        "category": "Work",
+        "etcCategory": "All",
+        "goalTime": "00:05",
+        "start_time": "2019-12-05T18:50:36.603",
+        "end_time": "2019-12-05T18:51:20.089",
+        "total_time": "00:00:43.486391",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 31,
+    "fields": {
+        "user": 19,
+        "category": "Study",
+        "etcCategory": "study",
+        "goalTime": "00:05",
+        "start_time": "2019-12-05T18:51:10.192",
+        "end_time": "2019-12-05T18:51:31.064",
+        "total_time": "00:00:20.871277",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 32,
+    "fields": {
+        "user": 14,
+        "category": "Work",
+        "etcCategory": "feverfever",
+        "goalTime": "01:00",
+        "start_time": "2019-12-05T18:51:15.496",
+        "end_time": "2019-12-05T18:51:55.056",
+        "total_time": "00:00:39.560307",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 33,
+    "fields": {
+        "user": 20,
+        "category": "Work",
+        "etcCategory": "swpppppp",
+        "goalTime": "01:00",
+        "start_time": "2019-12-05T18:51:17.075",
+        "end_time": "2019-12-05T18:51:47.652",
+        "total_time": "00:00:30.576770",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 34,
+    "fields": {
+        "user": 15,
+        "category": "Study",
+        "etcCategory": "All",
+        "goalTime": "00:30",
+        "start_time": "2019-12-05T18:51:18.620",
+        "end_time": "2019-12-05T18:51:42.431",
+        "total_time": "00:00:23.811291",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 35,
+    "fields": {
+        "user": 17,
+        "category": "Study",
+        "etcCategory": "All",
+        "goalTime": "00:01",
+        "start_time": "2019-12-05T18:51:40.016",
+        "end_time": "2019-12-05T18:52:46.140",
+        "total_time": "00:01:06.123702",
+        "fever_time": "00:01:06.123702",
+        "fever_rate": 1.0,
+        "fever_count": 1,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 36,
+    "fields": {
+        "user": 22,
+        "category": "Study",
+        "etcCategory": "letsgooo",
+        "goalTime": "01:00",
+        "start_time": "2019-12-05T18:52:23.619",
+        "end_time": "2019-12-05T18:55:30.693",
+        "total_time": "00:03:07.074368",
+        "fever_time": "00:01:02.358123",
+        "fever_rate": 0.3333333333333333,
+        "fever_count": 1,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 37,
+    "fields": {
+        "user": 19,
+        "category": "Work",
+        "etcCategory": "study",
+        "goalTime": "00:05",
+        "start_time": "2019-12-05T18:52:01.237",
+        "end_time": "2019-12-05T18:52:18.673",
+        "total_time": "00:00:17.436180",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 38,
+    "fields": {
+        "user": 16,
+        "category": "Study",
+        "etcCategory": "#yay",
+        "goalTime": "00:01",
+        "start_time": "2019-12-05T18:52:10.869",
+        "end_time": "2019-12-05T18:53:14.566",
+        "total_time": "00:01:03.697485",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 39,
+    "fields": {
+        "user": 20,
+        "category": "Study",
+        "etcCategory": "swppppp",
+        "goalTime": "01:00",
+        "start_time": "2019-12-05T18:52:14.906",
+        "end_time": "2019-12-05T18:52:46.277",
+        "total_time": "00:00:31.371203",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 40,
+    "fields": {
+        "user": 21,
+        "category": "Study",
+        "etcCategory": "studygogo",
+        "goalTime": "10:00",
+        "start_time": "2019-12-05T18:52:15.253",
+        "end_time": "2019-12-05T18:53:54.835",
+        "total_time": "00:01:39.581111",
+        "fever_time": "00:01:39.581111",
+        "fever_rate": 1.0,
+        "fever_count": 1,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 41,
+    "fields": {
+        "user": 23,
+        "category": "Study",
+        "etcCategory": "All",
+        "goalTime": "01:11",
+        "start_time": "2019-12-05T18:52:30.082",
+        "end_time": "2019-12-05T18:53:20.045",
+        "total_time": "00:00:49.962449",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 42,
+    "fields": {
+        "user": 15,
+        "category": "Etc.",
+        "etcCategory": "All",
+        "goalTime": "00:30",
+        "start_time": "2019-12-05T18:52:59.294",
+        "end_time": "2019-12-05T18:54:02.970",
+        "total_time": "00:01:03.675854",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 43,
+    "fields": {
+        "user": 18,
+        "category": "Study",
+        "etcCategory": "yeah!!",
+        "goalTime": "03:00",
+        "start_time": "2019-12-05T18:53:08.032",
+        "end_time": "2019-12-05T18:53:26.832",
+        "total_time": "00:00:18.799919",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 44,
+    "fields": {
+        "user": 20,
+        "category": "Read",
+        "etcCategory": "swpppppp",
+        "goalTime": "10:00",
+        "start_time": "2019-12-05T18:53:20.270",
+        "end_time": "2019-12-05T18:54:27.425",
+        "total_time": "00:01:07.154973",
+        "fever_time": "00:01:07.154973",
+        "fever_rate": 1.0,
+        "fever_count": 1,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 45,
+    "fields": {
+        "user": 16,
+        "category": "Study",
+        "etcCategory": "sdfgdsgdfg",
+        "goalTime": "00:01",
+        "start_time": "2019-12-05T18:53:45.863",
+        "end_time": "2019-12-05T18:55:06.518",
+        "total_time": "00:01:20.654958",
+        "fever_time": "00:01:20.654958",
+        "fever_rate": 1.0,
+        "fever_count": 1,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 46,
+    "fields": {
+        "user": 24,
+        "category": "Study",
+        "etcCategory": "All",
+        "goalTime": "01:00",
+        "start_time": "2019-12-05T18:53:53.880",
+        "end_time": "2019-12-05T19:06:25.102",
+        "total_time": "00:12:31.221601",
+        "fever_time": "00:05:13.009000",
+        "fever_rate": 0.4166666666666667,
+        "fever_count": 5,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 47,
+    "fields": {
+        "user": 25,
+        "category": "Study",
+        "etcCategory": "z",
+        "goalTime": "01:00",
+        "start_time": "2019-12-05T18:54:00.744",
+        "end_time": "2019-12-05T18:55:07.321",
+        "total_time": "00:01:06.576786",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 48,
+    "fields": {
+        "user": 26,
+        "category": "Study",
+        "etcCategory": "All",
+        "goalTime": "10:00",
+        "start_time": "2019-12-05T18:54:14.790",
+        "end_time": "2019-12-05T18:54:26.869",
+        "total_time": "00:00:12.079064",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 49,
+    "fields": {
+        "user": 15,
+        "category": "Study",
+        "etcCategory": "All",
+        "goalTime": "00:01",
+        "start_time": "2019-12-05T18:54:28.437",
+        "end_time": "2019-12-05T18:55:57.115",
+        "total_time": "00:01:28.678173",
+        "fever_time": "00:01:28.678173",
+        "fever_rate": 1.0,
+        "fever_count": 1,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 50,
+    "fields": {
+        "user": 20,
+        "category": "Work",
+        "etcCategory": "awd",
+        "goalTime": "10:00",
+        "start_time": "2019-12-05T18:54:42.765",
+        "end_time": "2019-12-05T18:55:26.672",
+        "total_time": "00:00:43.906391",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 51,
+    "fields": {
+        "user": 26,
+        "category": "Study",
+        "etcCategory": "All",
+        "goalTime": "00:01",
+        "start_time": "2019-12-05T18:55:14.480",
+        "end_time": "2019-12-05T18:56:21.073",
+        "total_time": "00:01:06.593244",
+        "fever_time": "00:01:06.593244",
+        "fever_rate": 1.0,
+        "fever_count": 1,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 52,
+    "fields": {
+        "user": 14,
+        "category": "Study",
+        "etcCategory": "All",
+        "goalTime": "00:10",
+        "start_time": "2019-12-05T18:55:19.681",
+        "end_time": "2019-12-05T18:58:20.501",
+        "total_time": "00:03:00.819876",
+        "fever_time": "00:03:00.819876",
+        "fever_rate": 1.0,
+        "fever_count": 3,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 53,
+    "fields": {
+        "user": 21,
+        "category": "Study",
+        "etcCategory": "oneminute",
+        "goalTime": "01:00",
+        "start_time": "2019-12-05T18:55:24.133",
+        "end_time": "2019-12-05T18:56:26.940",
+        "total_time": "00:01:02.807202",
+        "fever_time": "00:01:02.807202",
+        "fever_rate": 1.0,
+        "fever_count": 1,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 54,
+    "fields": {
+        "user": 23,
+        "category": "Study",
+        "etcCategory": "\uae40\uc131\ud0dc!",
+        "goalTime": "00:20",
+        "start_time": "2019-12-05T18:55:29.179",
+        "end_time": "2019-12-05T18:55:51.523",
+        "total_time": "00:00:22.344365",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 55,
+    "fields": {
+        "user": 28,
+        "category": "Study",
+        "etcCategory": "test",
+        "goalTime": "23:59",
+        "start_time": "2019-12-05T18:55:34.824",
+        "end_time": "2019-12-05T18:55:46.970",
+        "total_time": "00:00:12.145346",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 56,
+    "fields": {
+        "user": 29,
+        "category": "Study",
+        "etcCategory": "z",
+        "goalTime": "05:00",
+        "start_time": "2019-12-05T18:55:40.589",
+        "end_time": "2019-12-05T18:56:05.078",
+        "total_time": "00:00:24.488534",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 57,
+    "fields": {
+        "user": 15,
+        "category": "Study",
+        "etcCategory": "All",
+        "goalTime": "00:01",
+        "start_time": "2019-12-05T18:56:25.871",
+        "end_time": "2019-12-05T18:57:28.454",
+        "total_time": "00:01:02.582639",
+        "fever_time": "00:01:02.582639",
+        "fever_rate": 1.0,
+        "fever_count": 1,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 58,
+    "fields": {
+        "user": 29,
+        "category": "Work",
+        "etcCategory": "z",
+        "goalTime": "00:01",
+        "start_time": "2019-12-05T18:56:32.368",
+        "end_time": "2019-12-05T18:56:57.424",
+        "total_time": "00:00:25.055575",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 59,
+    "fields": {
+        "user": 28,
+        "category": "Study",
+        "etcCategory": "adfaf",
+        "goalTime": "00:01",
+        "start_time": "2019-12-05T18:56:57.153",
+        "end_time": "2019-12-05T18:57:38.955",
+        "total_time": "00:00:41.801933",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 60,
+    "fields": {
+        "user": 23,
+        "category": "Read",
+        "etcCategory": "\uc678\uc54a\ub400\ub370?",
+        "goalTime": "00:01",
+        "start_time": "2019-12-05T18:56:37.879",
+        "end_time": "2019-12-05T18:56:42.468",
+        "total_time": "00:00:04.589115",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 61,
+    "fields": {
+        "user": 22,
+        "category": "Study",
+        "etcCategory": "asdf",
+        "goalTime": "00:01",
+        "start_time": "2019-12-05T18:57:05.340",
+        "end_time": "2019-12-05T18:58:17.320",
+        "total_time": "00:01:11.979982",
+        "fever_time": "00:01:11.979982",
+        "fever_rate": 1.0,
+        "fever_count": 1,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 62,
+    "fields": {
+        "user": 32,
+        "category": "Read",
+        "etcCategory": "All",
+        "goalTime": "12:00",
+        "start_time": "2019-12-05T18:57:22.823",
+        "end_time": "2019-12-05T18:57:31.229",
+        "total_time": "00:00:08.404669",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 63,
+    "fields": {
+        "user": 29,
+        "category": "Etc.",
+        "etcCategory": "z",
+        "goalTime": "00:01",
+        "start_time": "2019-12-05T18:57:33.938",
+        "end_time": "2019-12-05T18:58:09.277",
+        "total_time": "00:00:35.338979",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 64,
+    "fields": {
+        "user": 15,
+        "category": "Study",
+        "etcCategory": "All",
+        "goalTime": "00:01",
+        "start_time": "2019-12-05T18:57:49.466",
+        "end_time": "2019-12-05T18:58:00.520",
+        "total_time": "00:00:11.054476",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 65,
+    "fields": {
+        "user": 29,
+        "category": "Study",
+        "etcCategory": "z",
+        "goalTime": "00:01",
+        "start_time": "2019-12-05T18:58:28.863",
+        "end_time": "2019-12-05T18:58:52.048",
+        "total_time": "00:00:23.184976",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 66,
+    "fields": {
+        "user": 21,
+        "category": "Study",
+        "etcCategory": "test",
+        "goalTime": "00:20",
+        "start_time": "2019-12-05T18:58:29.222",
+        "end_time": "2019-12-05T18:59:00.843",
+        "total_time": "00:00:31.620629",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 67,
+    "fields": {
+        "user": 20,
+        "category": "Work",
+        "etcCategory": "swpppppp",
+        "goalTime": "01:00",
+        "start_time": "2019-12-05T18:58:59.319",
+        "end_time": "2019-12-05T18:59:32.304",
+        "total_time": "00:00:32.984637",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 68,
+    "fields": {
+        "user": 33,
+        "category": "Study",
+        "etcCategory": "All",
+        "goalTime": "00:05",
+        "start_time": "2019-12-05T18:59:16.713",
+        "end_time": "2019-12-05T18:59:41.633",
+        "total_time": "00:00:24.920496",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 69,
+    "fields": {
+        "user": 21,
+        "category": "Study",
+        "etcCategory": "test2",
+        "goalTime": "00:20",
+        "start_time": "2019-12-05T18:59:23.013",
+        "end_time": "2019-12-05T18:59:45.643",
+        "total_time": "00:00:22.630694",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 70,
+    "fields": {
+        "user": 34,
+        "category": "Study",
+        "etcCategory": "All",
+        "goalTime": "00:02",
+        "start_time": "2019-12-05T19:01:56.194",
+        "end_time": "2019-12-05T19:04:00.818",
+        "total_time": "00:02:04.624549",
+        "fever_time": "00:02:04.624549",
+        "fever_rate": 1.0,
+        "fever_count": 2,
+        "click_end": "Y"
+    }
+},
+{
+    "model": "fever.fever_history",
+    "pk": 71,
+    "fields": {
+        "user": 35,
+        "category": "Study",
+        "etcCategory": "10",
+        "goalTime": "11:00",
+        "start_time": "2019-12-05T19:05:05.893",
+        "end_time": "2019-12-05T19:05:56.711",
+        "total_time": "00:00:50.817403",
+        "fever_time": "00:00:00",
+        "fever_rate": 0.0,
+        "fever_count": 0,
+        "click_end": "Y"
+    }
+}
+]

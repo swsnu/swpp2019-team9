@@ -32,6 +32,8 @@ ALLOWED_HOSTS = []
 # DEBUG = False
 # ALLOWED_HOSTS = ['localhost', '127.0.0.1', '52.141.23.75', 'fevertime.shop']
 
+# If it executed by locust load test, load_test be True.
+load_test = True
 
 # Application definition
 
@@ -86,7 +88,23 @@ WSGI_APPLICATION = 'fevertime.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-if 'test' in sys.argv or 'test_coverage' in sys.argv or DEBUG:
+
+if load_test:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql', 
+            'OPTIONS': {
+                'charset': 'utf8mb4',
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
+            'NAME': 'fevertime_load',
+            'USER': 'user',
+            'PASSWORD': 'fever1234',
+            'HOST': '127.0.0.1',
+            'PORT': '3306',
+        }
+    }
+elif 'test' in sys.argv or 'test_coverage' in sys.argv or DEBUG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',

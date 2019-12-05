@@ -1,0 +1,18 @@
+[
+{
+    "model": "friend.friend_request",
+    "pk": 10,
+    "fields": {
+        "from_user": 21,
+        "to_user": 20
+    }
+},
+{
+    "model": "friend.friend_request",
+    "pk": 11,
+    "fields": {
+        "from_user": 20,
+        "to_user": 21
+    }
+}
+]
