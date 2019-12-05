@@ -306,6 +306,10 @@
   cursor: pointer;
 }
 
+.clicked-button{
+  background-color: darkorange;
+}
+
 
 .badge-custom{
   background-color: darkorange;
