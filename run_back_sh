@@ -1,0 +1,7 @@
+cd fevertime_backend
+source envfever/bin/activate
+mysql.server start
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
+cd ..

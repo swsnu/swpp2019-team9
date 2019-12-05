@@ -41,8 +41,8 @@ def fever_data_D(request):
         try:
             data = json.loads(request.body.decode())
             user_id = data['user_id']
-            selectDay = datetime.strptime(data['selectDate'],\
-                 "%a %b %d %Y %H:%M:%S %Z%z (한국 표준시)")
+            selectDay = datetime.strptime(data['selectDate'].split('(')[0].replace('\n', ' ')[:-1],\
+                 "%a %b %d %Y %H:%M:%S %Z%z")
 
             fever_data = {'t_t_time': timedelta(), 't_f_time': timedelta(),
                           'categ_time': [timedelta(), timedelta(), timedelta(), timedelta()]}
@@ -86,8 +86,8 @@ def fever_data_W(request):
         try:
             data = json.loads(request.body.decode())
             user_id = data['user_id']
-            selectDate = datetime.strptime(data['selectDate'],\
-                 "%a %b %d %Y %H:%M:%S %Z%z (한국 표준시)")
+            selectDate = datetime.strptime(data['selectDate'].split('(')[0].replace('\n', ' ')[:-1],\
+                 "%a %b %d %Y %H:%M:%S %Z%z")
             selectCateg = data['selectCateg']
 
             fever_data = {}
@@ -161,8 +161,8 @@ def fever_data_M(request):
         try:
             data = json.loads(request.body.decode())
             user_id = data['user_id']
-            selectDate = datetime.strptime(data['selectDate'],\
-                "%a %b %d %Y %H:%M:%S %Z%z (한국 표준시)")
+            selectDate = datetime.strptime(data['selectDate'].split('(')[0].replace('\n', ' ')[:-1],\
+                 "%a %b %d %Y %H:%M:%S %Z%z")
             selectCateg = data['selectCateg']
 
             fever_data = {}
