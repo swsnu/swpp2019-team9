@@ -224,7 +224,7 @@ class Group extends Component {
                 </Button>
             </Modal.Footer>
         </Modal>
-    
+        
         return (
             <div className='d-flex h-100 Friends'>
                 {AddMemberPopup}
@@ -265,7 +265,8 @@ class Group extends Component {
                         getItemValue={(item) => item.label}
                         items={this.state.autocomplete_tag}
                         renderItem={(item, isHighlighted) =>
-                          <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+                          <div key={this.state.autocomplete_tag.indexOf(item)} 
+                                style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
                             {item.label}
                           </div>
                         }
