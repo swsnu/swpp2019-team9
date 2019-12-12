@@ -24,6 +24,7 @@ class Group extends Component {
             AddFriendMessageContent : "",
             addFriendSuccess : false,
             loadFriendSuccess : false,
+            authorized : false,
             group_id : 0,
             groupMemberList : [],
             friendlist : [],
@@ -38,7 +39,7 @@ class Group extends Component {
     componentDidMount(){
         let group_id=parseInt(window.location.href.split("/")[4],10)
         this.setState({group_id : group_id})
-        this.getLeaderboard(group_id, 0, "All")
+        this.checkinfo(group_id)
     }
 
     getLeaderboard=(group_id, week_delta, fever_tag)=>{
@@ -51,6 +52,20 @@ class Group extends Component {
             })
         })
     }
+
+    checkinfo=(group_id)=>{
+        axios.get("/api/group/social/"+group_id+"/")
+        .then(() =>{
+            this.getLeaderboard(group_id, 0, "All")
+            this.setState({authorized : true})
+        })
+        .catch(
+            () => {
+                this.props.history.push("/friends")
+            }
+        )
+    }
+
 
     clickInviteFriend = () => () => {
         axios.get('/api/group/group_add/'+this.state.group_id+"/")
@@ -209,7 +224,7 @@ class Group extends Component {
                 </Button>
             </Modal.Footer>
         </Modal>
-    
+        
         return (
             <div className='d-flex h-100 Friends'>
                 {AddMemberPopup}
@@ -250,7 +265,8 @@ class Group extends Component {
                         getItemValue={(item) => item.label}
                         items={this.state.autocomplete_tag}
                         renderItem={(item, isHighlighted) =>
-                          <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+                          <div key={this.state.autocomplete_tag.indexOf(item)} 
+                                style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
                             {item.label}
                           </div>
                         }
@@ -304,7 +320,7 @@ class Group extends Component {
                             })}
                         </div>
                     </div>
-                    <CommentSection/>
+                    {(this.state.authorized) ? <CommentSection/> : null} 
                 </div>
                 <FriendsBar history={this.props.history}/>
             </div>
@@ -313,5 +329,11 @@ class Group extends Component {
 }
 Group.propTypes={
     history:PropTypes.object,
+    user_id:PropTypes.number
 }
-export default connect(null,null)(withRouter(Group));
+const mapStateToProps = state => {
+    return {
+        user_id:state.login.uid,
+    };
+}
+export default connect(mapStateToProps,null)(withRouter(Group));

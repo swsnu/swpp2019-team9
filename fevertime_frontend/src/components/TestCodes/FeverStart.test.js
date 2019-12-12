@@ -100,6 +100,19 @@ describe('FeverStart', () => {
 
         expect(history.push).toHaveBeenCalledTimes(1);
     })
+    it('should select category is null',()=> {
+        history.push = jest.fn();
+        const goal = '01:10';
+        const selectedETC = '';
+        const component = mount(feverStart);
+
+        component.find("#id-input").simulate('change', {target:{value:goal}});
+        component.find("#etc-radio").simulate('change');
+        component.find("#etc-text").simulate('change',{target:{value:selectedETC}});
+        component.find("#start-button").simulate('click');
+
+        expect(history.push).toHaveBeenCalledTimes(1);
+    })
 
 });
 

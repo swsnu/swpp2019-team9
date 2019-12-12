@@ -47,7 +47,7 @@ class FeverMode extends Component {
                 {word: "Freedom is a system based on courage.", man : "Charles Peguy"},
                 {word: "If a man takes no thought about what is distant, he will find sorrow near at hand.", man : "Confucius"},
                 {word: "We are an intelligent species and the use of our intelligence quite properly gives us pleasure. ", man : "Carl Sagan"},
-                {word: "If you want to be happy for a year, plant a garden; if you wnat to be happy for life, plant a tree.", man : "English Proverb"},
+                {word: "If you want to be happy for a year, plant a garden; if you want to be happy for life, plant a tree.", man : "English Proverb"},
                 {word: "Only the person who has faith in himself is able to be faithful to others.", man : "Erich Fromm"},
                 {word: "Life improves slowly and goes wrong fast, and only catastrophe is clearly visible.", man : "Edward Teller"},
                 {word: "Who controls the past controls the future. Who controls the present controls the past.", man : "George Orwell"},

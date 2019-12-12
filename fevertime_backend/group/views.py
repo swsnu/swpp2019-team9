@@ -164,3 +164,18 @@ def user_rawtime(user):
                 total_fever_time += session.fever_time
     tsec = total_fever_time.total_seconds()
     return {'nickname':user.nickname, 'time':tsec}
+
+def check_group(request,group_id):
+    if request.method =='GET':
+        try:
+            group_instance = Group.objects.get(id=group_id)
+        except Group.DoesNotExist:
+            return HttpResponse(status=404)
+
+        for member in group_instance.group_members.all():
+            if request.user == member:
+                return HttpResponse(status=204)
+
+        return HttpResponse(status=401)
+    else: 
+        return HttpResponseNotAllowed(['GET'])     #405

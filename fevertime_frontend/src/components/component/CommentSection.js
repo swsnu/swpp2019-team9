@@ -6,6 +6,7 @@ import axios from 'axios'
 import { withRouter } from 'react-router';
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types';
+import MaterialIcon from 'material-icons-react';
 class CommentSection extends Component {
     constructor (props)
     {
@@ -38,7 +39,7 @@ class CommentSection extends Component {
             showEditCommentPopup : false,
             showDeleteCommentPopup : false,
             WorkingID : -1,
-            EditingComment : {},            
+            EditingComment : {},
         })
     }
 
@@ -68,7 +69,7 @@ class CommentSection extends Component {
                 showDeleteCommentPopup : false,
                 WorkingID : -1,
             })
-        }) 
+        })
     }
 
     clickEditComment = (index) => {
@@ -98,7 +99,7 @@ class CommentSection extends Component {
                 WorkingID : -1,
                 EditingComment : {},
             })
-        }) 
+        })
     }
 
     Commentdisable = () =>{
@@ -106,7 +107,7 @@ class CommentSection extends Component {
             return true
         else
             return false
-    } 
+    }
 
     CommentOwner = (c) => {
         return c !== this.props.Mynickname
@@ -120,7 +121,7 @@ class CommentSection extends Component {
 
     render() {
         return (
-                <div className='pl-5 pr-5 mt-10' id="CommentSection">
+                <div className='pl-5 mt-10' id="CommentSection">
                     <EditCommentPopup  show={this.state.showEditCommentPopup}
                                modalTitle={'Modifiy Comment'}
                                content={this.state.EditingComment.content}
@@ -128,7 +129,7 @@ class CommentSection extends Component {
                                clickClose={this.clickClose()}
                                clickConfirm={this.confirmEditComment()}
                                changeContent={this.CommentChange}
-                    />  
+                    />
 
                     <DeleteCommentPopup show={this.state.showDeleteCommentPopup}
                                 modalTitle={'Delete Comment'}
@@ -145,24 +146,34 @@ class CommentSection extends Component {
                             return (
                                 <div key={index} className='w-100 d-flex group-item-list'
                                 >
-                                    <div className='w-30 d-flex d-ho-center'>
+                                    <div className='w-25 d-flex d-ho-center'>
                                         <div className='badge-custom '>{value.firstword}</div>
                                         {value.name}
                                     </div>
-                                    <div className='w-50' id="comment_content">{value.content}</div>
+                                    <div className='w-35 word-break' id="comment_content">{value.content}</div>
                                     <div className='w-20'>{value.reg_date}</div>
-                                    <button className='w-5 button-blue'
-                                        id="edit_button"
-                                        onClick={() => this.clickEditComment(index)}
-                                        disabled={this.CommentOwner(value.name)}
-                                        hidden={this.CommentOwner(value.name)}
-                                    >Edit</button>
-                                    <button className='w-5 button-red'
-                                        id="delete_button"
-                                        onClick={() => this.clickDeleteComment(value.id)}
-                                        disabled={this.CommentOwner(value.name)}
-                                        hidden={ this.CommentOwner(value.name)}
-                                    >Delete</button>
+                                    {!this.CommentOwner(value.name) ?
+                                        <div className='d-flex w-20'>
+                                        <div className='hover-pointer'>
+                                            <MaterialIcon icon="edit" size={30}
+                                                onClick={() => this.clickEditComment(index)}
+                                            />
+                                        </div>
+                                        {/*<button className='w-50 button-blue'*/}
+                                            {/*id="edit_button"*/}
+                                        {/*>Edit</button>*/}
+                                        <div className='hover-pointer'>
+                                            <MaterialIcon icon="delete" size={30}
+                                                id="delete_button"
+                                                onClick={() => this.clickDeleteComment(this.state.commentsList[index].id)}
+                                            />
+                                        </div>
+                                        {/*<button className='w-50 button-red'*/}
+                                            {/**/}
+                                        {/*>Delete</button>*/}
+                                    </div> : null    
+                                    }
+
                                 </div>
                             );
                         })) : null
