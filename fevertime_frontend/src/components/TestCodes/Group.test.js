@@ -144,6 +144,37 @@ describe("Group",()=>{
         expect(component.find('#group_body').length).toBe(1);
     })
 
+    it("should reject if not in group", ()=>{
+        axios.get = jest.fn((url) => {
+            if(url.indexOf("leaderboard") <0){
+                return new Promise((resolve) => {
+                    const result = {
+                        status: 200,
+                        data: friend
+                    };
+                    resolve(result);
+                })
+            }
+            else if(url.indexOf("social") > 0)
+                return new Promise((_, reject) => {
+                    const result = {
+                        status: 401,
+                    };
+                    reject(result);
+                })
+            else{
+                return new Promise((resolve) => {
+                    const result = {
+                        status: 200,
+                        data: leaderboard
+                    };
+                    resolve(result);
+                })
+            }
+        })    
+        expect(spyhistoryPush).toHaveBeenCalledTimes(1);
+    })
+
     it("should exit group", ()=>{
         const component = mount(group);
         const exit_button = component.find("#ExitGroupButton")
