@@ -50,7 +50,11 @@ def fever_data_D(request):
             fever_data['selectedDWM'] = selectDay.strftime("%Y/%m/%d") +\
                 ' ('+selectDay.strftime('%a')+')'
             fever_data['log']=[]
-            hists = cache.get_or_set('fever_hist_%d'%user_id, Fever_history.objects.filter(user_id=user_id))
+
+            hists = cache.get('fever_hist_%d'%user_id)
+            if not hists:
+                hists = Fever_history.objects.filter(user_id=user_id)
+                cache.set('fever_hist_%d'%user_id, hists)
             for hist in hists:
                 currentday = datetime.combine(selectDay, datetime.min.time())
                 nextday = datetime.combine(selectDay+timedelta(days=1), datetime.min.time())
@@ -106,7 +110,10 @@ def fever_data_W(request):
                 fever_data['mon_sun'].append(
                     {'t_time': timedelta(), 'f_time': timedelta(), 'days': ""})
 
-            hists = cache.get_or_set('fever_hist_%d'%user_id, Fever_history.objects.filter(user_id=user_id))
+            hists = cache.get('fever_hist_%d'%user_id)
+            if not hists:
+                hists = Fever_history.objects.filter(user_id=user_id)
+                cache.set('fever_hist_%d'%user_id, hists)
             for hist in hists:
                 for i in range(0, 7):
                     nextday = datetime.combine(weekstart+timedelta(days=i+1), datetime.min.time())
@@ -178,7 +185,10 @@ def fever_data_M(request):
             for i in range(0, LastDayofMonth):
                 fever_data['dates'].append({'t_time': timedelta(), 'f_time': timedelta()})
             
-            hists = cache.get_or_set('fever_hist_%d'%user_id, Fever_history.objects.filter(user_id=user_id))
+            hists = cache.get('fever_hist_%d'%user_id)
+            if not hists:
+                hists = Fever_history.objects.filter(user_id=user_id)
+                cache.set('fever_hist_%d'%user_id, hists)
             for hist in hists:
                 for i in range(0, LastDayofMonth):
                     nextday = datetime(selectDate.year, selectDate.month, i+1)+timedelta(days=1)
