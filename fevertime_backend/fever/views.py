@@ -8,6 +8,7 @@ import requests
 
 from user.models import User
 from .models import Fever_history, Fever_progress
+from django.core.cache import cache
 
 daysinweek = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
 
@@ -49,19 +50,19 @@ def fever_data_D(request):
             fever_data['selectedDWM'] = selectDay.strftime("%Y/%m/%d") +\
                 ' ('+selectDay.strftime('%a')+')'
             fever_data['log']=[]
-            for hist in Fever_history.objects.filter(user_id=user_id,end_time__year=selectDay.year,
-                      end_time__month=selectDay.month, end_time__day=selectDay.day):
-#                currentday = datetime.combine(selectDay, datetime.min.time())
-#                nextday = datetime.combine(selectDay+timedelta(days=1), datetime.min.time())
-#                if (hist.end_time < nextday and hist.end_time > currentday):
-                if hist.category == 'Study':
-                    fever_data['categ_time'][0] = fever_data['categ_time'][0] + hist.total_time
-                elif hist.category == 'Work':
-                    fever_data['categ_time'][1] = fever_data['categ_time'][1] + hist.total_time
-                elif hist.category == 'Read':
-                    fever_data['categ_time'][2] = fever_data['categ_time'][2] + hist.total_time
-                else:  # Etc.
-                    fever_data['categ_time'][3] = fever_data['categ_time'][3] + hist.total_time
+            hists = cache.get_or_set('fever_hist_%d'%user_id, Fever_history.objects.filter(user_id=user_id))
+            for hist in hists:
+                currentday = datetime.combine(selectDay, datetime.min.time())
+                nextday = datetime.combine(selectDay+timedelta(days=1), datetime.min.time())
+                if (hist.end_time < nextday and hist.end_time > currentday):
+                    if hist.category == 'Study':
+                        fever_data['categ_time'][0] = fever_data['categ_time'][0] + hist.total_time
+                    elif hist.category == 'Work':
+                        fever_data['categ_time'][1] = fever_data['categ_time'][1] + hist.total_time
+                    elif hist.category == 'Read':
+                        fever_data['categ_time'][2] = fever_data['categ_time'][2] + hist.total_time
+                    else:  # Etc.
+                        fever_data['categ_time'][3] = fever_data['categ_time'][3] + hist.total_time
                 fever_data['t_t_time'] = fever_data['t_t_time'] + hist.total_time
                 fever_data['t_f_time'] = fever_data['t_f_time'] + hist.fever_time
                 if hist.click_end=='Y':
@@ -105,7 +106,8 @@ def fever_data_W(request):
                 fever_data['mon_sun'].append(
                     {'t_time': timedelta(), 'f_time': timedelta(), 'days': ""})
 
-            for hist in Fever_history.objects.filter(user_id=user_id,end_time__range=[weekstart.strftime("%Y-%m-%d"),weekend.strftime("%Y-%m-%d")]):
+            hists = cache.get_or_set('fever_hist_%d'%user_id, Fever_history.objects.filter(user_id=user_id))
+            for hist in hists:
                 for i in range(0, 7):
                     nextday = datetime.combine(weekstart+timedelta(days=i+1), datetime.min.time())
                     currentday = datetime.combine(weekstart+timedelta(days=i), datetime.min.time())
@@ -176,7 +178,8 @@ def fever_data_M(request):
             for i in range(0, LastDayofMonth):
                 fever_data['dates'].append({'t_time': timedelta(), 'f_time': timedelta()})
             
-            for hist in Fever_history.objects.filter(user_id=user_id,end_time__year=selectDate.year,end_time__month=selectDate.month):
+            hists = cache.get_or_set('fever_hist_%d'%user_id, Fever_history.objects.filter(user_id=user_id))
+            for hist in hists:
                 for i in range(0, LastDayofMonth):
                     nextday = datetime(selectDate.year, selectDate.month, i+1)+timedelta(days=1)
                     currentday = datetime(selectDate.year, selectDate.month, i+1)

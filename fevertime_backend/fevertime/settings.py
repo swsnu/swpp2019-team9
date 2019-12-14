@@ -89,12 +89,16 @@ WSGI_APPLICATION = 'fevertime.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django_redis.cache.RedisCache',
-#         'LOCATION': 'redis://http://127.0.0.1:6379',
-#     },
-# }
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+        'TIMEOUT': 300,  # 기본값 300초 = 5분
+        'OPTIONS': {
+            'MAX_ENTRIES': 300  # 기본값 = 300
+        }
+    }
+}
 
 if load_test:
     DATABASES = {
