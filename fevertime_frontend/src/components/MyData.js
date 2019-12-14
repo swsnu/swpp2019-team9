@@ -37,7 +37,7 @@ class MyData extends Component {
 
     }
 
-    categFunc = (selectCateg) => {
+    categFunc(selectCateg) {
         if (selectCateg===0)return 'All'
         else if (selectCateg===1)return 'Study'
         else if (selectCateg===2)return 'Work'

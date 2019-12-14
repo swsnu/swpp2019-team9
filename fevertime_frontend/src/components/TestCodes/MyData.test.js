@@ -6,6 +6,7 @@ import { getMockStore } from '../../test-utils/mocks';
 import axios from 'axios';
 import { history } from '../../store/store';
 import {ConnectedRouter} from "connected-react-router";
+import * as FeverMode from "../FeverMode";
 
 jest.mock('../Chart/ColumnChart', () => {
     return jest.fn(() => {
@@ -34,6 +35,7 @@ const mockStore = getMockStore(stubInitialUser,{});
 
 describe('MyData', () => {
     let mydata;
+    let spy1 =jest.spyOn(MyData.WrappedComponent.prototype, 'categFunc');
     beforeEach(() => {
         mydata = (
             <Provider store={mockStore}>
@@ -70,7 +72,7 @@ describe('MyData', () => {
 
     });
 
-    afterEach(() => { jest.clearAllMocks() });
+    afterEach(() => { spy1.mockClear(); jest.clearAllMocks() });
 
     it('should render', (done) => {
         const component = mount(mydata);
@@ -125,11 +127,11 @@ describe('MyData', () => {
     it('should select chart', (done) => {
         const component = mount(mydata);
 
-        const btn = component.find("#dropdown-basic-button-main").at(0)
-        btn.simulate("click")
+        const btn = component.find("#dropdown-basic-button-main").at(0);
+        btn.simulate("click");
 
-        // const btn1 = component.find(".dropdown-item").at(0)
-        // btn1.simulate("click")
+        const btn1 = component.find("#dropdown-basic-button-main > a")
+        btn1.simulate("click")
         const instance1= component.find(MyData.WrappedComponent).instance();
         expect(instance1.state.selectCateg).toEqual(0);
 
@@ -155,5 +157,15 @@ describe('MyData', () => {
 
         done()
     });
-*/
+    */
+    it('categFunc', (done) => {
+        const component = mount(mydata);
+        expect(spy1(0)).toEqual('All');
+        expect(spy1(1)).toEqual('Study');
+        expect(spy1(2)).toEqual('Work');
+        expect(spy1(3)).toEqual('Read');
+        expect(spy1(4)).toEqual('Etc.');
+        done()
+    });
+
 });
