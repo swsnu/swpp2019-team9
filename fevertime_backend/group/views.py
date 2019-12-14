@@ -11,10 +11,16 @@ from django.core.cache import cache
 def group(request):
     if request.method == 'GET':
         user_groups = request.user.user_groups.all()
+
         response_dict = []
         for group_object in user_groups:
             if group_object.group_members.count():
-                top=cache.get_or_set('group_top_%d'%group_object.id, top_fever(group_object))
+                
+                top = cache.get('group_top_%d'%group_object.id)
+                if not top:
+                    top = top_fever(group_object)
+                    cache.set('group_top_%d'%group_object.id, top)
+                
                 response_dict.append({'gid':group_object.id,
                                       'groupname':group_object.group_name,
                                       'num':group_object.group_members.count(),
@@ -100,8 +106,15 @@ def leaderboard(request, group_id=0, week_delta=0, fever_tag=""):
         range_display = "{} ~ {}".format(monday.strftime("%Y/%m/%d"), sunday.strftime("%Y/%m/%d"))
 
         group_members = group_instance.group_members.all()
-        response_list=cache.get_or_set('group_extraction_%d'%group_id, [user_weekly_feverExtraction(user, Search_ISO_tuple, fever_tag, autoset)
-                         for user in group_members])
+        
+        response_list = cache.get('group_extraction_%d'%group_id)
+        if not response_list:
+            response_list = [user_weekly_feverExtraction(user, Search_ISO_tuple, fever_tag, autoset)
+                for user in group_members]
+            cache.set('group_extraction_%d'%group_id, response_list)
+                
+                                
+        
         for index, dictionary in enumerate(response_list):
             dictionary['rank'] = index+1
         

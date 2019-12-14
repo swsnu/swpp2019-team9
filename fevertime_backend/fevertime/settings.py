@@ -95,7 +95,7 @@ CACHES = {
         'LOCATION': 'unique-snowflake',
         'TIMEOUT': 300,  # 기본값 300초 = 5분
         'OPTIONS': {
-            'MAX_ENTRIES': 300  # 기본값 = 300
+            'MAX_ENTRIES': 3000  # 기본값 = 300
         }
     }
 }
