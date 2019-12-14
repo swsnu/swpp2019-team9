@@ -8,7 +8,8 @@ class Fever_history(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='fever_history_user'
+        related_name='fever_history_user',
+        db_index=True
     )
     category = models.CharField(max_length=45)
     etcCategory = models.CharField(max_length=45, blank=True)

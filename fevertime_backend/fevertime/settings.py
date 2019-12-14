@@ -89,6 +89,13 @@ WSGI_APPLICATION = 'fevertime.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django_redis.cache.RedisCache',
+#         'LOCATION': 'redis://http://127.0.0.1:6379',
+#     },
+# }
+
 if load_test:
     DATABASES = {
         'default': {
@@ -126,6 +133,7 @@ else:
             'PORT': '3306',
         }
     }
+
 
 
 # Password validation
