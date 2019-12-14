@@ -245,6 +245,25 @@ describe("Group",()=>{
         expect(axios.post).toHaveBeenCalledTimes(1);
     })
 
+    it("should click friends check check and close", ()=>{
+        const component = mount(group);
+        const newGroupInstance = component.find(Group.WrappedComponent).instance();
+        newGroupInstance.setState({loadFriendSuccess : true, friendlist : [{'firstword' : "Y", 'name':"YBLee"}] })
+        expect(newGroupInstance.state.loadFriendSuccess).toBe(true);
+        expect(newGroupInstance.state.friendlist).toStrictEqual([{'firstword' : "Y", 'name':"YBLee"}]);
+
+        const add_button = component.find("#AddMemberButton")
+        add_button.simulate("click")
+        const check = component.find("#friendcheckbox")
+        check.simulate("click")
+        expect(newGroupInstance.state.FriendNames).toStrictEqual(["YBLee"]);
+        check.simulate("click")
+        expect(newGroupInstance.state.FriendNames).toStrictEqual([]);
+        component.find("#confirmAddMember").at(1).simulate("click")
+
+        expect(axios.post).toHaveBeenCalledTimes(1);
+    })
+
     it("should click friends check and confirm reject 404", ()=>{
         axios.post = jest.fn(() => {
             return new Promise((resolve, reject) => {
