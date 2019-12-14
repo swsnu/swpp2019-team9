@@ -24,31 +24,31 @@ class UserBehavior(TaskSet):
         self.client.get("/api/user/signout/")
 
 
-    # # You should modify user_id
-    # @task(1)
-    # def fever_data_D(self):
-    #     self.client.post("/api/fever_data_D/",json.dumps({"user_id":1,
-    #         "selectDate": "Sun Dec 01 2019 00:32:41 GMT+0900 (한국 표준시)"}),
-    #     headers={"X-CSRFToken": self.csrftoken})
-    # @task(1)
-    # def fever_data_W(self):
-    #     self.client.post("/api/fever_data_W/",json.dumps({"user_id":1,
-    #         "selectDate": "Sun Dec 01 2019 00:32:41 GMT+0900 (한국 표준시)","selectCateg": "0"}),
-    #         headers={"X-CSRFToken": self.csrftoken})
-
-    # #You should modify user_id
-
-    # #You should modify user_id
-    # @task(1)
-    # def fever_data_M(self):
-    #     self.client.post("/api/fever_data_M/",json.dumps({"user_id":1,
-    #         "selectDate": "Sun Dec 01 2019 00:32:41 GMT+0900 (한국 표준시)","selectCateg": "0"}),
-    #         headers={"X-CSRFToken": self.csrftoken})
-
+    # You should modify user_id
     @task(1)
-    def group(self):
-        self.client.get('/api/group/')
-        self.client.get('/api/group/leaderboard/4/1/All/')
+    def fever_data_D(self):
+        self.client.post("/api/fever_data_D/",json.dumps({"user_id":1,
+            "selectDate": "Sun Dec 01 2019 00:32:41 GMT+0900 (한국 표준시)"}),
+        headers={"X-CSRFToken": self.csrftoken})
+    @task(1)
+    def fever_data_W(self):
+        self.client.post("/api/fever_data_W/",json.dumps({"user_id":1,
+            "selectDate": "Sun Dec 01 2019 00:32:41 GMT+0900 (한국 표준시)","selectCateg": "0"}),
+            headers={"X-CSRFToken": self.csrftoken})
+
+    #You should modify user_id
+
+    #You should modify user_id
+    @task(1)
+    def fever_data_M(self):
+        self.client.post("/api/fever_data_M/",json.dumps({"user_id":1,
+            "selectDate": "Sun Dec 01 2019 00:32:41 GMT+0900 (한국 표준시)","selectCateg": "0"}),
+            headers={"X-CSRFToken": self.csrftoken})
+
+    # @task(1)
+    # def group(self):
+    #     self.client.get('/api/group/')
+    #     self.client.get('/api/group/leaderboard/4/1/All/')
 
 
     
