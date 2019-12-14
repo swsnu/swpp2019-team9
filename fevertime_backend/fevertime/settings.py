@@ -104,7 +104,7 @@ if load_test:
                 'charset': 'utf8mb4',
                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             },
-            'NAME': 'fevertime_load',
+            'NAME': 'fevertime_load2',
             'USER': 'user',
             'PASSWORD': 'fever1234',
             'HOST': '127.0.0.1',
