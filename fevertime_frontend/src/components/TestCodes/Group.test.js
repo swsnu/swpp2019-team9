@@ -144,6 +144,37 @@ describe("Group",()=>{
         expect(component.find('#group_body').length).toBe(1);
     })
 
+    it("should reject if not in group", ()=>{
+        axios.get = jest.fn((url) => {
+            if(url.indexOf("leaderboard") <0){
+                return new Promise((resolve) => {
+                    const result = {
+                        status: 200,
+                        data: friend
+                    };
+                    resolve(result);
+                })
+            }
+            else if(url.indexOf("social") > 0)
+                return new Promise((_, reject) => {
+                    const result = {
+                        status: 401,
+                    };
+                    reject(result);
+                })
+            else{
+                return new Promise((resolve) => {
+                    const result = {
+                        status: 200,
+                        data: leaderboard
+                    };
+                    resolve(result);
+                })
+            }
+        })    
+        //expect(spyhistoryPush).toHaveBeenCalledTimes(1);
+    })
+
     it("should exit group", ()=>{
         const component = mount(group);
         const exit_button = component.find("#ExitGroupButton")
@@ -218,7 +249,34 @@ describe("Group",()=>{
         axios.post = jest.fn(() => {
             return new Promise((resolve, reject) => {
                 const result = {
-                    response: {status:401}
+                    response: {status:404}
+                };
+                reject(result);
+            })
+        })
+        const component = mount(group);
+        const newGroupInstance = component.find(Group.WrappedComponent).instance();
+        newGroupInstance.setState({loadFriendSuccess : true, friendlist : [{'firstword' : "Y", 'name':"YBLee"}] })
+        expect(newGroupInstance.state.loadFriendSuccess).toBe(true);
+        expect(newGroupInstance.state.friendlist).toStrictEqual([{'firstword' : "Y", 'name':"YBLee"}]);
+
+        const add_button = component.find("#AddMemberButton")
+        add_button.simulate("click")
+        const check = component.find("#friendcheckbox")
+        check.simulate("click")
+        expect(newGroupInstance.state.FriendNames).toStrictEqual(["YBLee"]);
+
+        component.find("#confirmAddMember").at(1).simulate("click")
+
+        expect(axios.post).toHaveBeenCalledTimes(1);
+
+    })
+
+    it("should click friends check and confirm reject 400", ()=>{
+        axios.post = jest.fn(() => {
+            return new Promise((resolve, reject) => {
+                const result = {
+                    response: {status:400}
                 };
                 reject(result);
             })
