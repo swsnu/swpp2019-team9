@@ -17,7 +17,7 @@ class UserBehavior(TaskSet):
     def login(self):
         response=self.client.get("/api/user/token/")
         self.csrftoken = response.cookies['csrftoken']
-        self.client.post("/api/user/signin/",json.dumps({"username":"seunggeon", "password":"seunggeon"}),
+        self.client.post("/api/user/signin/",json.dumps({"username":"0", "password":"0"}),
         headers={"X-CSRFToken": self.csrftoken})
         
     def logout(self):
@@ -25,36 +25,35 @@ class UserBehavior(TaskSet):
 
 
     #You should modify user_id
-    @task(1)
-    def fever_data_D(self):
-        self.client.post("/api/fever_data_D/",json.dumps({"user_id":3,
-            "selectDate": "Sun Dec 01 2019 00:32:41 GMT+0900 (한국 표준시)"}),
-        headers={"X-CSRFToken": self.csrftoken})
+    # @task(1)
+    # def fever_data_D(self):
+    #     self.client.post("/api/fever_data_D/",json.dumps({"user_id":1,
+    #         "selectDate": "Sun Dec 01 2019 00:32:41 GMT+0900 (한국 표준시)"}),
+    #     headers={"X-CSRFToken": self.csrftoken})
 
-    #You should modify user_id
-    @task(1)
-    def fever_data_W(self):
-        self.client.post("/api/fever_data_W/",json.dumps({"user_id":3,
-            "selectDate": "Sun Dec 01 2019 00:32:41 GMT+0900 (한국 표준시)","selectCateg": "0"}),
-            headers={"X-CSRFToken": self.csrftoken})
+    # #You should modify user_id
+    # @task(1)
+    # def fever_data_W(self):
+    #     self.client.post("/api/fever_data_W/",json.dumps({"user_id":1,
+    #         "selectDate": "Sun Dec 01 2019 00:32:41 GMT+0900 (한국 표준시)","selectCateg": "0"}),
+    #         headers={"X-CSRFToken": self.csrftoken})
 
-    #You should modify user_id
-    @task(1)
-    def fever_data_M(self):
-        self.client.post("/api/fever_data_M/",json.dumps({"user_id":3,
-            "selectDate": "Sun Dec 01 2019 00:32:41 GMT+0900 (한국 표준시)","selectCateg": "0"}),
-            headers={"X-CSRFToken": self.csrftoken})
+    # #You should modify user_id
+    # @task(1)
+    # def fever_data_M(self):
+    #     self.client.post("/api/fever_data_M/",json.dumps({"user_id":1,
+    #         "selectDate": "Sun Dec 01 2019 00:32:41 GMT+0900 (한국 표준시)","selectCateg": "0"}),
+    #         headers={"X-CSRFToken": self.csrftoken})
 
     @task(1)
     def group(self):
-        self.client.get('/api/group/')
+        #self.client.get('/api/group/')
         self.client.get('/api/group/leaderboard/4/1/All/')
-        self.client.get('/api/group/group_add/4/')
+        # self.client.get('/api/group/group_add/4/')
 
     
         
 
 class WebsiteUser(HttpLocust):
     task_set = UserBehavior
-    min_wait = 5000
-    max_wait = 15000
+    wait_time = between(5, 15)

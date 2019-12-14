@@ -108,9 +108,9 @@ data = "{\n\
     }\n\
 },\n"%(i+93,category,i,i)
 f.write(data)
-for i in range(1,1000):
-    day=i%7+1
-    person=i%100+2
+for i in range(1,10000):
+    day=i%31+1
+    person=i%100+1
     pk=i+124
     data = "{\n\
     \"model\": \"fever.fever_history\",\n\
@@ -130,7 +130,7 @@ for i in range(1,1000):
     }\n\
 },\n"%(pk,person,day,day)
     f.write(data)
-f.seek(f.tell() - 3, os.SEEK_SET)
+f.seek(f.tell() - 2, os.SEEK_SET)
 f.write('')
 f.write("\n]")
 f.close()
