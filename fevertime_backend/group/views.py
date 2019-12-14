@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseNotAllowed, \
                         HttpResponseBadRequest
 from user.models import User
 from .models import Group
+from django.core.cache import cache
 
 # Create your views here.
 def group(request):
@@ -13,10 +14,11 @@ def group(request):
         response_dict = []
         for group_object in user_groups:
             if group_object.group_members.count():
+                top=cache.get_or_set('group_top_%d'%group_object.id, top_fever(group_object))
                 response_dict.append({'gid':group_object.id,
                                       'groupname':group_object.group_name,
                                       'num':group_object.group_members.count(),
-                                      'TopFever': top_fever(group_object),
+                                      'TopFever': top,
                                      })
         return JsonResponse(response_dict, safe=False)
 
@@ -98,17 +100,17 @@ def leaderboard(request, group_id=0, week_delta=0, fever_tag=""):
         range_display = "{} ~ {}".format(monday.strftime("%Y/%m/%d"), sunday.strftime("%Y/%m/%d"))
 
         group_members = group_instance.group_members.all()
-        response_list = [user_weekly_feverExtraction(user, Search_ISO_tuple, fever_tag, autoset)
-                         for user in group_members]
-        response_list.sort(key=lambda timeinfo: timeinfo["fever_time"], reverse=True)
-        for index, dictionary in enumerate(response_list):
+        response_list=cache.get_or_set('group_extraction_%d'%group_id, [user_weekly_feverExtraction(user, Search_ISO_tuple, fever_tag, autoset)
+                         for user in group_members])
+        sorted_list=cache.get_or_set('group_sort_%d'%group_id, response_list.sort(key=lambda timeinfo: timeinfo["fever_time"], reverse=True))
+        for index, dictionary in enumerate(sorted_list):
             dictionary['rank'] = index+1
         
         for tag in autoset:
             autolist.append({"label" : tag})
         autolist.sort(key=lambda k: k["label"])
         
-        return JsonResponse({"leaderboard" : response_list,
+        return JsonResponse({"leaderboard" : sorted_list,
                              "time":range_display,
                              "autotag" : autolist},
                             safe=False, status=200)
