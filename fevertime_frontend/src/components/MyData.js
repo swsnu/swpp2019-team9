@@ -175,6 +175,7 @@ class MyData extends Component {
                     <div className='w-80'>
                         <Calendar
                             className='w-100'
+                            id='mydataCalender'
                             onChange={this.onChangeCalendar}
                             value={this.state.selectDate}
                             locale={"en-US"}
@@ -188,12 +189,12 @@ class MyData extends Component {
                     </div>
                     <div className='w-20'>
                         {(this.state.showModeDWM) ? (<div>
-                            <DropdownButton className='t-center' id="dropdown-basic-button" title={"Category: " + this.categFunc(this.state.selectCateg)}>
-                                <Dropdown.Item onClick={this.clickAll}>All</Dropdown.Item>
-                                <Dropdown.Item onClick={this.clickStudy}>Study</Dropdown.Item>
-                                <Dropdown.Item onClick={this.clickWork}>Work</Dropdown.Item>
-                                <Dropdown.Item onClick={this.clickRead}>Read</Dropdown.Item>
-                                <Dropdown.Item onClick={this.clickEtc}>Etc.</Dropdown.Item>
+                            <DropdownButton className='t-center' id="dropdown-basic-button-main" title={"Category: " + this.categFunc(this.state.selectCateg)}>
+                                <Dropdown.Item id='dropdown-basic-button-all' onClick={this.clickAll}>All</Dropdown.Item>
+                                <Dropdown.Item id='dropdown-basic-button-study' onClick={this.clickStudy}>Study</Dropdown.Item>
+                                <Dropdown.Item id='dropdown-basic-button-work' onClick={this.clickWork}>Work</Dropdown.Item>
+                                <Dropdown.Item id='dropdown-basic-button-read' onClick={this.clickRead}>Read</Dropdown.Item>
+                                <Dropdown.Item id='dropdown-basic-button-etc' onClick={this.clickEtc}>Etc.</Dropdown.Item>
                             </DropdownButton>
                         </div>) : ('')}
                     </div>
@@ -219,7 +220,7 @@ class MyData extends Component {
                                             <div>
                                                 {this.state.log.map((value, index) => {
                                                     return (
-                                                        <div key={index} className='w-100 d-flex friend-item-list' id='group-name'>
+                                                        <div key={index} className='w-100 d-flex friend-item-list' id='daily-log'>
                                                             <div className='w-15'>{value.category}</div>
                                                             <div className='w-15'>{value.tag}</div>
                                                             <div className='w-15'>{value.start_time}</div>

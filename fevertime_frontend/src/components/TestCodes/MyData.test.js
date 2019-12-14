@@ -111,5 +111,49 @@ describe('MyData', () => {
         done()
     });
 
+    it('should select chart', (done) => {
+        const component = mount(mydata);
+        const Instance = component.find(MyData.WrappedComponent).instance();
+        Instance.setState({log: [{'category' : 'study', 'tag': 'swpp',
+                'start_time' : '2019-12-14 13:10' , 't_time' : '0:00:45',
+            'f_time': '0:00:00', 'f_rate' : 0, 'goalTime' : '02:00'}], showModeDWM : 0, noData: false});
+        expect(component.find('#daily-log').length).toBe(0);
 
+        done()
+    });
+/*
+    it('should select chart', (done) => {
+        const component = mount(mydata);
+
+        const btn = component.find("#dropdown-basic-button-main").at(0)
+        btn.simulate("click")
+
+        // const btn1 = component.find(".dropdown-item").at(0)
+        // btn1.simulate("click")
+        const instance1= component.find(MyData.WrappedComponent).instance();
+        expect(instance1.state.selectCateg).toEqual(0);
+
+        // const week_button = component.find(".dropdown-item").at(1)
+        // week_button.simulate("click")
+        // const instance2 = component.find(MyData.WrappedComponent).instance();
+        // expect(instance2.state.selectCateg).toEqual(1);
+        //
+        // const month_button = component.find(".dropdown-item").at(2)
+        // month_button.simulate("click")
+        // const instance3 = component.find(MyData.WrappedComponent).instance();
+        // expect(instance3.state.selectCateg).toEqual(2);
+        //
+        // const button4 = component.find(".dropdown-item").at(3)
+        // button4.simulate("click")
+        // const instance4 = component.find(MyData.WrappedComponent).instance();
+        // expect(instance4.state.selectCateg).toEqual(3);
+        //
+        // const button5 = component.find(".dropdown-item").at(4)
+        // button5.simulate("click")
+        // const instance5 = component.find(MyData.WrappedComponent).instance();
+        // expect(instance5.state.selectCateg).toEqual(4);
+
+        done()
+    });
+*/
 });
