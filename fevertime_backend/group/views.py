@@ -102,15 +102,14 @@ def leaderboard(request, group_id=0, week_delta=0, fever_tag=""):
         group_members = group_instance.group_members.all()
         response_list=cache.get_or_set('group_extraction_%d'%group_id, [user_weekly_feverExtraction(user, Search_ISO_tuple, fever_tag, autoset)
                          for user in group_members])
-        sorted_list=cache.get_or_set('group_sort_%d'%group_id, response_list.sort(key=lambda timeinfo: timeinfo["fever_time"], reverse=True))
-        for index, dictionary in enumerate(sorted_list):
+        for index, dictionary in enumerate(response_list):
             dictionary['rank'] = index+1
         
         for tag in autoset:
             autolist.append({"label" : tag})
         autolist.sort(key=lambda k: k["label"])
         
-        return JsonResponse({"leaderboard" : sorted_list,
+        return JsonResponse({"leaderboard" : response_list,
                              "time":range_display,
                              "autotag" : autolist},
                             safe=False, status=200)
