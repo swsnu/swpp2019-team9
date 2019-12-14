@@ -6,7 +6,7 @@ import { getMockStore } from '../../test-utils/mocks';
 import axios from 'axios';
 import { history } from '../../store/store';
 import {ConnectedRouter} from "connected-react-router";
-import * as FeverMode from "../FeverMode";
+
 
 jest.mock('../Chart/ColumnChart', () => {
     return jest.fn(() => {
@@ -159,7 +159,7 @@ describe('MyData', () => {
     });
     */
     it('categFunc', (done) => {
-        const component = mount(mydata);
+
         expect(spy1(0)).toEqual('All');
         expect(spy1(1)).toEqual('Study');
         expect(spy1(2)).toEqual('Work');
