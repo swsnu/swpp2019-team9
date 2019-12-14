@@ -45,6 +45,12 @@ class UserBehavior(TaskSet):
             "selectDate": "Sun Dec 01 2019 00:32:41 GMT+0900 (한국 표준시)","selectCateg": "0"}),
             headers={"X-CSRFToken": self.csrftoken})
 
+    @task(1)
+    def group(self):
+        self.client.get('/api/group/')
+        self.client.get('/api/group/leaderboard/4/1/All/')
+        self.client.get('/api/group/group_add/4/')
+
     
         
 
