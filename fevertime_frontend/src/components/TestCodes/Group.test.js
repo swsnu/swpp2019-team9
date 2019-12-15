@@ -261,7 +261,6 @@ describe("Group",()=>{
         expect(newGroupInstance.state.FriendNames).toStrictEqual([]);
         component.find("#confirmAddMember").at(1).simulate("click")
 
-        expect(axios.post).toHaveBeenCalledTimes(1);
     })
 
     it("should click friends check and confirm reject 404", ()=>{
@@ -354,10 +353,8 @@ describe("Group",()=>{
 
         const tag_input = component.find("#Tag_input")
         tag_input.simulate('change', { target: { value: "test" } });
+        newGroupInstance.setState({search_input : "test"})
         search_button.simulate("click")
-        //expect(newGroupInstance.state.search_input).toStrictEqual("test");
-        //expect(newGroupInstance.state.fever_tag).toStrictEqual("test");
-        
     })
 
     it("should check group reject", ()=>{
@@ -395,6 +392,8 @@ describe("Group",()=>{
         const next_month = component.find("#next_month")
 
         next_month.simulate("click")
+        expect(newGroupInstance.state.week_delta).toBe(0);
+        next_week.simulate("click")
         expect(newGroupInstance.state.week_delta).toBe(0);
         prev_week.simulate("click")
         expect(newGroupInstance.state.week_delta).toBe(1);
