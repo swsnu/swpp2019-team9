@@ -1,0 +1,146 @@
+[
+{
+    "model": "friend.friend_real",
+    "pk": 1,
+    "fields": {
+        "friend1": 7,
+        "friend2": 5
+    }
+},
+{
+    "model": "friend.friend_real",
+    "pk": 2,
+    "fields": {
+        "friend1": 5,
+        "friend2": 7
+    }
+},
+{
+    "model": "friend.friend_real",
+    "pk": 3,
+    "fields": {
+        "friend1": 7,
+        "friend2": 6
+    }
+},
+{
+    "model": "friend.friend_real",
+    "pk": 4,
+    "fields": {
+        "friend1": 6,
+        "friend2": 7
+    }
+},
+{
+    "model": "friend.friend_real",
+    "pk": 5,
+    "fields": {
+        "friend1": 9,
+        "friend2": 7
+    }
+},
+{
+    "model": "friend.friend_real",
+    "pk": 6,
+    "fields": {
+        "friend1": 7,
+        "friend2": 9
+    }
+},
+{
+    "model": "friend.friend_real",
+    "pk": 7,
+    "fields": {
+        "friend1": 12,
+        "friend2": 11
+    }
+},
+{
+    "model": "friend.friend_real",
+    "pk": 8,
+    "fields": {
+        "friend1": 11,
+        "friend2": 12
+    }
+},
+{
+    "model": "friend.friend_real",
+    "pk": 9,
+    "fields": {
+        "friend1": 16,
+        "friend2": 22
+    }
+},
+{
+    "model": "friend.friend_real",
+    "pk": 10,
+    "fields": {
+        "friend1": 22,
+        "friend2": 16
+    }
+},
+{
+    "model": "friend.friend_real",
+    "pk": 11,
+    "fields": {
+        "friend1": 18,
+        "friend2": 21
+    }
+},
+{
+    "model": "friend.friend_real",
+    "pk": 12,
+    "fields": {
+        "friend1": 21,
+        "friend2": 18
+    }
+},
+{
+    "model": "friend.friend_real",
+    "pk": 13,
+    "fields": {
+        "friend1": 14,
+        "friend2": 20
+    }
+},
+{
+    "model": "friend.friend_real",
+    "pk": 14,
+    "fields": {
+        "friend1": 20,
+        "friend2": 14
+    }
+},
+{
+    "model": "friend.friend_real",
+    "pk": 15,
+    "fields": {
+        "friend1": 23,
+        "friend2": 26
+    }
+},
+{
+    "model": "friend.friend_real",
+    "pk": 16,
+    "fields": {
+        "friend1": 26,
+        "friend2": 23
+    }
+},
+{
+    "model": "friend.friend_real",
+    "pk": 17,
+    "fields": {
+        "friend1": 17,
+        "friend2": 25
+    }
+},
+{
+    "model": "friend.friend_real",
+    "pk": 18,
+    "fields": {
+        "friend1": 25,
+        "friend2": 17
+    }
+}
+]
